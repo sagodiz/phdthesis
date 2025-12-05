@@ -1,30 +1,811 @@
-\chapter{Name of Chapter II}
+\chapter{Comparing Large Language Models}
 \label{chapter_2}
 
 Chapter brief.
 
 \section{Introduction}
-Chapter intro.
-\textit{Structure of the chapter}: Section REF summarizes the related works and briefly presents previous results. The Work I is covered in Section REF. The Work II is covered in Section REF. Result and final thoughts are summarized in Section~\ref{ch2:contrib}.
-\section{Related Works}
-Chapter related research.
+\label{l:introduction}
 
-\section{Chapter Work I.}
-Work I. \cite{b:isis-tracking-techreport}
-\section{Chapter Work II.}
-Work II. \cite{b:mays01}
-\section{Discussion and concluding remarks}
-\label{ch2:contrib}
+In everyday life, Large Language Models (LLMs) are becoming increasingly popular and are used for various purposes \cite{llm_usages}.
+It is the same in software engineering as developers leverage LLMs' Natural Language Processing (NLP) capabilities.
+LLMs are used for a variety of tasks such as source code comprehension, documentation generation, or various testing tasks, e.g. test case generation.
+In recent years, source code generation has emerged as a key component of LLM utilization.
 
-Chapter conclusion.
+Source code generation is the process of automatically producing code based on high-level abstractions defined in domain-specific languages (DSLs)~\cite{codegen_dsl} or other declarative languages.
+The objective of source code generation is to reduce the amount of low-level, repetitive coding work that developers need to do, enabling them to focus on higher-level tasks and reducing the likelihood of errors and bugs.
+While source code generation has a long history, from the 70's~\cite{old_code_gen} even to the 2010s~\cite{dsl_recent}, recent advances in LLMs~\cite{codex} allow developers to express required program code using natural language definitions.
+
+While having more time for abstract tasks and generating code with low cost is advantageous, in software development, the quality of the source code is at least as important as the time spent on development.
+There are multiple factors affecting source code quality, and there are several ways to measure it.
+One approach is using static code analysis~\cite{static_analysis_poc}, which allows for the code to be analyzed without executing it, without any tests, or even without a compiled binary file.
+The results of the analysis can be coding rule violations, detected code duplication, or code metrics.
+Although static analysis is a powerful and widely used technique, it is not the only way to measure source code quality.
+Code quality is often defined from a human perspective, and metrics may not adequately reflect this~\cite{why_metrics_not_enough}.
+
+The previously mentioned aspects are the keys to successfully using LLMs in software engineering, although it is not shown how to choose the best LLM for a given task.
+There are already studies that evaluated a chosen LLM~\cite{codex, copilot_code_evaluation} from various perspectives, but evaluating only one LLM might mean missing out on a better model.
+Evaluating all the possible models by the previously described methods takes too much effort as they mostly require a lot of human actors and effort during the evaluation.
+
+In this paper, we investigate different aspects of the quality of LLM generated source code.
+It is important to know how to compare the generated source code; what are the main factors in which they differ most; and what aspects a developer should consider when choosing a development assist tool.
+
+We do this by giving a simple methodology and showing its usefulness through an actual evaluation of two LLMs capable of source code generation: ChatGPT and Copilot.
+We examine how these models work with natural language task definitions, how the generated code (for C++ and Java) behaves, and what the quality of the generated code is like from multiple perspectives.
+We decide which model is better in every phase of the evaluation and finally we support our decisions by human reviewing, similar to other papers~\cite{copilot_code_evaluation, copilot_code_evaluation_3}.
+The research questions addressed in this paper are:
+\begin{itemize}
+	\item \textbf{RQ 1: How does LLM-generated source code score in terms of source code quality?}
+	\item \textbf{RQ 2: Is the generated source code accepted by developers?}
+	\item \textbf{RQ 3: What aspects should be considered when choosing LLM-based generative tools?}
+\end{itemize}
+
+The main goal of this paper is to highlight the importance of proper comparisons, not to introduce optimized prompting or selecting up-to-date models as those are changing dynamically.
+The latter might be decided using the provided methodology with actualized data and models.
+
+This topic relates to RQ3, in which we discuss the main components of a decent comparison, but it cannot be discussed without the previous two RQs.
+Our first RQ is in the first place because humans will eventually operate with source code, where quality still matters as people prefer to work with good quality code.
+In our use case, we found that there are models that are capable of generating code with good quality.
+Our second RQ is still required in our methodology, as various problems can be solved in various ways and programming manners.
+Developers usually have their favorable style and way of thinking.
+The use case showed that developers tend to accept the generated code conditionally, meaning that the generated code is not perfect but can be used by developers and it helps their work.
+
+
+The paper's subsequent sections describe related works in Section \ref{l:related_work}.
+We present our methodology in Section \ref{l:methodology}, and in Section \ref{l:results}, we compare two models in an actual case study and discuss the results.
+Section \ref{l:threats_to_validity} addresses threats to validity.
+Finally, we summarize the paper in Section \ref{l:summary}.
+\section{Related work}
+\label{l:related_work}
+
+In this work, we compare LLMs based on the quality of their generated source code from different aspects.
+Both LLMs and quality assurance are already integral parts of software engineering both in academic~\cite{academic_sonar_usage, academic_sonar_usage2} and industrial fields~\cite{sonarqube_good_active}.% to some extent.
+
+
+There are various papers describing static analysis techniques and tools~\cite{static_analyzer1, static_analyzer2}, articles that compare these tools~\cite{static_analyzer_comparison}, and even papers that use machine learning for static analysis tasks\cite{rex}.
+Static analysis is performed on the source code (or the generated byte code in the case of Java-based languages) thus it does not require running the code.
+The code is mostly written by developers, but nowadays source code generation and synthesis allow developers to create code without any or with only a minimal amount of human interaction.
+As source code synthesis has a long history~\cite{early_program_synthesis}, those methods used to rely on mathematical derivations and various rules.
+Nowadays, neural networks are taking over these methods since LLMs are available such as Codex~\cite{codex}, which supports GitHub's Copilot, and the recently introduced ChatGPT.
+Both models are based on GPT-3~\cite{gpt3}.
+There are also models based on Google's LaMDA~\cite{lamda}, such as Bard.
+These models are generative models~\cite{generative_models}, meaning they are capable of producing text from an input, usually natural language text, and the output can be source code.
+
+As quality assurance and static analysis can be performed on the source code it is obvious that we must examine how the generated code performs.
+There are works that evaluate LLMs.
+Vaithilingam et al.~\cite{copilot_code_evaluation} evaluate Codex via the Copilot plugin and show the effects of such a tool on the development itself.
+They included 24 developers and asked them to create a program using Intellisense and Copilot.
+Dominik et al.~\cite{copilot_code_evaluation2} did a comparative study on Copilot and Genetic program synthesis.
+They used the same benchmark~\cite{codegen_benchmark} we did; however, they added extra prompting by defining a function’s signature, thereby optimizing the prompt for Copilot.
+Their main goal was to compare two methodologies for program synthesis and did not measure the quality of the synthetized code.
+In the work of Madi~\cite{copilot_code_evaluation_3}, the readability is measured by static code analysis but they do not check further qualities and they rely heavily on human annotators; 21 people to be specific.
+These works show that LLMs are capable of generating source code that is similar to human-written code in terms of readability and maintainability.
+There are even works~\cite{copilot_code_similar_performance} showing the performance of the generated code matches human-written code.
+Although there are works that evaluate not only one LLM~\cite{fix_program_synthesis_models}, that highlight the drawbacks of LLMs, they do not show a proper way to compare them, therefore, they give no suggestion for how the better model could be chosen.
+These works mostly rely on a larger number of annotators or human reviewers, which is an expensive resource both in the academic and especially in industrial field.
+
+LLMs are also used to fix vulnerabilities in source code~\cite{codex_as_fix}, which might suggest that these models are free from vulnerabilities, however, there are multiple works that show Copilot being prone to generate vulnerable code~\cite{copilot_code_vulnerable, copilot_code_vulnerable2, copilot_code_vulnerable3}.
+ChatGPT is not free from vulnerabilities either as it is shown in the work of Khoury et al.~\cite{chatgpt_vulnerable}.
+In their work, it is shown that ChatGPT is capable of fixing the vulnerabilities by further prompting, which leads us to the problem of optimal prompting.
+\vspace{-5px}
+\section{Methodology}
+\label{l:methodology}
+
+In this section, we describe a methodology of how LLMs can be compared and which are the main factors to consider.
+We describe four phases: selecting the right prompt, checking functional validity, checking technical quality, and human evaluation.
+The main goal of this paper is to emphasize the importance of each step.
+The main steps and key elements are shown in Figure~\ref{fig:overview}.
+
+\begin{figure}[htbp]
+	\centering
+  \includegraphics[width=0.99\linewidth]{Chapters/Thesis1/fig/overview.png}
+	\caption{ \textbf{Overview of the methodology with key elements.}
+	\label{fig:overview}}
+\end{figure}
+\vspace{-5 px}
+\subsection{Selecting the right prompt}
+
+First of all, the prompt provided for the models must be carefully selected, which presents a challenge as none of the compared models should be favored by optimized prompting.
+The difficulty and level of detail of the problems' descriptions are the main factors to consider when working with NLP-based systems.
+
+The difficulty of the problem greatly affects the quality and usability of the generated source code.
+A simple ``hello world'' program provides no meaningful information about the models' capabilities.
+When attempting to generate a complete project with multiple files and perform complex algorithms, the model may encounter difficulties that prevent it from generating proper source code.
+This way the model's capabilities stay hidden.
+The input task must have the appropriate level of difficulty to measure the difference between models.
+
+The level of detail in the problem description is also a crucial factor.
+Providing too much information gives no indication of whether the model can identify complex connections between elements within the problem.
+Providing too little information may result in the models not generating a solution, or the solutions may be too different, which does not provide any additional information for our comparison.
+The detail of the description must be at a level that challenges the models, but it should be clear from a description what the solution should be.
+
+Another crucial factor in selecting the right prompt is prompt engineering.
+Although LLMs are designed to interact with natural language, therefore, simple commands, such as ''Generate'', or ''Write code'' can lead to the desired results, various prompting techniques could optimize these results.
+Such techniques must be taken into consideration, paying attention to the latest prompt engineering results relating to the models; e.g., Github's advice ~\cite{github_prompt_engineering}.
+Denny et al.~\cite{codex_prompting} show that NL prompt changes affect the resulting source code.
+It can be performed with prompt patterns such as the work of White et al.~\cite{chatgpt_prompt_design}.
+
+\subsection{Checking functional validity}
+
+Secondly, after using the right prompts, the LLM-generated source code has to be syntactically correct and fully functional.
+To ensure this, functional testing has to be performed which must include various test cases both for selected edge cases and non-edge cases as this shows how robust the solution is.
+To perform this testing, proper test cases need to be available with input and required output pairs.
+Handling the input and output may be different in the code generated by different LLMs, so one might have to modify the generated code for automated tests, and the modifications must not have any effect on the functional code parts.
+
+\subsection{Checking technical quality}
+
+Thirdly, the generated code has to pass some quality requirements, which can be measured by static analysis.
+The static analysis could include various techniques, rules, and metrics.
+All of these elements depend on what context the generated code is used in.
+An optimal solution would use the same pipeline for static analysis as the actual development.
+If no such configuration is available, static analyzers should be configured according to best practices, e.g. by considering the work of Kaner and Bond~\cite{why_metrics_not_enough}.
+
+\subsection{Human evaluation}
+
+Finally, the most expensive part is human evaluation.
+This phase is optional as human resources are expensive, however, one can be fully confident in the results after human reviews.
+In contrast to other works, we do not suggest that a large set of developers should evaluate the generated source code as this phase is just additional to the previous phases.
+During human evaluation, reviewers must not know about the result of the functional test phase and technical test phase.
+Reviewers should be asked to evaluate the generated source code on an even-numbered scale, forcing them into decision making.
+
+Although the methodology steps seem trivial, many of the related works lack this evaluation methodology.
+Vaithilingam et al.~\cite{copilot_code_evaluation} and Dominik et al.~\cite{copilot_code_evaluation2} did evaluate program synthesis, but the results were conducted on functional results and the experience of the users, while there were no source code quality, security, or performance comparisons.
+Although, in the work of Madi~\cite{copilot_code_evaluation_3}, they evaluate the static properties of the source code, they lack the proper description of functional properties and the way of prompting during the iterative development.
+Related works lack the proper evaluation steps on the very basic steps, therefore, an abstract description must be given in order to properly compare source code synthetization methods.
+\section{Case study}
+\label{l:results}
+
+In this section, we compare two LLMs, namely Copilot and ChatGPT using the methodology presented in Section \ref{l:methodology}.
+This case study is a simplified version of an actual comparison in order to show how to evaluate actual models.
+An actual evaluation must be done on a benchmark that fits the required programming qualities the best, such as graphical pipeline programming, high-end servers, low-latency requirements, etc.
+During an actual evaluation, it is not the default SonarQube settings that should be used, but rather the available unique rule sets, configurations or even other, already-in-use static analyzers apart from SonarQube.
+
+Selecting Copilot and ChatGPT was not based solely on their popularity in software engineering tasks but on their applicability.
+They have great availability through APIs and UIs and, therefore, are likely to be used in actual projects.
+Although there are other source code specific LLMs, such as CodeT5- or BERT-based models, which can be evaluated with our methodology, due to their limited availability through APIs they are less likely to be integrated.
+We provide in the supplementary material the generated source code and the applied diffs to them.
+We provide the scripts and random numbers we used during our research to run the benchmark evaluations.
+We also include the validated results for static analysis and the raw numbers from the human evaluation phase.
+To this case study we provide an online appendix available on Zenodo: \href{https://zenodo.org/record/8123647}{https://zenodo.org/record/8123647}.
+
+
+\subsection{Setup of the case study}
+
+To present the usage of our methodology we had to consider various factors such as which models to compare and what programming language to evaluate these models on.
+In the following sections, we describe which models were selected and why.
+We also describe our programming language selection.
+
+\subsubsection{Utilized LLMs}
+
+For our comparison, we utilized Copilot, a Visual Studio Code extension\footnote{https://marketplace.visualstudio.com/items?itemName=GitHub.copilot} and ChatGPT\footnote{Version Dec 15 - https://chat.openai.com/}, which we accessed through its online web interface.
+Both models were employed to generate input data on the first week of January 2023.
+As these models can interact with developers, there is no definitive answer to any given problem.
+Copilot continuously generates code snippets as the developer writes code, while ChatGPT can modify the code if the developer provides additional conditions or a more precise description of the task.
+To ensure a fair comparison, we used the same problem description for both models and did not interact further with them.
+This means that we accepted the first generated code for a given input.
+Using Copilot we ensured that the workspace is clean so the results were not altered.
+Using ChatGPT we opened a new chat windows for every task in order to have a clean context.
+
+\subsubsection{Programming language selection}
+
+In terms of programming languages, we had to choose from multiple languages due to limited manpower during the comparison evaluations.
+We selected languages that are widely used in academic and industrial fields.
+Our first language of choice was C++, as it is easy to program using classes and an object-oriented programming (OOP) style or using only functions in a non-OOP style.
+Additionally, C++ provides a wide range of tools that are easy to use but can also be used in a complex manner.
+Furthermore, C++ is notorious for its memory management issues, making it a good choice for our code quality tests.
+
+To mitigate the potential effects of language selection on our results, we decided to use another language that is a managed language where memory management issues do not arise and the language primarily supports OOP.
+Our second language of choice was Java, which is a widely used programming language, and it is well-known for having a lot of boilerplate code.
+Asking for Java code requires the model to generate every small detail to have a working solution, making Java a good choice for our second language.
+
+To note, C++ and Java are both compiled languages, which is an additional condition against the generated sources as the code must compile.
+\subsection{Selecting the right prompt}
+
+The first step in our methodology is selecting the right prompts with right difficulty and level of detail.
+As this task is very complicated we decided to use a program synthesis benchmark\cite{codegen_benchmark}, which includes 25 programming tasks from various sources.
+We provided the task descriptions from this benchmark as the prompts with a fixed prefix e.g. ''Generate a <LANGUAGE> code to solve the problem!'', where LANGUAGE is C++ or Java.
+A C++ prompt example is shown in Listing~\ref{lst:prompt}, where the first sentence is the prefix with the selected language and the remaining part is the text extracted from the benchmark.
+\begin{lstlisting}[basicstyle=\small, label=lst:prompt, caption=Example prompt for a C++ solution for the basement problem]
+	Generate a C++ code to solve the problem!
+	Given a vector of integers, return the
+	first index such that the sum of all
+	integers from the start of the vector to
+	that index (inclusive) is negative
+\end{lstlisting}
+We decided to use simple prompts as the case study is just a way of showing our methodology in action.
+The selected prompts are likely to be used by a software developer who does not have prompt engineering experience.
+The person evaluating will not necessarily use these exact prompts but instead use specific techniques that may not even exist yet. They might be using a model that needs a special kind of prompting (e.g. they have to provide elements in JSON because that is how the model was trained).
+Therefore, since we cannot provide for all current and future use cases, optimizing the prompts was not something we were aiming for.
+
+\subsection{Checking functional validity}
+\label{l:benchmark_evaluation}
+
+
+To evaluate the program's functional validity, we used the benchmark's input and output values for each task.
+These values were divided into two disjunct parts:
+edge cases, which included various tests for each task that were considered edge cases for the problem, and random cases.
+The number of edge cases varied from 5 to 40 depending on the task.
+We executed all available edge case tests.
+The random test cases included one million input-output pairs per task.
+We randomly\footnote{See supplementary material referenced in Section \ref{l:results} - \url{https://zenodo.org/record/8123647}} selected 10,000 input-output pairs from the pool of one million random cases for every task.
+The selected input-output pairs were used as random cases for later evaluations.
+
+However, the generated source code was not directly usable for executing the tests because it might or might not read inputs from the console or write results to the console.
+Therefore, we had to further modify the code to unify the inputs and outputs by using the same way of reading input from the console and writing output to the console.
+It also included that additional text answers were removed and only the required parts were kept.
+Only the input and output lines were modified, not the functional code.
+All source code differences are available\footnote{See supplementary material referenced in Section \ref{l:results}}.
+
+Java source code did not require additional modifications.
+In the case of C++, ChatGPT generated solutions mostly compiled with no error, but we had to subsequently correct the generated programs for 3 benchmark tasks manually:
+\begin{itemize}
+	\item \textit{leaders}: include \texttt{climits}, \texttt{algorithm} were missing.
+	\item \textit{cut\_vector}: \texttt{climits} include was missing.
+	\item \textit{vector\_distance}: \texttt{limits} include was missing.
+\end{itemize}
+All these errors are related to missing includes, which could be solved by a simple added line.
+There were no problems during the linking phase after the missing includes were added.
+
+Copilot also generated mostly compilable C++ code, but there were also some problems that we had to handle:
+\begin{itemize}
+	\item \textit{leaders}: It generated a vector variable with the same name as a previously declared function, thus resulting in a compile error as the function call ended up being a call-operator of the declared variable. Renaming the variable solved the error.
+	\item \textit{indices\_of\_substring}: The generated source did not contain a \texttt{main} method, but only a function containing the solution, thus resulting in a linker fault. This problem can be solved by using a dummy \texttt{main} method.
+	\item \textit{twitter}: The generated source did not contain a \texttt{main} method. We used the same solution as for \textit{indices\_of\_substring}.
+\end{itemize}
+
+Once the programs were ready to run and the input and output values were unified, we were able to compare the desired and actual output values.
+We performed a strict comparison, meaning we compared each character in the output values.
+The benchmark also included floating-point values with large precision as outputs, so numeric errors could lead to different values even with correct functional code.
+To address this issue we compared floating-point values with an epsilon value, and differences smaller than the given epsilon did not count as differing values.
+The epsilon value for comparison was 0.00001, which was determined by investigating the differences between programmed computations and closed formula computations for the tasks when it was possible.
+We use these results as epsilon evaluation results.
+
+Tables~\ref{t:tests-cpp}  and \ref{t:tests-java} present the performance results for C++ and Java, displaying the pass ratio for each model on every task.
+The tables include edge case, random case tests and provide results for exact matching, as well as epsilon matching, which was included to accommodate comparisons involving floating point numbers.
+Furthermore, the ``Diff'' columns in the tables provide the difference in pass ratio between the two models on the exact and epsilon matching.
+This difference value indicates whether Copilot or ChatGPT performed better.
+Specifically, a negative difference value indicates better performance from Copilot, while a positive value suggests better performance from ChatGPT.
+The cells are colored, and the bluer a cell is, the better Copilot performed;
+the more orange a cell is, the better ChatGPT performed.
+
+Later on, we use the epsilon results as they are not altered by the floating point comparison error.
+Although, the results are very similar in exact and random comparisons.
+There are a few cases where epsilon comparison resulted in a larger difference:
+
+\begin{itemize}
+	\item C++ - bouncing\_balls
+	\item C++ - snow\_day
+	\item Java - bouncing\_balls
+	\item Java - vector\_distance
+	\item Java - snow\_day
+\end{itemize}
+
+The tasks bouncing\_balls and snow\_day are tasks where the generated source code contains iterative computation with floating-point variables, therefore, the floating-point error is not a surprise.
+The task vector\_distance includes large dimensional vectors with floating point values, therefore, the floating-point error could cause differences in the outputs.
+
+\subsubsection{C++}
+
+During the edge case testing phase (see Table~\ref{t:tests-cpp}), a number of solutions encountered runtime errors.
+Specifically, the ChatGPT model faced runtime errors in 80\% of the test cases for the solve\_boolean task.
+After conducting a thorough investigation, we determined that an incorrect operator ordering was the root cause of the issue, which subsequently impacted the entire testing process whenever an operator was encountered.
+On the other hand, the Copilot model only experienced a single instance of runtime error during edge case testing, which occurred with no input.
+
+Despite these challenges, ChatGPT achieved pass rates of 100\% with epsilon evaluation on 18 out of 25 tasks, while Copilot achieved pass rates of 100\% with epsilon evaluation on 13 out of 25 tasks.
+Notably, the models obtained identical pass-rates on 14 out of 25 tasks.
+However, on average, Copilot outperformed ChatGPT with a pass-rate of 54\% on three tasks, with a standard deviation of 36.14, while ChatGPT performed better with an average pass-rate of 58\% on eight tasks, with a standard deviation of 35.98.
+
+Although edge cases are an integral part of software testing, it is important to investigate how the generated sources perform with a larger input size.
+On the random test set (see Table~\ref{t:tests-cpp}), ChatGPT managed to achieve a 100\% pass ratio on 19 tasks, whereas Copilot achieved a 100\% pass ratio on 13 tasks.
+
+Examining the epsilon differences, ChatGPT exhibited superior performance with an average pass-rate of 72.88\% on eight tasks, with a standard deviation of 35.92.
+Likewise, Copilot performed better on two tasks, with an average pass-rate of 51\% and a standard deviation of 69.3.
+Based on the deviation, it is evident that ChatGPT outperforms Copilot in a more consistent manner.
+
+Upon closer examination of the data, it appears that performing random tests instead of edge cases did not unconditionally increase the pass ratio.
+In fact, it resulted in a decrease in a few tasks.
+Solutions generated by ChatGPT with lower pass rate on random test cases were:
+\textit{bouncing\_balls,
+	bowling,
+	dice\_game,
+	solve\_boolean,
+	vector\_distance}.
+
+Only on one of these tasks did the ChatGPT-generated source code reach 100\% during edge case testing.
+Since tasks with a pass-rate of less than 100\% could potentially worsen by increasing the number of erroneous cases, the task that originally reached the pass rate of 100\% (\textit{vector\_distance}) was of particular interest.
+Upon further investigation, we discovered that the discrepancies in this solution were caused by floating-point errors exceeding our epsilon value.
+
+Solutions generated by Copilot with lower pass rate on random test cases were:
+\textit{bouncing\_balls,
+	bowling,
+	dice\_game,
+	find\_pair,
+	leaders,
+	snow\_day,
+	vector\_distance}.
+
+In the case of Copilot, \textit{vector\_distance} was the only task that reached 100\% pass rate previously and lowered in the random case.
+This disparity can be attributed to discrepancies in floating-point values that exceeded our epsilon value.
+Notably, the values changed in unison for ChatGPT and Copilot relating to this task, and the generated solutions were nearly identical, save for the fact that Copilot lacked vector dimension validation, which was not an explicit requirement of the task.
+
+We looked into how the models performed in both edge and random case testing, and also how the pass-rates decreased.
+However, another important factor to consider in functional testing is whether the results remain similar or get better with random testing.
+If the results are similar during random testing, it suggests that the edge cases do not negatively impact the pass-rate, and thus the solution is generally more robust.
+
+We found that ChatGPT performed better on five tasks on the random case than on edge case.
+The average difference was 21.4\% with a standard deviation of 8.44.
+Copilot performed better on seven tasks, with an average of 39\% on the random case with a standard deviation of 21.56.
+Since using random test cases mainly affected code that did not achieve a 100\% pass rate in the edge case scenario, and using random tests has increased the pass rate especially for Copilot, we conclude that ChatGPT is more robust.
+
+Regarding C++, ChatGPT performs slightly better on both edge case and random selected testing using epsilon-matching.
+
+\begin{table*}[!h]
+	\begin{tabular}{|p{1.8cm}|rr|r|rr|r||rr|r|rr|r|}
+		\hline
+		& \multicolumn{3}{c|}{Edge - Exact}                                                                    & \multicolumn{3}{c||}{Edge - Epsilon}                                                                                    & \multicolumn{3}{c|}{Random - Exact}                                                                       & \multicolumn{3}{c|}{Random - Epsilon}                                                                                   \\ \hline
+		Task               & ChatGPT                          & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}   & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l||}{Diff}   & \multicolumn{1}{l}{ChatGPT} & \multicolumn{1}{l|}{Copilot}                 & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    \\ \hline
+		basement           & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		bouncing\_balls    & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textbf{80\%}}                    & \cellcolor[HTML]{6E9EEC}-80 & 10\%                             & \multicolumn{1}{r|}{\textbf{80\%}}                    & \cellcolor[HTML]{80AAEE}-70 & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textbf{5\%}}                     & \cellcolor[HTML]{F5F8FD}-5   & \textbf{20\%}                    & \multicolumn{1}{r|}{5\%}                              & \cellcolor[HTML]{FFF0D9}15   \\ \hline
+		bowling            & \textbf{33\%}                    & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFE8C5}23  & \textbf{33\%}                    & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFE8C5}23  & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		camel\_case        & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		coin\_sums         & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		cut\_vector        & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FF9900}100  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  \\ \hline
+		dice\_game         & 20\%                             & \multicolumn{1}{r|}{\textbf{33\%}}                    & \cellcolor[HTML]{E7EFFC}-13 & 20\%                             & \multicolumn{1}{r|}{\textbf{33\%}}                    & \cellcolor[HTML]{E7EFFC}-13 & 1\%                         & \multicolumn{1}{r|}{\textbf{3\%}}                     & \cellcolor[HTML]{FBFCFE}-2   & 1\%                              & \multicolumn{1}{r|}{\textbf{3\%}}                     & \cellcolor[HTML]{FBFCFE}-2   \\ \hline
+		find\_pair         & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{84\%}                             & \cellcolor[HTML]{FFEFD7}16  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{84\%}                             & \cellcolor[HTML]{FFEFD7}16  & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{28\%}                    & \cellcolor[HTML]{FFB648}72   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{28\%}                             & \cellcolor[HTML]{FFB648}72   \\ \hline
+		fizz\_buzz         & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		fuel\_cost         & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		gcd                & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		indices\_of\_subs. & 15\%                             & \multicolumn{1}{r|}{15\%}                             & \cellcolor[HTML]{FFFFFF}0   & 15\%                             & \multicolumn{1}{r|}{15\%}                             & \cellcolor[HTML]{FFFFFF}0   & 23\%                        & \multicolumn{1}{r|}{23\%}                    & \cellcolor[HTML]{FFFFFF}0    & 23\%                             & \multicolumn{1}{r|}{23\%}                             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		leaders            & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFCC80}50  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFCC80}50  & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{18\%}                    & \cellcolor[HTML]{FFAC2E}82   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{18\%}                             & \cellcolor[HTML]{FFAC2E}82   \\ \hline
+		luhn               & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FF9900}100  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  \\ \hline
+		mastermind         & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100 & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FF9900}100  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  \\ \hline
+		middle\_character  & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		paired\_digits     & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{65\%}                             & \cellcolor[HTML]{FFDCA6}35  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{65\%}                             & \cellcolor[HTML]{FFDCA6}35  & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{81\%}                    & \cellcolor[HTML]{FFECCF}19   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{81\%}                             & \cellcolor[HTML]{FFECCF}19   \\ \hline
+		shopping\_list     & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		snow\_day          & 50\%                             & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFFFFF}0   & \textbf{92\%}                    & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFD594}42  & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{5\%}                              & \cellcolor[HTML]{FF9F0D}95   \\ \hline
+		solve\_boolean     & 20\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{6E9EEC}-80 & 20\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{6E9EEC}-80 & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 \\ \hline
+		spin\_words        & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		square\_digits     & 97\%                             & \multicolumn{1}{r|}{97\%}                             & \cellcolor[HTML]{FFFFFF}0   & 97\%                             & \multicolumn{1}{r|}{97\%}                             & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		substitution\_cip. & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		twitter            & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		vector\_distance   & 40\%                             & \multicolumn{1}{r|}{40\%}                             & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & 75\%                             & \multicolumn{1}{r|}{75\%}                             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+	\end{tabular}
+	\vspace{2px}
+	\caption{C++ - Edge case and random generated test pass ratio with exact and epsilon matching.}
+	\label{t:tests-cpp}
+\end{table*}
+
+\subsubsection{Java}
+We evaluated both models using Java language as well and the results are presented in Table \ref{t:tests-java}, similarly to the C++ evaluation.
+
+During edge case testing, the ChatGPT model encountered runtime errors in 5 out of 10 tests for the task \textit{cut\_vector}, and in 1 out of 10 tests for the task \textit{leaders}.
+Meanwhile, the Copilot model encountered runtime errors in 13 out of 21 tests for the task \textit{bowling}, and in 1 out of 10 tests for the task \textit{leaders}.
+
+The runtime errors encountered by ChatGPT on the task \textit{cut\_vector} were due to improper handling of input where the code was not prepared for an array with only one element.
+On the other hand, the runtime error on task \textit{leaders} was caused by the code's inability to handle an empty array input.
+
+In the case of Copilot, the runtime errors encountered on the task \textit{bowling} were caused by improper handling of string indices.
+The code was dereferencing characters based on an assumption that there would be more characters.
+For the task \textit{leaders}, the code was not able to handle an empty array input.
+
+Despite these errors, ChatGPT achieved a 100\% pass rate with epsilon testing on 15 tasks, while Copilot achieved a 100\% pass rate on 13 tasks during edge case testing.
+ChatGPT performed better on 10 tasks with an average pass-rate of 55\% and a standard deviation of 31.77.
+In comparison, Copilot performed better on 4 tasks with an average pass-rate of 58\% and a standard deviation of 40.4.
+
+On random test cases, both ChatGPT and Copilot achieved a 100\% pass rate on 14 tasks.
+During random testing ChatGPT performed worse on the following tasks than during edge case testing:
+\textit{bouncing\_balls
+	bowling
+	dice\_game
+	leaders
+	snow\_day
+	solve\_boolean
+	vector\_distance}.
+We conducted an investigation on the only task that attained a 100\% pass rate on the edge case test, namely \textit{vector\_distance}.
+It was revealed that the discrepancies were due to floating point errors that exceeded the epsilon value employed in our matching method.
+Compared to edge case testing, Copilot performed worse on the \textit{bowling, coin\_sums, leaders, mastermind, shopping\_list} and \textit{snow\_day} tasks.
+Among Copilot generated solutions there was no such task that reached 100\% on the edge case testing and reached lower pass-rate on random testing.
+
+Investigating the robustness of the generated code, using non-edge case tests compared to edge case tests, we found that ChatGPT's pass-rates increased on 2 tasks by an average of 22\% with a standard deviation of 19.8, while Copilot's pass-rates increased by average of 9.67\% with a standard deviation of 6.5.
+We can conclude that the source code generated by both models that reached 100\% pass rate on the edge case mostly did not have lower pass-rates on random tests, and running non-edge test cases did not drastically increase the pass-rates.
+Therefore, the working solutions are robust.
+Regarding Java, ChatGPT performs slightly better, but Copilot's working examples seem to be more robust.
+
+
+\begin{table*}[!h]
+	\begin{tabular}{|p{1.8cm}|rr|r|rr|r||rr|r|rr|r|}
+		\hline
+		& \multicolumn{3}{c|}{Edge - Exact}                                                                         & \multicolumn{3}{c||}{Edge - Epsilon}                                                                                     & \multicolumn{3}{c|}{Random - Exact}                                                                       & \multicolumn{3}{c|}{Random - Epsilon}                                                                                   \\ \hline
+		Task               & \multicolumn{1}{l}{ChatGPT}          & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l||}{Diff}    & \multicolumn{1}{l}{ChatGPT}         & \multicolumn{1}{l|}{Copilot}                 & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    \\ \hline
+		basement           & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		bouncing\_balls    & \textbf{80\%}                        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFAE33}80   & \textbf{80\%}                    & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFB84D}70   & \textbf{5\%}                         & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFAF3}5    & 5\%                              & \multicolumn{1}{r|}{\textbf{20\%}}                    & \cellcolor[HTML]{E3ECFB}-15  \\ \hline
+		bowling            & \textbf{38\%}                        & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFE3B8}28   & \textbf{38\%}                    & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFE3B8}28   & \textbf{5\%}                         & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFAF3}5    & \textbf{5\%}                     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFFAF3}5    \\ \hline
+		camel\_case        & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		coin\_sums         & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{9\%}                              & \cellcolor[HTML]{FFA317}91   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{9\%}                              & \cellcolor[HTML]{FFA317}91   & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FF9900}100  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  \\ \hline
+		cut\_vector        & \textbf{50\%}                        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFCC80}50   & \textbf{50\%}                    & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFCC80}50   & \textbf{86\%}                        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFA824}86   & \textbf{86\%}                    & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFA824}86   \\ \hline
+		dice\_game         & 73\%                                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{CEDEF8}-27  & 73\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{CEDEF8}-27  & 35\%                                 & \multicolumn{1}{r|}{\textbf{65\%}}                    & \cellcolor[HTML]{C8DAF8}-30  & 54\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{ABC7F4}-46  \\ \hline
+		find\_pair         & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{4A86E8}-100 \\ \hline
+		fizz\_buzz         & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		fuel\_cost         & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		gcd                & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		indices\_of\_subs. & 15\%                                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{6598EB}-85  & 15\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{6598EB}-85  & 23\%                                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{73A1ED}-77  & 23\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{73A1ED}-77  \\ \hline
+		leaders            & 50\%                                 & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFFFFF}0    & 50\%                             & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFFFFF}0    & 18\%                                 & \multicolumn{1}{r|}{18\%}                    & \cellcolor[HTML]{FFFFFF}0    & 18\%                             & \multicolumn{1}{r|}{18\%}                             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		luhn               & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFFFFF}0    & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFFFFF}0    & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textcolor{red}{0\%}             & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		mastermind         & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFCC80}50   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{50\%}                             & \cellcolor[HTML]{FFCC80}50   & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{36\%}                    & \cellcolor[HTML]{FFBE5C}64   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{36\%}                             & \cellcolor[HTML]{FFBE5C}64   \\ \hline
+		middle\_character  & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		paired\_digits     & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{65\%}                             & \cellcolor[HTML]{FFDCA6}35   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{65\%}                             & \cellcolor[HTML]{FFDCA6}35   & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{81\%}                    & \cellcolor[HTML]{FFECCF}19   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{81\%}                             & \cellcolor[HTML]{FFECCF}19   \\ \hline
+		shopping\_list     & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFA41A}90   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{10\%}                             & \cellcolor[HTML]{FFA41A}90   & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FF9900}100  & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  \\ \hline
+		snow\_day          & \textbf{50\%}                        & \multicolumn{1}{r|}{17\%}                             & \cellcolor[HTML]{FFDEAB}33   & \textbf{58\%}                    & \multicolumn{1}{r|}{25\%}                             & \cellcolor[HTML]{FFDEAB}33   & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textbf{10\%}                    & \multicolumn{1}{r|}{5\%}                              & \cellcolor[HTML]{FFFAF3}5    \\ \hline
+		solve\_boolean     & 80\%                                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{DAE6FA}-20  & 80\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{DAE6FA}-20  & 75\%                                 & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{D1E0F9}-25  & 75\%                             & \multicolumn{1}{r|}{\textcolor{teal}{\textbf{100\%}}} & \cellcolor[HTML]{D1E0F9}-25  \\ \hline
+		spin\_words        & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		square\_digits     & \textcolor{teal}{\textbf{100\%}}     & \multicolumn{1}{r|}{97\%}                             & \cellcolor[HTML]{FFFCF8}3    & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{97\%}                             & \cellcolor[HTML]{FFFCF8}3    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		substitution\_cip. & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		twitter            & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
+		vector\_distance   & \textbf{60\%}                        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFC266}60   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textbf{98\%}                    & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9C06}98   \\ \hline
+	\end{tabular}
+	\vspace{2px}
+	\caption{Java - Edge case and random generated test pass ratio with exact and epsilon matching.}
+	\label{t:tests-java}
+\end{table*}
+
+\subsection{Checking technical quality}
+\label{eval_static}
+
+
+To perform a technical quality check, we employed static analyzers as a straightforward comparison method.
+We utilized SonarQube\footnote{V.8.9, www.sonarsource.com/products/sonarqube/downloads/lts/8-9-lts/} and SonarScanner\footnote{V.4.6.1.2450, binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.1.2450-linux.zip} to analyze the projects, and extended SonarQube with the SourceMeter plug-in~\cite{sonar_plugin_sm} that offers additional metrics, coding rules, and language support.
+As the community edition of SonarQube does not support C++ analysis, we relied on SourceMeter for C++ analysis.
+This plug-in incorporates a variety of analyzers, such as ClangTidy, which are capable of detecting coding errors and bad programming practices of varying severity and calculating different metrics.
+
+
+The coding smells and bugs were validated by hand as static analyzers are prone to false positive warnings and are tedious to configure.
+The material referenced in Section \ref{l:results} includes a list of reported warnings and the fact whether it was a true or false positive warning.
+
+Although C++ and Java are object-oriented, the solutions were very simple and did not use anything from OOP, therefore, there was no use of measuring OOP metrics like inheritance, coupling, or cohesion, thus we selected size and complexity metrics only.
+We used several metrics, such as Logical Lines of Code (LLOC), Number of Statements (NOS), McCabe Cyclomatic Complexity (McCC), and Nesting Level (NLE), to evaluate the results of the static analysis.
+(LLOC excludes lines containing comments or whitespace. NLE counts multiple \texttt{else if} statements as only one additional depth.)
+These metrics are considered the lower the better.
+
+On average, static analysis did not reveal any vulnerability hidden in the generated code either in ChatGPT- or in Copilot-generated solutions.
+The tasks were quite small and did not require a large amount of library usage, this way, the generated code appears to be vulnerability-free but cannot be considered so due to the non-deterministic nature of the models.
+
+\subsubsection{C++ results}
+
+The summarized results of the static analysis are presented in Table \ref{t:static_analyzers}.
+For C++, it is evident that the models are comparable in terms of metrics.
+Therefore, we focused on a few cases where one model differs from the other more than the average.
+Additionally, aside from pure metrics, it is crucial to consider the code smells that these models generate since they may be prioritized.
+
+\begin{table*}[!h]
+	\footnotesize
+	\centering
+	\begin{tabular}{|l|rr|rr|rr|rr|rr|rr|rr|rr|rr|rr|}
+		\hline
+		& \multicolumn{10}{c|}{C++} & \multicolumn{10}{c|}{Java} \\ \hline
+		\multirow{2}{*}{Task} & \multicolumn{2}{c|}{CodeSmells}  & \multicolumn{2}{c|}{LLOC} & \multicolumn{2}{c|}{NOS} & \multicolumn{2}{c|}{McCC} & \multicolumn{2}{c|}{NLE} & \multicolumn{2}{c|}{CodeSmells}  & \multicolumn{2}{c|}{LLOC} & \multicolumn{2}{c|}{NOS} & \multicolumn{2}{c|}{McCC} & \multicolumn{2}{c|}{NLE} \\ \cline{2-21}
+		& G & P & G & P & G & P & G & P & G & P & G & P & G & P & G & P & G & P & G & P \\ \hline
+		
+		
+		basement              &   0 &   0 &  20 &  16 &  20 &  15 &   4 &   3 &   2 &   2 & 0 & 0 & 17 & 17 & 11 & 10 & 3 & 3 & 2 & 2 \\ \hline
+		bouncing\_balls       &   0 &   0 &  21 &  17 &  20 &  15 &   2 &   2 &   1 &   1 & 0 & 1 & 23 & 18 & 16 & 14 & 2 & 2 & 1 & 1 \\ \hline
+		bowling               &   8 &   7 &  48 &  45 &  50 &  45 &  10 &   9 &   4 &   4 & 0 & 0 & 57 & 39 & 38 & 25 & 13& 7 & 3 & 3 \\ \hline
+		camel\_case           &   2 &   3 &  20 &  22 &  20 &  21 &   4 &   4 &   2 &   3 & 0 & 3 & 16 & 26 & 11 & 18 & 2 & 5 & 1 & 3 \\ \hline
+		coin\_sums            &   7 &   6 &  19 &  14 &  17 &  12 &   1 &   1 &   0 &   0 & 0 & 0 & 20 & 20 & 14 & 13 & 1 & 1 & 0 & 0 \\ \hline
+		cut\_vector           &   2 &   3 &  27 &  50 &  29 &  55 &   5 &   7 &   2 &   2 & 1 & 0 & 28 & 34 & 21 & 26 & 3 & 5 & 2 & 2 \\ \hline
+		dice\_game            &   2 &   0 &   9 &  16 &   8 &  17 &   2 &   4 &   1 &   3 & 0 & 0 & 20 & 20 & 15 & 14 & 4 & 4 & 3 & 3 \\ \hline
+		find\_pair            &   0 &   2 &  17 &  34 &  19 &  32 &   4 &   4 &   3 &   2 & 0 & 0 & 20 & 29 & 13 & 25 & 3 & 6 & 2 & 3 \\ \hline
+		fizz\_buzz            &   7 &   3 &  12 &  21 &  15 &  18 &   5 &   4 &   1 &   1 & 0 & 0 & 18 & 19 & 10 & 10 & 5 & 5 & 1 & 1 \\ \hline
+		fuel\_cost            &   0 &   1 &  11 &  13 &  10 &  12 &   2 &   2 &   1 &   1 & 1 & 0 & 16 & 20 &  8 & 15 & 2 & 3 & 1 & 1 \\ \hline
+		gcd                   &   3 &   0 &  12 &  17 &  10 &  14 &   2 &   2 &   1 &   1 & 0 & 1 & 16 & 19 &  9 & 12 & 2 & 5 & 1 & 2 \\ \hline
+		indices\_of\_subtring &   1 &   0 &  19 &  18 &  18 &  14 &   3 &   6 &   1 &   2 & 1 & 0 & 18 & 23 & 10 & 17 & 2 & 4 & 1 & 2 \\ \hline
+		leaders               &   1 &   2 &  21 &  22 &  22 &  23 &   4 &   4 &   2 &   2 & 1 & 2 & 20 & 34 & 13 & 30 & 3 & 6 & 2 & 2 \\ \hline
+		luhn                  &   4 &   3 &  24 &  19 &  25 &  18 &   5 &   4 &   2 &   3 & 0 & 0 & 25 & 24 & 16 & 17 & 5 & 4 & 3 & 2 \\ \hline
+		mastermind            &   0 &   1 &  29 &  23 &  29 &  26 &   5 &   6 &   2 &   3 & 1 & 1 & 31 & 33 & 21 & 28 & 5 & 7 & 2 & 3 \\ \hline
+		middle\_character     &   2 &   3 &  14 &  14 &  12 &  11 &   2 &   2 &   1 &   1 & 0 & 0 & 15 & 17 &  7 & 8  & 2 & 2 & 1 & 1 \\ \hline
+		paired\_digits        &   0 &   0 &  16 &  17 &  16 &  16 &   3 &   3 &   2 &   2 & 0 & 0 & 16 & 21 & 10 & 13 & 3 & 4 & 2 & 2 \\ \hline
+		shopping\_list        &   2 &   1 &  19 &  14 &  19 &  13 &   3 &   2 &   1 &   1 & 0 & 2 & 16 & 25 & 11 & 21 & 2 & 4 & 1 & 1 \\ \hline
+		snow\_day             &   1 &   0 &  21 &  17 &  21 &  17 &   2 &   2 &   1 &   1 & 0 & 1 & 15 & 19 &  9 & 13 & 1 & 2 & 0 & 1 \\ \hline
+		solve\_boolean        &   1 &   2 &  30 &  30 &  33 &  32 &   9 &  10 &   2 &   2 & 2 & 1 & 30 & 27 & 22 & 17 & 11& 7 & 3 & 3 \\ \hline
+		spin\_words           &   3 &   4 &  27 &  36 &  26 &  43 &   5 &   9 &   3 &   4 & 0 & 3 & 21 & 24 & 12 & 15 & 3 & 4 & 2 & 2 \\ \hline
+		square\_digits        &   3 &   4 &  16 &  17 &  14 &  14 &   2 &   2 &   1 &   1 & 0 & 1 & 18 & 18 & 13 & 10 & 2 & 2 & 1 & 1 \\ \hline
+		substitution\_cipher  &   1 &   2 &  24 &  26 &  25 &  27 &   3 &   4 &   1 &   3 & 0 & 1 & 29 & 19 & 22 & 13 & 4 & 2 & 2 & 1 \\ \hline
+		twitter               &   4 &   4 &  17 &  12 &  16 &   9 &   3 &   3 &   1 &   1 & 0 & 1 & 16 & 18 &  8 & 9  & 3 & 3 & 1 & 1 \\ \hline
+		vector\_distance      &   2 &   1 &  30 &  20 &  30 &  19 &   6 &   2 &   1 &   1 & 0 & 0 & 15 & 24 & 10 & 20 & 2 & 4 & 1 & 1 \\ \hline
+		
+	\end{tabular}
+	\vspace{2px}
+	\caption{Static analyzer result for C++ and Java (G = ChatGPT, P = Copilot).}
+	\label{t:static_analyzers}
+	\vspace{-25px}
+\end{table*}
+
+The average ratio of the metrics is around 1.0 so we discuss the tasks where one model scored 1.5 times more of a metric than the other.
+These tasks are \textit{cut\_vector}, \textit{dice\_game}, \textit{find\_pair}, \textit{fizz\_buzz}, \textit{indices\_of\-substring}, \textit{spin\_words}, \textit{substitution\_cipher}, \textit{twitter} and \textit{cut\_vector}.
+
+ChatGPT-generated sources are worse in \textit{twitter} and \textit{vector\_distance}.
+Investigating these source codes we found that the higher McCC value in task \textit{vector\_distance} is due to the way it reads the input and the input is validated.
+The higher NOS value in task \textit{twitter} is due to the fact that ChatGPT generated a \texttt{main} method in order to test the solution while Copilot did not.
+
+Copilot scored worse metric values in the remaining tasks as there was no such task where one metric was better for one model and another metric was better for another model.
+In task \textit{substitution\_cipher} the metric NLE is 3 times higher for Copilot, which is due to embedded for-loops.
+ChatGPT used an unordered\_map while Copilot used for-loops resulting in higher NLE and higher complexity.
+For task \textit{spin\_words} two metrics, NOS and McCC were worse in Copilot-generated source.
+In this case, both McCC and NLE higher values were caused by the fact that Copilot used for-loops to reverse a string while ChatGPT used \texttt{std::reverse} calls.
+For task \textit{indices\_of\_substring}, the McCC and NLE metrics were twice as bad.
+Once again, Copilot generated code that compares substring meanwhile ChatGPT utilized the find method.
+For task \textit{fizz\_buzz} the LLOC metric was worse, which was caused by the additional curly-brace pairs in Copilot's code.
+For task \textit{find\_pair} the metrics LLOC and NOS were worse.
+Investigating this source we found that Copilot used a vector for testing like ChatGPT, but it used push\_back methods multiple times instead of initializing it with the generic initializer.
+For task \textit{cut\_vector} it was the same case.
+Task \textit{dice\_game} scored worse in every metric and NLE was 3 times worse.
+Investigating this task we found that ChatGPT used a formula to calculate the result while Copilot enumerated every possible outcome and this increased all the metrics.
+Note, that in this case neither of the models generated correctly functioning code but Copilot's solution is closer to a working code.
+
+
+Besides the pure metrics, the number of bad coding practices and the types of these must be investigated.
+The number of code smells was very similar for both models.
+The most common code smell was using magic constants.
+In the solutions generated by ChatGPT, it occurred 25 times, while in the solutions of Copilot, it occurred 24 times.
+
+From the validated coding smells the following smells were equally typical for both models: magic constant, narrowing conversion, string reallocation, and copying values instead of passing references.
+Coding smells typical for ChatGPT: multiple declarations in one line, not using braces for single statements.
+Coding smells typical for Copilot: redundant string initialization, not using range-based for-loops, using else after return, not using empty for emptiness check, redundant boolean operator.
+
+The mentioned coding smells are categorized as Major in SonarQube.
+We also took into consideration the Minor labeled smells.
+There were three of them in ChatGPT-generated sources.
+All of them suggest replacing a code part with a standard algorithm, like accumulate and transform.
+For Copilot, the Minor labeled smells point out that there were return statements following each other and a variable's scope could be reduced.
+
+Taking C++ both models are similar in the aspects of metrics and coding smells too.
+Copilot tends to generate more coding smells specifically that relate to modern C++ code.
+
+\subsubsection{Java results}
+
+Similarly to C++, we only discuss tasks where the models are significantly different.
+One of the tasks where ChatGPT scored worse is \textit{substitution\_cipher}.
+The NOS, McCC, and NLE metrics are worse for ChatGPT.
+Investigating the source code, ChatGPT generated a Map for characters meanwhile Copilot used single methods for look-up.
+This affects the above-mentioned metrics as there are more statements and additional loops.
+Another task where we investigate the code is \textit{bowling}.
+In this case, ChatGPT generated a utility function for the task which led to the increased McCC as they usually include loops.
+
+Copilot-generated tasks got worse metric values for many tasks and not only for one metric.
+Investigating the source code we found that for \textit{vector\_distance}, \textit{shopping\_list}, \textit{fuel\_cost}, and \textit{cut\_vector} the difference is due to testing.
+ChatGPT generates fixed tests while Copilot reads values from console resulting additional code e.g. for reading vectors.
+
+In the remaining examples LLOC, McCC and NOS were higher for Copilot.
+Investigating the code we found that all the tasks are similar, Copilot tends to generate more iterations than ChatGPT.
+It uses iterations instead of using built-in iterations and methods.
+
+Paying attention to the validated code smells again, there was no code smell which was typical for both models.
+ChatGPT tends to have the following code smells: using synchronized class if not needed, not using interface or abstract return types, and ChatGPT-generated one example where an unused import was present.
+Copilot tends to have the following code smells: misleading method name that matches the class name, not using string builder thus making the code less effective, bad naming convention for variables, having unused parameters and in one example Copilot introduced a bug by using a method overload that generates a temporary object.
+
+For Java, we conclude that Copilot generates larger and more complex code which could be replaced by improved algorithmic solutions and function calls.
+
+Based on these results we can answer \textbf{RQ 1: How does LLM-generated source code score in terms of source code quality?}
+LLMs perform quite well in terms of static analysis.
+They only occasionally introduce bad smells or bugs but the generated code passes the SonarQube quality gates mostly with the best score.
+\vspace{-13px}
+\subsection{Human evaluation}
+\label{eval_reviews}
+
+%In the human evaluation we asked 5-5 reviewers per programming language who had 5 to 20 years of experience for both languages. %years of industrial experience.
+In the human evaluation, 5-5 developers were interviewed for each of the two programming languages. These developers had industry experience ranging from 5 to 20 years.
+We developed a simple web application for performing the manual evaluation.
+During the inspection, the developers were required to read the task text used to generate the source code.
+Once they understood the task, the generated sources were presented side-by-side for both models, with the order randomly swapped to prevent the developer from identifying which model was used.
+The developers were then asked to rate four properties of each source code on a [-2;2] interval, excluding 0.
+We chose this interval because it does not allow the developer to remain neutral, and the plus and minus values represent liking and disliking, respectively.
+The properties that had to be scored were the following (with their instructions towards the developers):
+\begin{itemize}
+	\item First impression: Score the source code according to your first impression. There are no special aspects given that affect this score what you should consider. It is solely your impression. Scale it from -2 to 2.
+	\item Readability: Score the source code according to its readability. Readability refers to your experience during reading the code, while you are trying to understand the various steps and conditions. How clear the purpose of a variable or a method is. How easily you can follow the flow of the code. Score it from -2 to 2.
+	\item Usability: Score the source code according to its usability. Usability refers to your experience during interacting with the source code. It involves writing tests, including it in your source base, or using it as a black box program. It should measure how satisfied you are after using this source code. Score it from -2 to 2.
+	\item Modifiability: Score the source code according to it's modifiability. Modifiability determines how hard it is to change the code, to add or remove functionality. Score it from -2 to 2.
+\end{itemize}
+
+Besides these properties, the developers had to decide whether they accepted the source code or not.
+The possible values were ``Strong reject'', ``Weak reject'', ``Weak accept'', and ``Strong accept''.
+These string values are mapped to the already used [-2;+2] interval where ``Strong reject'' refers to -2 and ``Strong accept'' refers to +2.
+Zero value is not allowed either.
+After scoring all the values, the developers had to decide which of the shown source code was the better one.
+
+
+\begin{table*}[!h]
+	\begin{adjustbox}{width=\linewidth,center} %\columnwidth
+		\footnotesize
+		\begin{tabular}{|p{1.58cm}|rr|rr|rr|rr|rr|r||rr|rr|rr|rr|rr|r|}
+			\hline
+			& \multicolumn{11}{c||}{C++} & \multicolumn{11}{c|}{Java} \\ \hline
+			\multirow{2}{*}{Task} & \multicolumn{2}{c|}{F.Impr.}  & \multicolumn{2}{c|}{Usab.} & \multicolumn{2}{c|}{Read.} & \multicolumn{2}{c|}{Modif.} & \multicolumn{2}{c|}{Acc.} & \multirow{2}{*}{G/P} &\multicolumn{2}{c|}{F.Impr.}  & \multicolumn{2}{c|}{Usab.} & \multicolumn{2}{c|}{Read.} & \multicolumn{2}{c|}{Modif.} & \multicolumn{2}{c|}{Acc.} & \multirow{2}{*}{G/P} \\ \cline{2-11} \cline{13-22}
+			& G & P & G & P & G & P & G & P & G & P & & G & P & G & P & G & P & G & P & G & P &\\ \hline
+			basement               & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{FFCC7F}-5            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{AB906D}-1            \\ \hline
+			bouncing\_balls        & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{EDA39D}-7}           & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{E88981}-9}           & \cellcolor[HTML]{FFD699}-4            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FFFFFF}0            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{BE9255}-3            \\ \hline
+			bowling                & \cellcolor[HTML]{F7D7D5}-3           & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{F1F7EE}1            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{F1F7EE}1            & {\cellcolor[HTML]{FCF1F1}-1}           & \cellcolor[HTML]{FAE4E3}-2           & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{FFFFFF}0             & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{C4DDB9}4            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{A18F7A}0             \\ \hline
+			camel\_case            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{FFC166}-6            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{AB906D}-1            \\ \hline
+			coin\_sums             & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{FFC166}-6            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{D0943D}-5            \\ \hline
+			cut\_vector            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{EDA39D}-7}           & \cellcolor[HTML]{F7D7D5}-3           & {\cellcolor[HTML]{F2BDB9}-5}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FAE4E3}-2           & {\cellcolor[HTML]{F0B0AB}-6}           & \cellcolor[HTML]{FFF4E5}-1            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{F7D7D5}-3}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{F1F7EE}1}            & \cellcolor[HTML]{DA9530}-6            \\ \hline
+			dice\_game             & \cellcolor[HTML]{F7D7D5}-3           & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{E88981}-9           & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{C4DDB9}4            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{E67C73}-10          & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{5592F6}9             & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{BE9255}-3            \\ \hline
+			find\_pair             & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{F5CAC7}-4}           & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{EDA39D}-7}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{E88981}-9}           & \cellcolor[HTML]{FF9900}-10           & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{D0943D}-5            \\ \hline
+			fizz\_buzz             & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{FFE0B2}-3            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{8F8E92}2             \\ \hline
+			fuel\_cost             & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{FFD699}-4            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{BE9255}-3            \\ \hline
+			gcd                    & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{FFFFFF}0             & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{FCF1F1}-1}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{F6980C}-9            \\ \hline
+			indices\_of\_sub.      & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{F7D7D5}-3           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{F1F7EE}1}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{F7D7D5}-3           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{B4CFFB}4             & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{B49161}-2            \\ \hline
+			leaders                & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{FFCC7F}-5            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{F0B0AB}-6}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{FCF1F1}-1}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{F6980C}-9            \\ \hline
+			luhn                   & \cellcolor[HTML]{C4DDB9}4            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FFFFFF}0             & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{F2BDB9}-5}           & \cellcolor[HTML]{F1F7EE}1            & {\cellcolor[HTML]{F5CAC7}-4}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{EDA39D}-7}           & \cellcolor[HTML]{D0943D}-5            \\ \hline
+			mastermind             & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FCF1F1}-1}           & \cellcolor[HTML]{FFD699}-4            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{BE9255}-3            \\ \hline
+			middle\_char.          & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{DAE7FD}2             & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{6AA84F}10}           & \cellcolor[HTML]{858C9E}3             \\ \hline
+			paired\_digits         & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{F7D7D5}-3}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{FFAD33}-8            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{DA9530}-6            \\ \hline
+			shopping\_list         & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{FFE0B2}-3            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{F1F7EE}1}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{ED9718}-8            \\ \hline
+			snow\_day              & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{F5CAC7}-4}           & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{EB968F}-8}           & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{EB968F}-8}           & \cellcolor[HTML]{FFA319}-9            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{EB968F}-8           & {\cellcolor[HTML]{FCF1F1}-1}           & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{E88981}-9           & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{858C9E}3             \\ \hline
+			solve\_boolean         & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{FAE4E3}-2           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{FCF1F1}-1           & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{EDF3FE}1             & \cellcolor[HTML]{D3E5CB}3            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{FFFFFF}0            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{B5D4A7}5            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{F1F7EE}1}            & \cellcolor[HTML]{FAE4E3}-2           & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{8F8E92}2             \\ \hline
+			spin\_words            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FAE4E3}-2}           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{FFFFFF}0}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{FFB74C}-7            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{AB906D}-1            \\ \hline
+			square\_digits         & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{FFE0B2}-3            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{E39624}-7            \\ \hline
+			sub.\_cipher           & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{FFAD33}-8            & \cellcolor[HTML]{C4DDB9}4            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{E2EEDC}2            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{AB906D}-1            \\ \hline
+			twitter                & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{D3E5CB}3}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{B5D4A7}5}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{FFC166}-6            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{6AA84F}10           & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{C79349}-4            \\ \hline
+			vector\_dist.          & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{79B161}9}            & \cellcolor[HTML]{88BA73}8            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{C4DDB9}4}            & \cellcolor[HTML]{FFCC7F}-5            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{E2EEDC}2}            & \cellcolor[HTML]{A6CB96}6            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{79B161}9            & {\cellcolor[HTML]{97C384}7}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{A6CB96}6}            & \cellcolor[HTML]{97C384}7            & {\cellcolor[HTML]{88BA73}8}            & \cellcolor[HTML]{AB906D}-1            \\ \hline
+			average                & \cellcolor[HTML]{AACD9A}\textbf{5.8} & {\cellcolor[HTML]{DEECD8}\textbf{2.2}} & \cellcolor[HTML]{B4D4A7}\textbf{5.0} & {\cellcolor[HTML]{E2EEDD}\textbf{2.0}} & \cellcolor[HTML]{93C07F}\textbf{7.3} & {\cellcolor[HTML]{B5D4A7}\textbf{5.0}} & \cellcolor[HTML]{A1C890}\textbf{6.4} & {\cellcolor[HTML]{B0D1A1}\textbf{5.4}} & \cellcolor[HTML]{ACCF9D}\textbf{5.6} & {\cellcolor[HTML]{D8E9D1}\textbf{2.6}} & \cellcolor[HTML]{FFDDAC}\textbf{-3.2} & \cellcolor[HTML]{8FBE7B}\textbf{7.5} & {\cellcolor[HTML]{CAE1C1}\textbf{3.6}} & \cellcolor[HTML]{A0C88F}\textbf{6.4} & {\cellcolor[HTML]{AED0A0}\textbf{5.4}} & \cellcolor[HTML]{82B66C}\textbf{8.4} & {\cellcolor[HTML]{B6D4A8}\textbf{5.0}} & \cellcolor[HTML]{92BF7E}\textbf{7.4} & {\cellcolor[HTML]{A9CD99}\textbf{5.8}} & \cellcolor[HTML]{9DC68B}\textbf{6.6} & {\cellcolor[HTML]{B4D4A7}\textbf{5.0}} & \cellcolor[HTML]{BD9256}\textbf{-2.9} \\ \hline
+			st. devition            & 3.7                                  & {4.3}                                  & 4.9                                  & {4.5}                                  & 2.4                                  & {3.2}                                  & 2.8                                  & {3.1}                                  & 5.5                                  & {5.8}                                  & 4.4                                   & 2.5                                  & {4.2}                                  & 4.6                                  & {3.5}                                  & 1.4                                  & {3.2}                                  & 2.3                                  & {2.7}                                  & 4.9                                  & {3.9}                                  & 3.5                                   \\ \hline
+		\end{tabular}
+	\end{adjustbox}
+	\vspace{2px}
+	\caption{Developer evaluation results for C++ and Java\\ (G = ChatGPT, P = Copilot, F.Impr.~= First Impression, Usab.~= Usability, Read.~=Readability, Modif.~= Modifiability, Acc.~=Acceptance, G/P = ChatGPT or Copilot is better)}
+	\label{t:reviews}
+	\vspace{-25px}
+\end{table*}
+
+As the previous sections presented the quality of the generated code, this section evaluates how that code was considered by experts.
+Table \ref{t:reviews} shows the developer evaluation results for C++ and Java.
+The values are summed scores\footnote{See supplementary material referenced in Section \ref{l:results}} for every property, each scoring from -2 to +2, therefore, with 5 developers for each language the lowest score is -10 (marked with red in the table) and the highest is +10 (marked green).
+The developers not only had to score based on 5 properties, but had to decide which code was better (G/P column).
+The negative values mean that ChatGPT was better according to the experts while the positive values denote the cases when Copilot was better.
+
+\subsubsection{C++ results}
+For C++, the results in Table ~\ref{t:reviews} show that ChatGPT is more welcome than Copilot.
+The \textbf{First Impression} for ChatGPT on average over the tasks and developers is 5.8 with a 3.7 standard deviation while Copilot reached only 2.2 with a 4.27 standard deviation.
+Looking at \textbf{Usability}, the average for ChatGPT was 5.0 and for Copilot it was 2.0.
+The standard deviation for ChatGPT and Copilot were quite similar, 4.9 and 4.5.
+It shows us that both models can generate quite usable code and also hard-to-use code according to our developers.
+Regarding \textbf{Readability}, both models achieved quite good scores, in average ChatGPT scored 7.3 and Copilot reached 5.0.
+The standard deviations were 2.4 and 3.2.
+It shows that ChatGPT generates more readable code, slightly more frequently but Copilot's score is quite similar.
+\textbf{Modifiability} scores are similar too in average, 6.4 for ChatGPT with a standard deviation of 2.8 and 5.4 for Copilot with 3.2 standard deviation.
+The \textbf{Acceptance} has a larger difference.
+ChatGPT reached 5.6 in average with a standard deviation of 5.5 and 2.6 for Copilot with standard deviation of 5.8.
+It seems both models have accepted and rejected reviews and the large deviation shows that both models can generate very good and very bad code.
+
+Although the pure numbers show that ChatGPT is more favorable among the developers, we investigated how these numbers would change if we included only the projects where the models reached good enough pass rate in random testing.
+We did it for tasks where both models reached at least 75\% pass rate, for tasks where only ChatGPT scored this level of pass rate and for tasks where only Copilot did so.
+
+Although the average ratings improved for both models, ChatGPT still performs better in every scenario but one.
+Considering the tasks where only Copilot reached the minimum pass rate Copilot got better scores for modifiability.
+From this we can conclude, although the developers had no information about the pass rates, they upscored the functional code and using this criteria ChatGPT is still favored over Copilot.
+
+\subsubsection{Java results}
+
+For Java, we did the same evaluations.
+These results are also presented in Table \ref{t:reviews}.
+Firstly, \textbf{First Impression} shows a great difference.
+ChatGPT reached an average of 7.5 with a relatively small standard deviation of 2.5 and Copilot reachd on average 3.6 with standard deviation of 4.2.
+It shows that ChatGPT-generated code is mostly favored by the developers while Copilot-generated code is less preferred.
+Regarding \textbf{Usability}, the models are close to each other, ChatGPT scored 6.4 with standard deviation of 4.6 and Copilot reached 5.4 with standard deviation of 3.5.
+On average, the generated code is usable, but it is varying for both models.
+\textbf{Readability} also shows a great difference between the models.
+ChatGPT reached 8.4 with standard deviation of 1.4, which means the ChatGPT generated code is consistently readable.
+On the contrary, Copilot reached 5.0 with standard deviation of 3.2.
+It shows that Copilot generated-code might be readable, but it is less readable.
+Copilot generates more frequently unreadable code than ChatGPT.
+Taking \textbf{Modifiability}, both models vary in the same manner, as the standard deviation for ChatGPT is 2.3 and for Copilot it is 2.7.
+The average values are 7.4 and 5.8, which shows that the generated code can be modified quite easily, be it generated by ChatGPT or Copilot.
+In \textbf{Acceptance}, there is no big difference compared to C++.
+Both models are accepted in the same manner.
+ChatGPT scored 6.6 while Copilot reached 5.0.
+The standard deviations are 4.5 and 3.9, which means that both models generate code which is mostly accepted, but either of them can generate disliked code too.
+
+In case of Java, we also tested if the pass ratio affects the results, thus we filtered again with the 75\% pass rate.
+The filtered results show that ChatGPT is still favored over Copilot regarding the tasks where both models performed well on the functional testing.
+Not surprisingly, ChatGPT is preferred over Copilot in tasks where only ChatGPT performed well in functional tests.
+What is more surprising is that ChatGPT also has an advantage over Copilot in tasks where only Copilot performed well in the functional tests.
+
+Regarding this case, the First Impression and Readability were much better for ChatGPT, which indicates that even if the code is bad, the style has a great impact on developers' opinion.
+Usability values were similar, so developers considered bad ChatGPT code usable too.
+
+After the human evaluations we can answer
+\textbf{RQ 2: Is the generated source code accepted by experts?}
+The developers approved the generated source code most of the time.
+Developers did not consider the model-synthetized code perfect or out-of-the-box usable, but they considered the code acceptable.
+
+\subsection{Summary}
+With the final evaluations we can answer
+\textbf{RQ 3: What aspects should be considered when choosing LLM-based generative tools?}
+
+When choosing Large Language Model (LLM)-based generative tools, particularly for code generation, it is essential to consider a variety of aspects to ensure the model is both effective and efficient.
+\begin{itemize}
+	\item \textbf{High-Level Task Interpretation:} The LLM should be capable of understanding task definitions at a sufficiently abstract level. This means that the aim is to understand and effectively respond to developer requests with minimal input, ensuring both accuracy and efficiency.
+	
+	\item \textbf{Functional Validity Assessment:} Before considering a model suitable, it is critical to evaluate its functional validity. This involves testing the model's output in various scenarios, including both common use cases and edge cases. While edge case testing checks the model's performance under extreme or unusual conditions, providing a larger amount of random tests shows a better image of the general functionality. This comprehensive testing ensures that the model can reliably generate functional and robust code.
+	
+	\item \textbf{Technical Validity:} After establishing functional validity, the next step is to evaluate technical validity. This might involve performing static analysis on the generated code to detect any code smells, bugs, or unnecessarily complex solutions. The analyzer must be configured for the actual requirements of the final environment the model would be used in.
+	
+	\item \textbf{Human Evaluation:} Using the results from functional and technical validity assessments, you can compare different models with a high degree of confidence. Decisions can be based on these results as models might pass the given criteria, however, developers co-working with the model might discourage the usage as the generated source code does not fit their way of thinking. Developer reviews and evaluations play a crucial role in the model selection process, providing insights into each model's strengths and weaknesses. When conducting human reviews, one of the easiest ways is to provide scoring options, although it must be on an even scale to prevent neutral results. To prevent ties on certain properties a final decision should be made to decide which model-generated source code is better.
+	
+\end{itemize}
+
+In conclusion, when selecting an LLM-based generative tool for code generation, it is essential to consider how well it understands high-level task definitions, its performance in functional and technical validity assessments, and factors related to human evaluation like first impression, usability, and modifiability.
+These considerations help in choosing a tool that not only meets immediate coding needs but also integrates well into the broader development life cycle.
+
+Although we included only the basic must-include parts, there could be scenarios where other aspects are important too.
+In such scenarios, evaluators of the models should decide which criteria and techniques to use for assessing the quality of the generated source code.
+Memory usage and time complexity are factors that could be important for specific applications, although they are not required in every evaluation.
+
+
+
+\section{Threats to validity}
+\label{l:threats_to_validity}
+%\vspace{-5px}
+Although we tried our best, there are still a few things that must be noted which might make readers doubt.
+
+\textit{Model selection}: Both models are GPT-3 based models and we could have used other models.
+Our main goal was to show how models could be compared properly, and from what aspects, which was done via an actual comparison.
+We did choose from the most popular models, the ones which were already in use in the software engineering community.
+Codex was trivial to use due to its plugin-like nature and ChatGPT was easy to use as it provided a handy web interface.
+Although the selected models are similar and in the same lineage, the training sets and techniques are different.
+ChatGPT is a later version, developed to be instruction-following and helpful for humans, while Codex is trained mainly for source code related tasks.
+
+\textit{Language selection}: One might consider why we did not include a scripting language, like Python.
+As we described the main aspects on language selection Python did not really fit those properties.
+We assume that the results would be similar using Python as there is plenty of code (training data) written in Python.
+
+\textit{Prompting}: As we could use a prompt that is designed for this purpose, we could not alter the inner workings of the models, such as randomness.
+Although Copilot provides a possibility to set the temperature or top\_p values, the web interface for ChatGPT does not, thus in order to have a fair comparison we used default values for both.
+Additionally, setting the temperature might not force the model to be deterministic enough as shown by Ouyang et al.~\cite{temperature_not_enough}.
+Besides setting these values, a well-known technique is to not only select the first generated value but use more, frequently marked as @1 @5 for the first and the first five values.
+As evaluating every task in both C++ and Java, e.g. 5 values would take too much human effort we decided to use @1 results.
+Otherwise selecting from @5 values or interacting with further prompting would have required human interaction which would not be objective.
+It is similar to interactive instructions for making the models' output better with human supervision.
+Results would highly depend on the supervisor's expertise and ability to instruct LLMs.
+
+The selected benchmark was published in July, 2021 therefore there is a slight chance that ChatGPT has already seen the tasks during training as it contains information up until September, 2021.
+We cannot state such things from Codex as we have no insight into its real training data or dates.
+Although it is a possible flaw, we consider the amount of text used in the benchmarks would be greatly outnumbered by the total training corpus therefore, it would not alter the results, furthermore, in real-life usage a specific benchmark usage resolves this problem.
+
+\textit{Functional evaluation}: During the functional evaluation we used epsilon comparison for float comparisons.
+Although float values are compared with epsilon values, the benchmark did not include such values.
+The benchmark used in our evaluations could be changed but it was a key factor to have such a benchmark that is specially created for program generation or program synthesis.
+
+\textit{Technical validity}: During static analysis, we did use metrics on C++ and Java, which languages support OOP.
+The analyzed metrics did not include OOP-specific metrics as the tasks were way too small to properly utilize OOP.
+
+\textit{Human evaluation}: We involved only 5-5 developers for both languages.
+To overcome the low number of developers our main goal was to have professional reviewers qualified for such a role, so we preferred quality over quantity.
+%\vspace{-15px}\section{Conclusions and Future Work}
+\label{l:summary}
+
+
+In this paper, we proposed a methodology for evaluating Large Language Models' (LLM) code synthesis capabilities to help developers choose the best available model.
+This methodology takes into account that prompting is very important for LLMs and how detailed a usual task description is.
+The primary concern is that the generated code works well, so it needs to be functionally tested. In addition, technical quality aspects are also important if the code is to be used in the long term. On the basis of this evaluation, a model can be chosen, but it is also worth asking the experts for their opinion.
+
+We applied this methodology in a case study and evaluated and compared ChatGPT and Copilot on a publicly available code synthesis benchmark consisting of 25 tasks.
+For prompting, we used the specifications in the benchmark, which were specifically designed to test program synthesis, and accepted the first generated solution.
+We functionally tested the generated code with general and edge cases and found that the majority of the generated code was functionally correct.
+We then used static code analysis to check the technical quality and found that despite minor errors, the models generated good-quality code.
+Finally, we involved experts to review the solutions and their opinion supports our results.
+Our conclusion is that both ChatGPT and Copilot can be used for program synthesis, but based on the comparison it seems that ChatGPT is better.
+
+We consider the proper comparison of LLMs in code generation an important task which will be inevitable during industrial software development.
+Based on this study we aim to create a framework in the future where LLMs can be compared in the most automatized way possible, including memory and time consumption values.
+Using this comparison we aim to observe the preferred models of developers among the vast amount of models.
+This opens the opportunity to investigate what model features are preferred providing more information to develop better models.
+Using a decent comparing methodology we can also investigate the effects of various prompting techniques and fine-tunings, therefore, providing knowledge for improving models.
 
 The author of this PhD thesis is responsible for the following contributions presented in this chapter:
 \begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
 	\item[II/1.] Contribution I.
 	
-    \item[II/2.] Contribution II.
+	\item[II/2.] Contribution II.
 	
-    \item[II/3.] Contribution III.
+	\item[II/3.] Contribution III.
 	
-    \item[II/4.] Contribution X
+	\item[II/4.] Contribution X
 \end{enumerate}

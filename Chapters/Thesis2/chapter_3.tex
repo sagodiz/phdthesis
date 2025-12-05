@@ -1,22 +1,928 @@
-\chapter{Name of Chapter III}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% SOME COMMANDS FOR THESIS2 %%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\codeformat}[1]{\texttt{#1}}
+
+
+\definecolor{shadecolor}{rgb}{1,0,0}
+
+\definecolor{codebgcolor}{rgb}{0.95,0.95,0.95}
+
+
+\lstset {
+	language={},                  % language code
+	basicstyle=\small,      % font size
+	numbers=none,                  % where to put line numbers
+	numberstyle=\footnotesize,     % numbers size
+	numbersep=5pt,                 % how far the line numbers are from the code
+	showspaces=false,                          % show spaces (with underscores)
+	showstringspaces=false,            % underline spaces within strings
+	showtabs=false,                            % show tabs using underscores
+	frame=single,                  % adds a frame around the code
+	tabsize=4,                     % default tabsize
+	breaklines=true,                  % automatic line breaking
+	columns=fullflexible,
+	breakautoindent=false,
+	framerule=1pt,
+	xleftmargin=0pt,
+	xrightmargin=0pt,
+	breakindent=0pt,
+	resetmargins=true,
+	backgroundcolor=\color{codebgcolor},
+}
+
+\newcommand{\lstbg}[3][0pt]{{\fboxsep#1\colorbox{#2}{\strut #3}}}
+\lstdefinelanguage{diff}{
+	basicstyle=\ttfamily\footnotesize,
+	morecomment=[f][\lstbg{red!20}]-,
+	morecomment=[f][\lstbg{green!20}]+,
+	morecomment=[f][\textit]{@@},
+	%morecomment=[f][\textit]{---},
+	%morecomment=[f][\textit]{+++},
+}
+
+
+
+% RQ texts in one place
+\newcommand{\secondthesisrqone}{How effectively can GPT-4 automatically fix real-world vulnerabilities in a practical scenario?}
+\newcommand{\secondthesisrqtwo}{Are there any vulnerabilities for which GPT-4 is able to describe a fix, but is unable to generate the appropriate source code?}
+\newcommand{\secondthesisrqthree}{How reliable are the fixes provided by GPT-4 across various runs and CWE categories?}
+
+% Szep RQ
+\newcommand{\rqq}[1]{\textit{\textbf{\text{RQ}$_{#1}$}}}
+% crossed checkmark
+\newcommand{\halfcheckmark}{\checkmark\kern-1.1ex\raisebox{.7ex}{\rotatebox[origin=c]{125}{--}}}
+% smallcaps Top-1
+\newcommand{\topone}{\textsc{Top-1}\xspace}
+\newcommand{\topn}[1]{\textsc{Top-#1}\xspace}
+
+\newcommand{\run}[1]{\textbf{R\textsc{un} \#{#1}}}
+
+\newcommand{\alltestcount}{37}
+
+% RQ1 numbers
+\newcommand{\humancount}[1]{%
+	\ifthenelse{\equal{#1}{1}}{15}{%
+		\ifthenelse{\equal{#1}{2}}{16}{%
+			\ifthenelse{\equal{#1}{3}}{14}{}%
+		}%
+	}%
+}
+\newcommand{\humanrat}[1]{%
+	\ifthenelse{\equal{#1}{1}}{32.61\%}{%
+		\ifthenelse{\equal{#1}{2}}{34.78\%}{%
+			\ifthenelse{\equal{#1}{3}}{30.43\%}{}%
+		}%
+	}%
+}
+\newcommand{\testcount}[1]{%
+	\ifthenelse{\equal{#1}{1}}{12}{%
+		\ifthenelse{\equal{#1}{2}}{14}{%
+			\ifthenelse{\equal{#1}{3}}{11}{}%
+		}%
+	}%
+}
+\newcommand{\testrat}[1]{%
+	\ifthenelse{\equal{#1}{1}}{32.43\%}{%
+		\ifthenelse{\equal{#1}{2}}{37.84\%}{%
+			\ifthenelse{\equal{#1}{3}}{29.73\%}{}%
+		}%
+	}%
+}
+%\newcommand{33.33\%\xspace}{33.33\%\xspace}
+
+% RQ2 numbers
+\newcommand{\usefultextcount}[2]{%
+	\ifthenelse{\equal{#2}{1}}{% if it is 1, all is considered
+		\ifthenelse{\equal{#1}{1}}{27}{% RUN1
+			\ifthenelse{\equal{#1}{2}}{23}{% RUN2
+				\ifthenelse{\equal{#1}{3}}{24}{}% RUN3
+			}%
+		}%
+	}{%if it is not one
+		\ifthenelse{\equal{#2}{2}}{%but equals 2 it is considered to both fails
+			\ifthenelse{\equal{#1}{1}}{9}{%RUN1
+				\ifthenelse{\equal{#1}{2}}{5}{%RUN2
+					\ifthenelse{\equal{#1}{3}}{9}{}%RUN3	
+				}%
+			}%
+		}{}%this is if the second value is not right.
+	}%
+}
+\newcommand{\usefultextrat}[2]{%
+	\ifthenelse{\equal{#2}{1}}{% if it is 1, all is considered
+		\ifthenelse{\equal{#1}{1}}{58.70\%}{% RUN1
+			\ifthenelse{\equal{#1}{2}}{50.00\%}{% RUN2
+				\ifthenelse{\equal{#1}{3}}{52.17\%}{}% RUN3
+			}%
+		}%
+	}{%if it is not one
+		\ifthenelse{\equal{#2}{2}}{%but equals 2 it is considered to both fails
+			\ifthenelse{\equal{#1}{1}}{19.57\%}{%RUN1
+				\ifthenelse{\equal{#1}{2}}{10.87\%}{%RUN2
+					\ifthenelse{\equal{#1}{3}}{19.57\%}{}%RUN3
+				}%
+			}%
+		}{}
+	}%
+}
+
+\newcommand{\consistentcount}{10}
+\newcommand{\consistentrat}{27.03\%}
+\newcommand{\consistentrathigher}{71.43\%}
+\newcommand{\allvulncount}{14}
+
+% CVEFixes numbers
+\newcommand{\cvefixescount}{16}
+\newcommand{\cvefixesrate}{37.50\%}
+\newcommand{\cvefixesusefultextrate}{81.25\%}
+\newcommand{\cvefixesonlytextrate}{43.75\%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% END OF COMMANDS FOR THESIS2 %%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Fixing Vulnerabilities in Real-Word Software}
 \label{chapter_3}
 
 Chapter brief.
 
 \section{Introduction}
-Chapter intro.
-\textit{Structure of the chapter}: Section REF summarizes the related works and briefly presents previous results. The Work I is covered in Section REF. The Work II is covered in Section REF. Result and final thoughts are summarized in Section~\ref{ch3:contrib}.
-\section{Related Works}
-Chapter related research.
+\label{sec:intro}
 
-\section{Chapter Work I.}
-Work I. \cite{b:isis-floodrouting}
-\section{Chapter Work II.}
-Work II.
-\section{Discussion and concluding remarks}
-\label{ch3:contrib}
+In recent years, Large Language Models (LLMs) have gained significant attention across various domains, from psychology~\cite{rathje2023gpt} to medicine~\cite{cheng2023artificial}, but LLMs look highly promising within software engineering, too.
+LLMs primarily deal with textual and linguistic elements, but since source code can also be considered a form of language, it is unsurprising that these models can be employed for tasks involving source code. 
+Most of the LLMs are based on the transformer architecture~\cite{attention} that includes an encoder and a decoder component.
 
-Chapter conclusion.
+%%% possible CUT
+An encoder-based model is BERT~\cite{bert} or CodeBERT~\cite{codebert}, which is designed specifically to work on code.
+BERT models work with masked tokens, and predict them based on the previous and following text, therefore, the generation task is not natural for such models.
+The other part of the transformer architecture is decoders, which are used in the Generative Pre-trained Transformer (GPT) architecture.
+One such model, specifically trained on source code, is Codex~\cite{codex}, which is based on the GPT-3 architecture.
+The latest model publicly available in this lineage is GPT-4.
+
+One of the most promising areas within software engineering that could leverage these models is automatic program repair, as it involves generating new ``text'', the correct source code.
+%\todo{Elengedjuk, h vannak masked toolok is?} -> el :)
+However, there is no or minimal reliable evaluation of the capabilities of such models that would cover real-life systems and fixing actual vulnerabilities.
+To further discover this area, we evaluate the vulnerability-fixing capabilities of GPT-4 on real-world vulnerabilities in a scenario that would be applicable in practice directly.
+Our main goal is to give an objective assessment of the current performance of GPT-4 in terms of automated vulnerability repair that could form a comparison basis in the future (e.g., for further GPT optimizations, prompting techniques, fine-tuned models).
+
+The term software vulnerability does not have a formal definition.
+Possible vulnerabilities can be found in nearly any software system, but we aimed to use documented vulnerabilities that have already occurred in real-world software systems.
+That is precisely why we selected the Vul4J~\cite{vul4j} database as our evaluation benchmark.
+Vul4J consists of 79 real-world Java vulnerabilities and contains detailed information on how the particular issue was mitigated (i.e., the fixing patch).
+A distinct advantage of Vul4J is that it also provides unit tests that trigger the different issues (i.e., a proof-of-vulnerability), which helps the automated and objective assessment of the model-generated results.
+Each of the vulnerability entries in the database is mapped to a specific CVE (short for \textit{Common Vulnerabilities and Exposures})~\cite{cve}.
+
+%\todo{CVE CWE-ről egy kicsit kevesebb s akkor rovidebb az intro? Ezeket ismerik is remelhetoleg}
+CVE is a publicly available database that contains information on security issues explored in real-world systems.
+Each entry in the database has an identifier %(e.g., \textit{CVE-2016-4465})
+that refers to a particular vulnerability.
+CVE entries can be categorized into CWEs (short for \textit{Common Weakness Enumeration})~\cite{cwe}.
+%For example, the category \textit{CWE-20} contains entries related to \textit{Improper Input Validation}.
+CWE is a list of common software and hardware weakness types, and it is widely adopted.
+The MITRE Corporation maintains both CVE and CWE.
+
+With the help of Vul4J, we performed an extensive study on the newest ChatGPT model, GPT-4, using its public API.
+With different prompt engineering techniques, we identified an effective prompt for collecting automated repair of real-world vulnerabilities from the model.
+We executed an automated repair session with GPT-4 three times and evaluated the generated patches with the help of the provided unit tests (i.e., if they pass after the fix).
+We examined all the generated source code and textual responses manually as well.
+With this study, we are searching for the answers to the following research questions:
+
+
+\begin{itemize}
+	\item \rqq{1} : \secondthesisrqone
+	\item \rqq{2} : \secondthesisrqtwo
+	\item \rqq{3} : \secondthesisrqthree
+\end{itemize}
+
+
+We found that GPT-4 performance in the automated repair of security issues averaged 33.33\%\xspace over the runs, considering only the passing unit tests after applying the generated patches.
+The manual evaluation shows even higher acceptance of the generated patches by the developers, who valued the textual instructions and patches requiring minor edits to be applicable, too.
+We also confirmed that even though the model outputs are subject to a degree of randomness across various runs, GPT-4 was able to fix the majority of the same issues in all runs, providing reliable results.
+%%% Next paragraph can be CUT (it is repeated in sec 4.1)
+These results are much worse than those achieved on small, synthetic benchmarks~\cite{quix_bugs_abuser_2}, where the fixing ratio as high as 77.5\% was achieved, but that is expected due to the complexity of real-world vulnerabilities.
+However, the numbers are higher than the 20.4\% achieved by Wu et al.~\cite{same_as_us_but_too_much_hint} in a similar study on Vul4J, despite they also provided the exact line location of the vulnerabilities to the model.
+It shows that the capabilities of LLMs improve continuously and that we are reaching a point where they could be involved in the practical development processes for automated security fixing.
+
+The rest of the paper is organized as follows.
+In Section~\ref{sec:related}, we list other works related to our study and compare them to our work.
+Section~\ref{sec:methodology} presents the methodology we used to conduct the study.
+We present and explain the results of our evaluation in Section~\ref{sec:results}.
+Edge cases are discussed in Section~\ref{sec:discussion}.
+Section~\ref{sec:threats} lists the possible threats to the validity, and Section~\ref{sec:conclusion} concludes our work.
+
+%Supplementary to the paper, we prepared an online appendix, available at \url{https://zenodo.org/records/10056216}.
+
+\section{Related Work}
+\label{sec:related}
+
+Large Language Models can execute a wide range of tasks on source code, among which an important one is fixing errors automatically, especially vulnerabilities~\cite{apr} found in the code.
+Numerous papers address this topic, with relevant works available since GPT-2, for example, Patrik and Wang~\cite{gpt2-code-gen} used GPT-2 to generate program code.
+Lajk\'o et al.~\cite{gpt2-lajko} investigated the bug-fixing capabilities of a finetuned GPT-2 model on BugsJS~\cite{bugs_js}, a dataset containing simple JavaScript bugs.
+Another work from Lajk\'o et al.~\cite{gpt2-lajko2} compares fine-tuned and off-the-shelf versions of GPT-2.
+
+%HP: ezt kivettem, mert vagy teszunk konkret cikkeket, vagy inkabb ne legyen itt az allitas sem
+%The latest models have also been subjected to similar experiments.
+% resulting in fixing 77.5\% of an Automatic Code Repair (APR) benchmark~\cite{quix_bugs_abuser_2}.
+%Even based only on Python docstring it is possible to reach 45\% fixing rate~\cite{codex_bug_fix} on the same benchmark. 
+%These results predominantly yielded positive outcomes, indicating the potential of LLMs in vulnerability fixing.
+%\todoi{HP: ide esetleg ha lehet 1-2 mondatos tomor konkret eredmeny ahelyett h positive outcome?}
+
+%However, a closer examination reveals that the fixed errors or vulnerabilities are often quite trivial or are manually crafted artificial examples.
+%\todoi{HP: ez jo mondat, valami ilyesmit kellene az introba is}
+
+Prenner et al.~\cite{codex_bug_fix} utilized a curated dataset called QuixBugs~\cite{quix_bugs}, containing synthetic examples.
+This dataset comprises 40 simpler programs written in Python and Java, which are intentionally flawed.
+Using OpenAI's Codex, they could fix 57.5\% of the bugs in the dataset by providing the source code and the Python docstring of the defective method to the model.
+Furthermore, the model was able to fix 45\% of the bugs by having only the Python docstring of a defective method.
+In their experiments, the model performed better for Python than for Java source code.
+Similarly, Sobania et al.~\cite{quix_bugs_abuser_2} used QuixBugs for evaluating OpenAI's ChatGPT model.
+They achieved a fixing rate of 77.5\%  for the bugs in the dataset.
+%Ye et al.~\cite{quix_bugs_eval} also utilized QuixBugs for program repair .
+Even though these works report impressive results, it must be noted that all of them are based on a set of small, simple, and synthetic programming issues, which might not reflect real-world challenges accurately.
+Therefore, further evaluation of the performance of these models on more realistic programming issues is needed.
+
+There are works where the automated repair capabilities of GPT models are evaluated on coding errors generated by the models themselves.
+In their study, Charalambous et al.~\cite{bugs_generated} generated flawed code with GPT models, which they then tried to fix automatically.
+Similarly, Hammond et al.~\cite{generate_examples} employed a language model to generate erroneous C code that is used in a fixing task.
+
+While there are works that rely on real examples for evaluating automated program repair, such as the one by Nashid et al.~\cite{real_examples_linting}, fixing 52\% of an APR benchmark, they resolve linting issues instead of real-world vulnerabilities.
+Xia et al.~\cite{apr_defects4j_too} also used real projects for evaluating automated repair techniques using the Defects4J~\cite{defects4j} and the ManyBugs~\cite{many_bugs} datasets.
+However, these contain general software defects and not vulnerabilities specifically.
+%They also used QuixBugs in the evaluation.
+
+Chunqiu et al.~\cite{conversational_bug_fix_1} compared multiple language models for the task of automated repair.
+They performed the repair in a manner that the plausible patches were validated by running test cases and were regenerated if needed.
+Chunqiu and Lingming represent an automated repair tool called AlphaRepair~\cite{line_level_testcase}.
+They used line-level information and validated the plausible fixes against a test suit in an interactive manner.
+Methods that rely on iterative generation and testing based on a test suite are not suitable for the automated repair of software vulnerabilities in practice.
+Test cases in real-life scenarios regarding vulnerabilities are usually not available.
+
+To get a better insight into the practical applicability of GPT-based automated vulnerability repair, we need evaluations that are closer to real-life scenarios.
+This includes real-world, actual examples of vulnerabilities and the omission of tests in the patch generation process.
+Tests should only be applied to validate the correctness of the generated fixes in an automated way.
+One of the rare examples of such studies was done by Wu et al.~\cite{same_as_us_but_too_much_hint}, who used examples from the Vul4J~\cite{vul4j} benchmark and the VJBench, which are a collection of real-life vulnerabilities (with disclosed CVE IDs).
+They evaluated multiple large language models on 42 examples from the benchmarks, which could fix 20.4\% of the vulnerabilities.
+For the Codex model, for example, the authors provided the source code containing the defect where the buggy line was surrounded by comments indicating the place of the bug.
+They also used the test suit for validating possible fixes as they generated multiple candidates and used the \topn{10} results.
+
+In our work, we tested OpenAI's latest model (GPT-4) on 46 real-life examples from Vul4J, where we provided whole classes containing the vulnerable methods to the model, without specific hints on the location of the issue.
+This study setup is much closer to a real-world scenario, thus we could get more detailed information on the true performance of the GPT-4 model.
+%As a more real life scenario, we did not mark the line level bug, as in many cases we could have not done it if the fix required a line insertion.
+The only additional information we provided for the model was the type of vulnerability to fix according to the Common Weaknesses Enumeration (CWE) categorization.
+Even though this information might not always be available in a real-world use case, it is much easier to obtain than the exact line location of the issue (e.g., vulnerability type might be determined based on the behavior of the system during testing or by the experience of the testers).
+Also, we do not rely on unit tests (which are not available in a practical scenario) in the patch generation phase as we evaluated the model on real-life examples and examined the single patch the model produced.
+Therefore, this study brings empirical experiences with GPT-4-based automated vulnerability repair that is closer to practical application than any previous work so far.
+%The CWE info provided for the model seems closer to real life scenarios as line level information often not available but the behavior of the vulnerable program can determine the CWE class.
+
+
+\section{Methodology}
+\label{sec:methodology}
+
+%\begin{figure*}[!htbp]
+%\centering
+%\includegraphics[width=\linewidth]{methodology}
+%\caption{High-level overview of our methodology}
+%\label{fig:methodology}
+%\end{figure*}
+
+%A high-level overview of our methodology is shown in Figure~\ref{fig:methodology}.\todo{Van ertelme ennek az abranak? Elegge trivialis...esetleg kicsit reszletesebb, tobb technikai infoval? Esetleg az evalt kifejteni h test futas, manual, illetve a szovegben a method extract-rol nem is irunk semmit}
+Our applied process can be divided into four major steps: first, we collected the appropriate dataset for evaluating GPT responses.
+Then, we extracted the vulnerable methods' source code, which served as the main input for the model.
+Next, we created the appropriate prompts to be submitted together with the extracted method's source code to GPT.
+Finally, we provided the prompts to the model
+%\footnote{The actual model was gpt-3.5-turbo-16k-0613 and gpt-4-0613.}
+and saved the received responses and source codes.
+Finally, we performed their manual evaluation.
+
+
+\subsection{Data collection}
+
+To perform the evaluation, we needed to obtain real-world vulnerabilities.
+In order to have an objective, (semi-)automatic way to evaluate generated fixes (in addition to manual validation), we considered existing datasets that provide unit tests for each of the contained vulnerabilities.
+One of the most recent but already widely adopted datasets, Vul4J~\cite{vul4j} fulfills all our requirements as it contains real-world vulnerabilities together with triggering unit tests, therefore, we selected it as our benchmark.
+%
+Each entry in the dataset consists of the vulnerable code, a human patch that mitigates the vulnerability, test case(s) that expose(s) the vulnerability, and information for reproducing the vulnerability.
+The dataset contains other relevant information as well, such as the corresponding CVE identifier, CWE, and OWASP category.
+
+The vulnerabilities in Vul4J are diverse, some of the fixes require changes in only one method (mostly \textit{single-line} or \textit{single-hunk} vulnerability fixes), while other vulnerabilities are more complicated to fix.
+They may require several modifications in a single file (i.e., \textit{multi-hunk} vulnerability fixes) or, in the most complex cases, several changes across multiple files to get fixed.
+Automated repair of any arbitrary vulnerability is a great challenge that is reflected by the fact that the state-of-the-art techniques~\cite{fix_llm_with_tests, saha2019harnessing} mostly address single, or at most multi-hunk level fixes but only within a single file.
+%In the case of LLM-based fixing, submitting multi-file, multi-hunk vulnerabilities to the model is cumbersome as in the vast majority of cases the prompt runs out of context based on our experiences\footnote{According to \url{https://platform.openai.com/docs/models/gpt-4}, GPT-4 handles a maximum token number of 32,768 tokens (the summarized token count of the input and output). For illustration, in the case VUL4J-79, a single file with the vulnerability contains more than 24,000 tokens in itself.}.
+Therefore, we also decided to evaluate the capabilities of GPT for single-file fixes, which covers the majority of the dataset.
+%As the current state of automated program repair suggests~\cite{fix_llm_with_tests, saha2019harnessing}, the state-of-the-art techniques mostly work on single-, or at most multi-hunk level, but only on a single file.
+%
+%We have also made some attempts with multi-file, multi-hunk vulnerabilities, however, submitting these files to the model is more cumbersome and in the vast majority of cases we ran out of context\footnote{According to \url{https://platform.openai.com/docs/models/gpt-4}, GPT-4 has a maximum token number of 32,768 tokens (the summarized token count of the input and output). For example, in the case VUL4J-79, a single file with the vulnerability contains more than 24,000 tokens.}.
+%For all the reasons mentioned above, we decided to only test the capabilities of GPT at the state-of-the-art level.
+This would allow researchers to compare our results with those obtained using traditional APR techniques.
+%In line with this, we needed to filter the database.\todo{Az indok szerintem megint mas, inkabb az, hogy technikailag konnyebb volt ezt betaplalni a chatGPT-nek, es mivel a sota is itt tart, ugy dontottunk, hogy egyelore ezen vizsgaljuk mi is a GPT kepessegeit}
+%Our initial tests also showed that GPT could not interpret the relationships between methods in different files correctly in most cases.
+
+Hence, we filtered the database and used only the subset of Vul4J, namely, all vulnerabilities that could be fixed in a single source file (most of them are single-hunk, but a few are multi-hunk fixes).
+This problem relaxation is in line with the state-of-the-art approaches, and if GPT is not able to fix vulnerabilities within a single file, it is unlikely that it would be able to fix vulnerabilities that require several files to be modified.
+However, if the model efficiently fixes single-file vulnerabilities, we can broaden the research scope and consider cross-file vulnerabilities in the future.
+
+From a technical perspective, we used the vulnerability fixing commits to determine how many files and methods were involved in the fixes (we used the GitHub API for this task).
+By filtering the database, we had to omit 33 vulnerabilities that would require more than one source file to be fixed, so we used the remaining 46 vulnerability entries in the further evaluations.
+
+
+\subsection{Method extraction}
+
+The use of neural networks (e.g., LLMs, GPT in our case) in APR can be considered as a neural machine translation task, which means that we provide the model with faulty (vulnerable) source code and we expect to retrieve a fixed source code, where the vulnerability cannot be exploited.
+These techniques naturally require a context of the flawed source code element.
+%For example, class-level context would provide the whole class where the fault occurs, while only the flawed method is provided on the +method level.
+Method-level context is the most commonly used granularity in the literature (\cite{lutellier2020coconut, tufano2019empirical, yuan2022circle}) because it tends to contain sufficient information for the model to work properly, especially in the case of single-hunk bugs.
+Moreover, passing entire files to the model is often technically not feasible.
+Also, such a large amount of data can divert the attention of the model, which can lead to degradation in the result quality.
+Therefore, we also decided to provide the context to the model in the form of the source code of the vulnerable method.
+
+In order to easily extract the methods involved in the vulnerability fixing patches, we implemented a simple command-line application that, based on the Vul4J database (using the \textit{human\_patch} field specifically), extracts the required data through the GitHub API: the vulnerable method(s), the name of the containing class, and the data member(s) of the class.
+We used the \textit{JavaParser} library\footnote{The JavaParser library provides an Abstract Syntax Tree (AST) of a Java code and can be used for various analyses. More information is available at \url{https://javaparser.org/}.} to solve the task by implementing a custom visitor.
+The data members of the class can help the model work more accurately since most of the methods rely somehow on the members of the containing class.
+
+
+\subsection{Prompt creation and prompt engineering}
+
+%\input{tbl/table_sum_pilot}
+
+For querying the GPT API, we need the appropriate prompt(s).
+First, we reviewed the relevant literature~\cite{li2023large,wei2022chain} and tried several prompts by hand (i.e., performed prompt engineering).
+During the prompt engineering step we focused on various prompting, thus investigating what the capabilities of the model are.
+We deliberately created prompts that provide various amount information as the context and we decided to vary the requested output too.
+Part of prompt engineering is the selection of the right temperature.
+We decided to use temperature value of $0.01$ as we wanted no refactoring nor new functionality only fixed version of the same method, thus the creativity level should be lower.
+We also aimed to have a more deterministic behavior, but due to the nature of the model, we still have to investigate the consistency of fixes.
+
+The four most promising of our prompts with the selected temperature were then further refined and tested on ten randomly selected vulnerabilities from Vul4J.
+This was also the test of our prompt execution framework that we developed to run template prompt-based queries through the GPT API quickly, automatically, and in a reproducible way.
+The four most effective prompts were:
+
+\begin{itemize}
+	\item \textbf{GEN3} - This prompt asks the model to generate 3 different diff-like\footnote{\url{https://en.wikipedia.org/wiki/Diff}} fixes for the vulnerability it can find, and explain what is fixed and how it fixes the vulnerability. The model is also asked to select the best fix.
+	\item \textbf{FULL} - This prompt asks the model to patch any vulnerabilities it can find and provide a detailed explanation of its thought process.
+	\item \textbf{YOU\_M} - This prompt asks the model to patch any vulnerabilities it can find and also improve the existing code if the model finds it necessary while keeping its original functionality.
+	\item \textbf{FIND} - The model is asked to find, list, and exploit any vulnerabilities in the source code. After providing a vulnerability-exploiting code, the model should use this to create a fix for the vulnerability.
+\end{itemize}
+
+The exact prompts are available in the online appendix.
+%\footnote{The online appendix is available at \url{https://zenodo.org/records/10056216}}.
+Besides the instructions, we provided the vulnerable method's source code as part of the prompts.
+
+During the evaluation, we noticed that GPT often loses focus.
+Instead of fixing the vulnerability, it performs additional code changes that are not relevant from the security point of view.
+Therefore, we decided to include an additional hint to the model in the form of a description of the vulnerability type
+(CWE identifier, name, and its brief description, e.g., \textit{``Improper Input Validation (CWE-20) - The product does not validate or incorrectly validates input that can affect the control flow or data flow of a program.''}\footnote{The description is taken from \url{https://cwe.mitre.org}, using the \href{https://pypi.org/project/cwe/}{cwe} Python library.}) in the prompts.
+Others encountered the same issue~\cite{same_as_us_but_too_much_hint} and marked vulnerable line(s) explicitly to the model.
+We believe that, in real-life scenarios, this would significantly limit the usability of the approach as developers cannot tell exactly where their software is vulnerable, otherwise, they would not write vulnerable code in the first place.
+However, individuals with project- and domain-specific knowledge, such as software developers and testers, may be able to determine what types of vulnerabilities could potentially occur in the given project; hence, providing vulnerability type-based hints to the model might be less limiting in practice.
+
+
+The selection of vulnerabilities to evaluate different prompts was done in a controlled random manner.
+%, ensuring that as many different types of vulnerabilities as possible were included in the pilot evaluation.
+After selecting and extracting the information needed from the selected vulnerabilities, we ran the different prompts both with GPT-3.5\footnote{The exact version was \textit{gpt-3.5-turbo-16k-0613}.} and GPT-4\footnote{The exact version was \textit{gpt-4-0613}.}.
+To reduce the chance of random results and to get an idea of the reliability of the prompts, we ran the prompts on GPT-4 twice.
+The evaluation of the model results on these 10 randomly selected vulnerabilities was performed based on our evaluation strategy described in Section~\ref{sec:methodology:evaluation}.
+
+To have a more complete picture of the model response quality, we defined several criteria based on the received source code and text, namely: (1) complete source code ($code\_comp$), (2) correct code fix ($code\_corr$), (3) relevant code fix ($code\_rel$), (4) correct fix description ($text\_corr$), and (5) relevant fix description ($text\_rel$).
+We manually examined the responses against these criteria (assigning a score of 0 if the criteria is not met and 1 if it is), and assigned a single score to each prompt according to the following equations:
+%In order to have a measurable metric, for the evaluation of the mentioned criteria, we assigned a score of 0 if the response did not meet the respective criterion and 1 if it did.
+%\todo{Egy nagy keplet a megbeszeles alapjan.}
+
+
+\begin{equation}
+	\label{eq:score_code}
+	score\_code_{i} = code\_comp_{i} + code\_corr_{i} + code\_rel_{i}
+\end{equation}
+\begin{equation}
+	\label{eq:score_text}
+	score\_text_{i} = text\_corr_{i} + text\_rel_{i} 
+\end{equation}
+\begin{equation}
+	\label{eq:score_ex}
+	score_{i} = score\_code_{i} + score\_text_{i}
+\end{equation}
+\begin{equation}
+	\label{eq:score_prompt}
+	score_{prompt} = \sum_{i=1}^{10}score_i
+\end{equation}
+
+We used these scores to determine the model response quality and rank the corresponding prompts.
+Equations~\ref{eq:score_code} and~\ref{eq:score_text} were used to calculate a given vulnerability fix's score with a given prompt (combined in Equation~\ref{eq:score_ex}).
+We calculated the prompt's overall quality by summarizing the scores for all the selected 10 examples (Equation~\ref{eq:score_prompt}).
+The manual validation was performed by at least two authors and was reviewed by at least one (different) author.
+Therefore, at least 3 authors were involved in evaluating each proposed fix.
+After the manual validation, we applied each fix to the code base and ran the corresponding unit tests of the projects.
+
+The prompt evaluation resulted in FULL prompt being the most effective and consistent.
+It was also apparent, that GPT-4 outperformed GPT-3.5, therefore, in the final evaluations we used GPT-4 with the FULL prompt.
+The detailed evaluations performed by us in a table format is available in the online appendix as \textit{prompt\_engineering} tables.
+
+
+We selected the best performing and most consistent prompt, \textit{FULL}, to create our final input template (shown in Listing~\ref{lst:prompt_fullinfo}) to query the GPT API, which we ran on all 46 selected vulnerabilities from Vul4J.
+
+\begin{lstlisting}[caption={Template of the most effective prompt (FULL).},label=lst:prompt_fullinfo,captionpos=b, breaklines=true]
+	You are a senior cyber security specialist and Java developer.
+	You will be given the source code of a Java class where you will find only one vulnerable method. Your task is to patch any vulnerabilities in this method. You will also have access to the description of the Java project and the issue. 
+	Project description: {The description of the project}
+	Issue description: {The description of the CWE}
+	{source code}
+	It is very important for me, please patch the vulnerable code based on your best knowledge based on the given descriptions.
+	Provide the patched source code and write detailed comments about your fix explaining your way of thinking.
+\end{lstlisting}
+
+Our prompts start with a role definition.
+According to the official documentation\footnote{\url{https://platform.openai.com/docs/guides/gpt/chat-completions-api}}, this helps the model understand the context in which it has to work.
+We then explain what inputs the model will receive, what outputs we are expecting, and what is its exact task.
+We also provide the project description (taken from GitHub, e.g., \textit{``An Implementation of the Jakarta RESTful Web Services Specification''}).
+This information helps the model understand the project's domain to pay attention to the domain-specific vulnerabilities.
+%We also provide the project description, which should help the model understand from what domain the source code is coming and what the model should pay close attention to.
+Next, we show the vulnerability category (CWE category) and its description to help the model focus on the appropriate task instead of general code improvements.
+In the following block, we provide the source code of the vulnerable method.
+Finally, we clarify to the model that this task is very important to us as an emotional stimulus can help the model~\cite{li2023large} to produce better results.
+We also ask it to describe its chain of thoughts, which helps the model to improve result accuracy~\cite{wei2022chain}.
+
+%\subsubsection{Prompt engineering}
+
+%We have also used several prompt engineering techniques in the creation of our prompts to ensure that the results are the best possible.
+
+
+\subsection{Evaluation}
+\label{sec:methodology:evaluation}
+
+As GPT-4 results were much more promising in both evaluation rounds in the prompt creation phase, we proceeded with only GPT-4 (the state-of-the-art GPT model) in the complete evaluation.
+We used the most effective prompt (shown in Listing~\ref{lst:prompt_fullinfo}) to evaluate vulnerabilities in Vul4J.
+We also run these prompts three times on every vulnerability to minimize the chance of random results.
+Nevertheless, we handled each run individually, meaning we only used the \topone suggested fixes.
+
+We focused on three main aspects of the model responses during the evaluation, each with several criteria that can be precisely evaluated.
+
+\subsubsection{Format}
+
+First, we examined whether the given response conforms to the requested format, containing both code and natural language text that includes the chain of the model's thoughts.
+\begin{itemize}
+	\item \textbf{Possible values}: true/false.
+\end{itemize}
+Fortunately, this was true for all evaluations in both evaluation rounds.
+
+\subsubsection{Code}
+
+We defined several criteria to evaluate the source code of the model-suggested repair:
+
+\begin{itemize}
+	\item \textbf{Complete.} The code is considered complete when it can be used as-is or with minor modifications, such as adding a missing import. If the given source code contains references to methods that do not exist, we consider it incomplete. This is also the case when a method would need major modifications to be executable.
+	\begin{itemize}
+		\item \textbf{Possible values}: true/false.
+	\end{itemize}
+	
+	\item \textbf{Correct.} % The fix is correct}.
+A fix is considered correct if it directly resolves the contained security issue in the code. If the model does not completely solve the security problem but improves the code in that respect, we classify this criterion as partially true.
+\begin{itemize}
+	\item \textbf{Possible values}: true/false/partially true.
+\end{itemize}
+
+\item \textbf{Relevant.} We consider this criterion to be true if the model focuses solely on the security issue and does not make irrelevant modifications in the code (e.g., it does not rename an irrelevant variable to a more comprehensible name).
+\begin{itemize}
+	\item \textbf{Possible values}: true/false.
+\end{itemize}
+
+\end{itemize} % code
+
+\subsubsection{Text}
+
+Since we asked the model to provide natural language responses  alongside the source code and share its chain of thoughts, we evaluated the provided textual responses using the following criteria:
+
+\begin{itemize}
+
+%  \item \textbf{The natural language response correlates with the given source code}. It is true when the answer and the source code pertain to the same topic.
+%  \begin{itemize}
+	%    \item \textbf{Possible values}: true/false.
+	%  \end{itemize}
+
+\item \textbf{Correct.}  The natural language response describes how to fix the vulnerability. It might give explicit instructions on what the developer should do in order to fix the issue. If the model gives a brief explanation but does not provide precise instructions, we consider the answer partially true.
+\begin{itemize}
+	\item \textbf{Possible values}: true/false/partially true.
+\end{itemize}
+
+\item \textbf{Relevant.} The natural language response addresses (and focuses on) the security issue. 
+We consider this criterion true when the response solely focuses on the security question, does not suggest irrelevant modifications, and does not make irrelevant observations (e.g., the model should not suggest rewriting a recursive call to a for-loop if it does not solve the vulnerability).
+\begin{itemize}
+	\item \textbf{Possible values}: true/false.
+\end{itemize}
+
+%  \item \textbf{The natural text response complements the partially correct source code}. We consider this criterion true if the source code itself is not complete but partially correct and the accompanying textual response clarifies what one should do to complete the code. For example, if the model creates a new method without a body but describes what the developer should do in this method, we consider this criterion true.
+%  \begin{itemize}
+	%    \item \textbf{Possible values}: true/false.
+	%  \end{itemize}
+
+\end{itemize} % text szempont
+
+
+\section{Results}
+\label{sec:results}
+
+As discussed in Section~\ref{sec:methodology:evaluation}, we prompted GPT4 in three sessions and used \topone responses.
+The detailed results according to the evaluation criteria are presented in Table~\ref{tab:sum}.
+We evaluated the generated patches manually and executed the test cases as well.
+Unfortunately, we were unable to execute some test runs with the Vul4J Docker environment due to changes in the repositories, dependencies, and dataset errors.
+Moreover, we encountered another issue, namely that the remaining dataset contained two examples that passed the unit tests even with the original, vulnerable code, therefore, we had to omit those unit tests.
+We discuss these cases in more detail in Section~\ref{sec:discussion:misfortunedataset}.
+As a result, we manually evaluated 46 examples but executed test suites for only \alltestcount{} examples having reliable unit tests.
+All subsequent ratios we report are calculated against the 46 and \alltestcount{} examples for the human evaluated and test passing patches, respectively. 
+
+
+\begin{table*}[!htbp]
+	\caption{Detailed results of all runs}\centering
+
+	\footnotesize
+	\begin{tabular}{|l|lll|ll|ll||lll|ll|ll||lll|ll|ll|}
+		\hline
+		
+		\multirow{3}{*}{Issue \#} & \multicolumn{7}{c|}{Run \#1}                                                                                                                                                                      & \multicolumn{7}{c|}{Run \#2}                    & \multicolumn{7}{c|}{Run \#3}                                                                                                                                                   \\ \cline{2-22}
+		& \multicolumn{3}{c|}{Code}                                                                    & \multicolumn{2}{c|}{Text}                                    & \multicolumn{2}{c|}{Correct Fix}    & \multicolumn{3}{c|}{Code}                                                                    & \multicolumn{2}{c|}{Text}                                    & \multicolumn{2}{c|}{Correct Fix} & \multicolumn{3}{c|}{Code}                                                                    & \multicolumn{2}{c|}{Text}                                    & \multicolumn{2}{c|}{Correct Fix}    \\ \cline{2-22}
+		& \multicolumn{1}{l|}{\rotatebox{90}{Complete}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Manual}} & \rotatebox{90}{Tests} & \multicolumn{1}{l|}{\rotatebox{90}{Complete}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Manual}} &\multicolumn{1}{l|}{\rotatebox{90}{Tests}} & \multicolumn{1}{l|}{\rotatebox{90}{Complete}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Correct}} & \multicolumn{1}{l|}{\rotatebox{90}{Relevant}} & \multicolumn{1}{l|}{\rotatebox{90}{Manual}} &\multicolumn{1}{l|}{\rotatebox{90}{Tests}} \\ \hline
+		\href{https://github.com/alibaba/fastjson/commit/f5903fa56497c00ed0703ac875b511f9bd5f1d8e}{VUL4J-1} & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/xmlgraphics-batik/commit/660ef628d637af636ea113243fe73f170ac43958}{VUL4J-2} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/apache/camel/commit/7d19340bcdb42f7aae584d9c5003ac4f7ddaee36}{VUL4J-3} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/apache/camel/commit/1df559649a96a1ca0368373387e542f46e4820da}{VUL4J-4} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/commons-compress/commit/a080293da69f3fe3d11d5214432e1469ee195870}{VUL4J-5} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/apache/commons-compress/commit/2a2f1dc48e22a34ddb72321a4db211da91aa933b}{VUL4J-6} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/apache/commons-compress/commit/a41ce6892cb0590b2e658704434ac0dbcb6834c8}{VUL4J-7} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/commons-compress/commit/4ad5d80a6272e007f64a6ac66829ca189a8093b9}{VUL4J-8} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/commons-fileupload/commit/163a6061fbc077d4b6e4787d26857c2baba495d1}{VUL4J-10} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/commons-imaging/commit/6a79d35d6654d895d0a4b73b3a9282ec9aaeeb06}{VUL4J-12} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/commons-imaging/commit/f5574bfe285edd79207fe8c30f53cb0af06e26bb}{VUL4J-13} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/apache/cxf/commit/d9e2a6e7}{VUL4J-15} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/cxf/commit/845eccb6484b43ba02875c71e824db23ae4f20c0}{VUL4J-16} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/httpcomponents-client/commit/0554271750599756d4946c0d7ba43d04b1a7b22}{VUL4J-17} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/jspwiki/commit/88d89d6523802c044cfcb7930cba40d8eeb21da2}{VUL4J-18} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/bqcuong/vul4j/commit/c90825da4d28d7b1ae9b1484b9a010206be3dec5}{VUL4J-19} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/apache/pdfbox/commit/0e14d6a42cc965e23bb1b40f04b4c002dc173b88}{VUL4J-20} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/shiro/commit/b15ab927709ca18ea4a02538be01919a19ab65af}{VUL4J-22} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/sling/commit/7d2365a248943071a44d8495655186e4f14ea294}{VUL4J-23} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/sling/commit/fb2719e8299fadddae62245482de112052a0e08c}{VUL4J-24} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/sling-org-apache-sling-xss/commit/ec6764d165abc4df8cffd8439761bb2228887db9}{VUL4J-25} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/struts/commit/a0fdca138feec2c2e94eb75ca1f8b76678b4d152}{VUL4J-26} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/struts/commit/554b9dddb0fbd1e581ef577dd62a7c22955ad0f6}{VUL4J-30} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/apache/struts/commit/237432512df0e27013f7c7b9ab59fdce44ca34a5}{VUL4J-31} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/apache/struts/commit/fc2179cf1ac9fbfb61e3430fa88b641d87253327}{VUL4J-34} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/cloudfoundry/uaa/commit/a61bfabbad22f646ecf1f00016b448b26a60daf}{VUL4J-39} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/cloudfoundry/uaa/commit/daeedbe499453b06856556f5e9f7e80d2d1ceb03}{VUL4J-40} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/codehaus-plexus/plexus-archiver/commit/58bc24e465c0842981692adbf6d75680298989de}{VUL4J-41} & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/ESAPI/esapi-java-legacy/commit/b7cbc53f9cc967cf1a5a9463d8c6fef9ed6ef4f7}{VUL4J-44} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/esigate/esigate/commit/30cad23a8f282600c9b045e1af09f6f8a65357b1}{VUL4J-45} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark &\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/inversoft/prime-jwt/commit/abb0d479389a2509f939452a6767dc424bb5e6ba}{VUL4J-48} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/javamelody/javamelody/commit/aacbc46151ff4ac1ca34ce0899c2a6113071c66e}{VUL4J-50} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/jenkinsci/ccm-plugin/commit/066cb43b4413b3490d822ec8b8a32072ebd213ca}{VUL4J-51} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/jenkinsci/jenkins/commit/e5046911c57e60a1d6d8aca9b21bd9093b0f3763}{VUL4J-53} & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/jenkinsci/jenkins/commit/701ea95a52afe53bee28f76a3f96eb0e578852e9}{VUL4J-54} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/jenkinsci/jenkins/commit/73afa0ca786a87f05b5433e2e38f863826fcad17}{VUL4J-55} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/jenkinsci/pipeline-build-step-plugin/commit/3dfefdec1f7b2a4ee0ef8902afdea720b1572cb3}{VUL4J-57} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$     & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark &
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$\\ 
+		\href{https://github.com/neo4j-contrib/neo4j-apoc-procedures/commit/45bc09c8bd7f17283e2a7e85ce3f02cb4be4fd1a}{VUL4J-61} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/neo4j/neo4j/commit/46de5d01ae2741ffe04c36270fc62c6d490f65c9}{VUL4J-62} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/opennetworkinglab/onos/commit/1a783729a1d7e0cd59d59a8dd3a73cdd6ac0f30d}{VUL4J-63} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/OpenRefine/OpenRefine/commit/6a0d7d56e4ffb420316ce7849fde881344fbf881}{VUL4J-64} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/OpenRefine/OpenRefine/commit/e243e73e4064de87a913946bd320fbbe246da656}{VUL4J-65} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/resteasy/Resteasy/commit/acf15f2a8067f7e4cf5838342cecfa0b78a174fb}{VUL4J-66} & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark\\ 
+		\href{https://github.com/spring-projects/spring-framework/commit/e2d6e709c3c65a4951eb096843ee75d5200cfcad}{VUL4J-69} & \cellcolor{green}\checkmark & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/spring-projects/spring-security/commit/1304c958bf9c38940082f3ad1558d413ed82f2b}{VUL4J-74} & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{red}$\times$ & \cellcolor{lightgray}-\\ 
+		\href{https://github.com/zeroturnaround/zt-zip/commit/759b72f33bc8f4d69f84f09fcb7f010ad45d6fff}{VUL4J-79} & \cellcolor{red}$\times$ & \cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-  & \cellcolor{green}\checkmark & 
+		\cellcolor{yellow}\halfcheckmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{red}$\times$ & \cellcolor{lightgray}-     & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{green}\checkmark & \cellcolor{lightgray}-\\ 
+		\hline
+		Correct & 42 & 13 & 27 & 18 & 26 & 15 & 12 & 40 & 15 & 22 & 19 & 22 & 16 & 14 & 42 & 13 & 28 & 16 & 28 & 14 & 11\\
+		Failed & 4 & 21 & 19 & 19 & 20 & 31 & 25 & 6 & 25 & 24 & 23 & 24 & 30 & 23 & 4 & 22 & 18 & 22 & 18 & 32 & 26\\\hline
+	\end{tabular}
+	\label{tab:sum}
+
+\end{table*}
+
+
+\subsection{Analysis of the generated source codes}
+
+Besides text correctness and source code correctness, which have 3 possible values (true/partially true/false), one of the authors had to decide on a binary category: whether or not they accepted a proposed patch as a valid fix to the vulnerability.
+This decision might include subjective opinion besides the evaluation categories and determines the final result of the manual evaluation.
+In the rest of the paper, manual evaluation refers to this category.
+
+The results show that for \run{1} - \run{3} the passing number of manual evaluation is \humancount{1} (\humanrat{1}), \humancount{2} (\humanrat{2}), and \humancount{3} (\humanrat{3}).
+Evaluation on test cases these numbers were \testcount{1} (\testrat{1}), \testcount{2} (\testrat{2}), and \testcount{3} (\testrat{3}).
+These results are considered after slight refinements on the generated source code.
+In some of the test cases, the test requested a too specific thrown exception or string literals for example.
+Such cases over the three runs were:
+\begin{itemize}
+\item VUL4J-5: The GPT solution did throw an exception, and although it was not the desired type it was similar in meaning.
+\item VUL4J-41: The GPT solution did throw an exception, but the message of the exception was not the expected one.
+\item VUL4J-63: The GPT solution marked the error with a special value (-1 for index) and did not throw an exception.
+\item VUL4J-65: The GPT solution did not handle a vulnerability by detecting it and throwing an exception but by fixing the reason behind it by correcting paths in Path Traversal.
+\end{itemize}
+
+
+We considered these tests passing tests, as these slight refinements did not alter the solution's logic.
+In cases where the original source contained error handling via both return value and exception, we did not accept the return value instead of exception as the original source contained logic for that.
+
+Comparing these results to the related work, we conclude that the results on real-world vulnerabilities are significantly worse than those achieved on synthetic benchmarks (e.g., QuixBugs), where the studies achieved 77.5\%~\cite{quix_bugs_abuser_2} and 57.5\%~\cite{codex_bug_fix} fix rates.
+The work of Wu et al.~\cite{same_as_us_but_too_much_hint} shows similar results to ours; they observed a 20.4\% fix rate.
+We got slightly better results even without providing the line-level location of the vulnerabilities to fix.
+
+This shows the continuous improvement in the fix generation capabilities of GPT models, and results suggest that automatically generated vulnerability fixes could be really useful for developers.
+
+
+\begin{framed}
+\noindent \rqq{1}: \textbf{\secondthesisrqone}
+
+\noindent With knowing only the vulnerability type, GPT-4 generated \testcount{1}, \testcount{2}, and \testcount{3} passing fixes, achieving \testrat{1}, \testrat{2}, and \testrat{3} fixing rates, respectively for \run{1}, \run{2} and \run{3} (an average of 33.33\%\xspace).
+
+\noindent On the one hand, these results are well under-performing compared to those obtained on small, synthetic data sets.
+On the other hand, the results we obtained are similar and even slightly better than those reported in studies working with real-world vulnerabilities, even though we do not provide line-level information on the vulnerability location or the exact vulnerability.
+These results open the possibilities for future applications in a semi- or fully-automated manner.
+\end{framed}
+%\todo{Az volt, h ne hasonlitsuk magunkat jobbkent, nem? Azert vettem ki a slightly bettert.}
+
+\subsection{Analysis of the textual responses}
+%\secondthesisrqtwo
+
+As the previously presented results suggest, it is evident that not all of the generated fixes are acceptable.
+However, our prompt requested textual instructions alongside the source code as well.
+
+In cases where the generated code passed the tests, the useful text instructions are not surprising.
+Intuitively, the failing source code is paired with unhelpful text.
+However, there were interesting cases where, even though the generated code failed to fix the vulnerability, the provided textual instructions were considered to be useful or at least acceptable by the evaluators.
+Such an example is VUL4J-7.
+The GPT-generated failing code (highlighted in red) is compared to the correct fix (highlighted in green) in Listing~\ref{lst:failing_code_vul4j7}.
+
+\begin{lstlisting}[caption={GPT-4 generated failing fix for VUL4J-7 in \run{1}},label=lst:failing_code_vul4j7,captionpos=b, keepspaces=true, language=diff]
+// ...
+final int l = in.read(buf.array());
+-    if (l == -1 || l == 0) {
+	-      return -1;
+	+    if (l == -1) {
+		+      buf.limit(0);
+		+      throw new IOException("Truncated ZIP file");
+	}
+	// ...
+\end{lstlisting}
+
+As seen in the diff, the human patch used the \codeformat{-1} value of \codeformat{l} as an indicator of error and an exception is thrown.
+In this case, we could not overlook this return statement in place of an exception as other difference is found, such as setting the limit value, preventing further usage of the buffer.
+GPT did not do this setting, therefore, even with a thrown exception, the fix would not pass.
+
+Although the source code is not correct, the generated text could be useful for developers.
+In Listing~\ref{lst:failing_but_helpful}, the model tells about a potential infinite loop and mentions that the buffer usage is related to the buffer's limit, which is exactly the key to the correct fix.
+As seen, useful texts do not necessarily contain exact solutions or mitigate the desired vulnerability as is, but contain key concepts that should be checked and may lead to a correct vulnerability fix.
+
+
+\begin{lstlisting}[caption={Helpful answer but failing code (VUL4J-7, R\textsc{un} \#1)},label=lst:failing_but_helpful,captionpos=b,breaklines=true]
+	The vulnerability in the code is that it can potentially enter an infinite loop if the InputStream 'in' returns 0 when the 'read' method is called. This can happen if the InputStream is blocked or if it is reading from an empty source. In such a case, the 'readStored' method will keep looping indefinitely because the condition 'buf.position() >= buf.limit()' will always be true and 'in.read(buf.array())' will always return 0, which is not equal to -1.
+	To fix this, we need to add a check to ensure that 'in.read(buf.array())' does not return 0. If it does, we should break the loop and return -1 to indicate that the end of the stream has been reached.
+	<FAILING CODE>
+\end{lstlisting}
+
+
+To answer our second research question, we investigate if similar cases are common and whether the generated text can be used even if the provided fixing code fails.
+We had to consider the cases where the manual evaluation marked the text correctness ``true'' or ``partially true'', but both the test and human evaluation marked the source code as invalid.
+
+In \run{1}, for \usefultextcount{1}{1} (\usefultextrat{1}{1}) cases, the textual instructions provided by the model were helpful, and in \usefultextcount{1}{2} (\usefultextrat{1}{2}) cases, the generated code failed both evaluations (manual and test), but the text was marked as useful.
+In \run{2}, for \usefultextcount{2}{1} (\usefultextrat{2}{1}) cases, the textual instructions provided by the model were helpful, and in only \usefultextcount{2}{2} (\usefultextrat{2}{2}) cases, the generated code failed both evaluations.
+Regarding \run{3}, \usefultextcount{3}{1} (\usefultextrat{3}{1}) answers contained useful information.
+However, in \usefultextcount{3}{2} (\usefultextrat{3}{2}) cases, both evaluations failed.
+We must note that the lower percentage in \run{2} is due to more passing examples in both human and test evaluations.
+
+
+\begin{framed}
+	\noindent \rqq{2}: \textbf{\secondthesisrqtwo}
+	
+	\noindent Requesting textual fixes seems to be valuable in \usefultextrat{1}{1}, \usefultextrat{2}{1}, and \usefultextrat{3}{1} of the cases.
+	Moreover, in \usefultextrat{1}{2}, \usefultextrat{2}{2}, and \usefultextrat{3}{2} of the cases (first, second and third run, respectively), only the text response turned out to be useful, but the provided source code was not.
+	The textual fixes have great potential in semi-automated program repair and source code review.
+\end{framed}
+
+
+\subsection{Reliability analysis}
+
+We examined how effectively can the generated source code or textual solution be used for APR as \topone values.
+An important property of APR tools is reliability, meaning that they can produce fixes for the same issues in a consistent manner.
+
+
+We already showed that the generated source code passed in \testcount{1} (\testrat{1}), \testcount{2} (\testrat{2}), and \testcount{3} (\testrat{3}) cases out of \alltestcount{}, respectively to \run{1}, \run{2}, and \run{3}, but we have not yet examined whether there is any intersection of these fixes.
+No or minimal overlap would suggest that the model cannot be safely used at all as there is no consistency in its knowledge (i.e., it would be random whether a certain issue can be fixed or not).
+After examining our results, we can see that \consistentcount{} examples were fixed in all runs, which, relative to the \alltestcount{} examples, is \consistentrat{}.
+We must note, that it is nearly the whole set of \run{1} and \run{3}, which means a very consistent result.
+Nevertheless, if we compare to the vulnerabilities that GPT was able to fix at least once (there were \allvulncount{} such vulnerabilities in total), the fixing rate rises to \consistentrathigher{}.
+It shows minimal variety in model performance across the different runs.
+Of course, these are the results of just three runs, but it is already very promising.
+As in RQ1, compared to Wu et al.~\cite{same_as_us_but_too_much_hint}, the results show similarities with consistent fixes.
+
+
+\begin{table}[!htbp]
+	\caption{Pass/Fail ratios for consistently fixed CWEs.}\centering
+
+	\footnotesize
+	\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|l|p{0.08cm}|p{0.84cm}|p{0.84cm}|p{0.84cm}|p{0.84cm}|p{0.84cm}|p{0.84cm}|}
+			\hline
+			\multirow{2}{*}{CWE} & \multirow{2}{*}{$\sum$}& \multicolumn{2}{c|}{\run{1}}&\multicolumn{2}{c|}{\run{2}}&\multicolumn{2}{c|}{\run{3}} \\ \cline{3-8} 
+			&& \multicolumn{1}{c|}{Passing} & \multicolumn{1}{c|}{Failing} & \multicolumn{1}{c|}{Passing} & \multicolumn{1}{c|}{Failing} & \multicolumn{1}{c|}{Passing} & \multicolumn{1}{c|}{Failing}\\ \hline
+			CWE-20 & 5 & 1 (20\%) & 4 (80\%) & 1 (20\%) & 4 (80\%) & 1 (20\%) & 4 (80\%) \\ 
+			CWE-22 & 3 & 2 (66.7\%) & 1 (33.3\%) & 2 (66.7\%) & 1 (33.3\%)& 2 (66.7\%) & 1 (33.3\%) \\ 
+			CWE-611 & 4 & 2 (50\%) & 2 (50\%) & 3 (75\%) & 1 (25\%) & 2 (50\%) & 2 (50\%) \\ 
+			CWE-79 & 4 & 1 (25\%) & 3 (75\%) & 2 (50\%) & 2 (50\%) & 2 (50\%) & 2 (50\%) \\ 
+			CWE-835 & 6 & 2 (33.3\%) & 4 (66.7\%) & 2 (33.3\%) & 4 (66.7\%) & 1 (16.7\%) & 5 (83.3\%) \\ 
+			\hline
+		\end{tabular}
+	}
+	\label{tab:sum_cat}
+\end{table}
+
+
+We examined what could be the root of consistency.
+One possibility is the vulnerability type (i.e., CWE category).
+We investigated if vulnerabilities coming from particular CWE categories are the ones the model could consistently fix.
+The \consistentcount{} examples fixed in all runs have the following CWE categories: CWE-20 \textit{(Improper Input Validation)}, CWE-22 \textit{(Path Traversal)}, CWE-79 \textit{(Cross-site Scripting)}, CWE-611 \textit{(Improper Restriction of XML External Entity Reference)}, and CWE-835 \textit{(Infinite Loop)}.
+The majority of these categories are related to input parsing/handling, therefore, we investigated if the model tends to fix vulnerabilities of these types correctly.
+Upon examining Table~\ref{tab:sum_cat}, we can see that these CWE categories do appear with a great percentage in the failing examples as well; thus, the CWE category cannot be the root of consistency.
+
+Another possibility for explaining the consistency is the characteristics of the fixes.
+We examined the generated code of the \consistentcount{} vulnerabilities fixed in both runs and found that the fixes mostly relate to good Java (and programming) practices.
+We categorized the changes as follows:
+
+
+\begin{itemize}
+	\item \textbf{More restrictive configurations}: The model makes additional settings on the used objects, such as disabling the DTD. VUL4J-3, VUL4J-61, and VUL4J-64 fall into this category.
+	\item \textbf{More rigorous input validation}: In the cases of VUL4J-5, VUL4J-13, VUL4J-34, VUL4J-41, VUL4J-63, VUL4J-65, and VUL4J-66 the model enhanced the validation of the inputs in order to filter vulnerable inputs.
+\end{itemize}
+
+Therefore, issues with these kinds of fixes tend to be produced consistently by GPT-4.
+\begin{framed}
+	\noindent \rqq{3}: \textbf{\secondthesisrqthree}
+	
+	\noindent To summarize all the results, GPT-4 fixes are reliable across individual runs, reaching a \consistentrat{} pass ratio considering all runs.
+	Considering the separate runs, we can state that fixes are reliable and consistent, but consistency is not related to vulnerability types but rather to good practices.
+\end{framed}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Discussion of the results}
+
+In this section, we discuss the interesting cases not addressed in Section~\ref{sec:results}.
+Such cases are those where one of the evaluation criteria accepts the fixes, while the other rejects them, i.e., when the evaluations (human and unit test) do not match.
+We discuss in more detail what could be the reason behind such results and what our sanity check revealed.
+We also discuss what steps were taken in order to maintain the validity of our results.
+
+\subsubsection{Manually accepted cases where the tests failed}
+\label{sec:discussion:manfail}
+While most examples yielded matching results for both the manual and unit test evaluation, there were cases where the manual checks accepted the fix but the associated unit test failed.
+Even though there were only a handful of these cases, we still find it important to investigate further whether the reason was human error or too specific tests.
+
+In all runs of VUL4J-39, the manual evaluation accepted the fix, but the unit tests failed.
+The vulnerability lies in the \codeformat{toString()} method, where the returned string contains three values: \textit{remoteAddress}, \textit{clientID}, and \textit{sessionID}.
+The project's developers rightfully considered the \textit{sessionID} to be sensitive data (hence, this issue belongs to CWE-200, Exposure of Sensitive Information); therefore, they deleted it from \codeformat{toString()}.
+In both attempts, the GPT had removed not only the \textit{sessionID} but also the \textit{clientID}.
+As the prompt requested, it also explained its decision: \textit{"The clientId and sessionId are sensitive because they can be used to impersonate a user or a client."}.
+We agreed with its reasoning and accepted the fix as it just adds another layer of security.
+
+The test cases failed because they expected the \textit{clientID} to be still present in the returned string.
+Without in-depth knowledge of the project, we did not see the necessity for including those values.
+This scenario emphasizes the importance of aligning human understanding and automated testing criteria, ensuring both are in sync to achieve the desired security outcome.
+
+\subsubsection{Examples that failed the sanity check}
+\label{sec:discussion:misfortunedataset}
+We performed a sanity check before running the user study to check if the results of the tests were reliable.
+We found that the tests of two examples must not be considered during the evaluations as they failed the check.
+
+The VUL4J-30 example passed the test suite with both the vulnerable and fixed code versions.
+Therefore, there is no wonder that the manual evaluation rejected the fix for VUL4J-30 despite the test cases passing.
+Any solution that keeps the core functionality intact should pass, making this example unreliable in our evaluation.
+
+The function in question is \codeformat{validate()}, which is supposed to validate a URL.
+The function contains an improper input validation vulnerability (CWE-20).
+The human fix solved this by simply removing the leading and trailing whitespaces in the regular expression's matching.
+%
+However, GPT partially rewrites the method's logic and breaks the original \textit{if} into smaller code snippets.
+The only new functionality GPT made is an exception handling in the method, as it tries to parse the input string as a URL as an alternative method of validating it.
+Since it does not take care of input trimming, we decided to reject this fix because the vulnerability was still present in the source code.
+However, due to a faulty test, it passed the unit testing check.
+
+
+Another example that failed the sanity check is VUL4J-19.
+In this case, the vulnerable version passes the test suite, just like VUL4J-30, but the fixed version fails.
+This phenomenon must be related to the fact that the tests were not updated for the fixed version.
+The vulnerable method, \codeformat{prepareForDecryption()}, misses setting the read-only flag for a particular document.
+The human fix simply passed the required flag during the document decryption process, which makes the test case fail.
+Any solution not setting it can pass if other parts of the code are intact, therefore, the tests of this example cannot be used either.
+
+\subsubsection{Other interesting cases}
+\label{sec:discussion:interesting}
+Although we rejected the GPT's solution, from the three runs of VUL4J-25, we considered interesting the cases of \run{1} and \run{2}.
+Not only did our manual validation reject the solution, but the generated fix failed on the unit tests as well.
+The reason behind this is a string mismatch seen in Listing~\ref{lst:vul4j25}.
+
+\begin{lstlisting}[caption={Expected and obtained return values for VUL4J-25}, label=lst:vul4j25, captionpos=b, breaklines=true, keepspaces=true, language=diff]
+	+ <test[?discount=]25%25>              // Expected
+	- <test[%3Fdiscount%3D]25%25>          // RUN1 fix
+	- <test[&#x3f;discount&#x3d;25&#x25;]> // RUN2 fix
+\end{lstlisting}
+
+The \codeformat{getValidHref()} method is supposed to sanitize a given URL for writing as an HTML \verb|href| or \verb|src| attribute value (CWE-79, Cross-site Scripting).
+The GPT-generated version encoded everything with an API call, which encoded all characters like \verb|?| as well, breaking the link, while the original code used \codeformat{replaceAll} methods for encoding only specific characters of the URL instead of proper parameter handling.
+Various characters like \verb|=| or \verb|&| are not encoded as they are URL special characters, although attackers could use them to their advantage and provide additional parameters.
+Therefore, the proposed fix of the GPT is more secure, but it breaks existing (not necessarily that secure) functionality.
+Should the project developers follow the common practice, the generated fix would have been acceptable.
+In the case of \run{3}, the GPT solution resulted in an exception during the test execution.
+
+\subsection{Cross-validation}
+
+We wanted to ensure that our results are not due to the GPT having learned all CVE entries up to its cutoff date\footnote{According to the model itself and the official \href{https://web.archive.org/web/20231028225852/https://platform.openai.com/docs/models/gpt-4}{documentation}, the cutoff date was in September 2021.}, so we also considered a dataset that contains data after this date.
+%
+Thus, we selected a vulnerability database called CVEFixes~\cite{bhandari2021cvefixes}.
+CVEFixes is an automatically collected comprehensive dataset of vulnerabilities with a CVE record.
+It provides detailed information about CVEs at different levels of abstraction.
+In our study, we used it at the CVE level and filtered its entries.
+CVEFixes was initially released in 2021, however, the last update happened on August 28, 2022\footnote{The latest version is available on \href{https://zenodo.org/record/7029359}{https://doi.org/10.5281/zenodo.7029359}.}, and the last CVE record in the database was fixed on August 1, 2022.
+We only used vulnerability entries that were fixed after September 2021 (there were \cvefixescount{} such vulnerabilities, the oldest of which was from October 2021).
+This ensures that we only take into account vulnerabilities that the GPT has no way of knowing about.
+
+Since CVEFixes is an automatically collected dataset, there may not be a corresponding test case for each vulnerability fix, as opposed to the case of Vul4J, where each fix had at least one unit test that exposed the vulnerability.
+Setting up projects and writing vulnerability-exposing test cases would have been time-consuming (and error-prone).
+Consequently, the results of the CVEFixes vulnerabilities were only evaluated manually, and no unit tests were run in these cases.
+Apart from the database, the other steps of the process were the same as those described in Section~\ref{sec:methodology}.
+
+\textbf{Results}.
+CVEFixes is used to validate our findings and show that the results are not connected with GPT fitting to CVE entries.
+If we get a similar success rate of the GPT model on examples never seen by the GPT model for sure, it supports the validity of our empirical results.
+Next to the success rate of the generated patches, we also expect that the model will be able to provide useful textual instructions even for some of the cases where it cannot generate a viable fixing patch.
+
+The manual evaluation showed a \cvefixesrate{} fixing rate\footnote{Available in the online appendix.} of the GPT on CVEFixes.
+This is in line with the evaluation results we got for the Vul4J database.
+We found the generated textual instructions to be relevant in \cvefixesusefultextrate{} of the cases, among which \cvefixesonlytextrate{} had useful text but an invalid fix.
+These results also fit our evaluation study outcome.
+Overall, the cross-validation results on CVEFixes suggest that the Vul4J results are not the consequence of model overfitting.
+
+\section{Threats to Validity}
+\label{sec:threats}
+
+
+% db selection, altalanositas
+An obvious threat could be the validity of the selected data source.
+We selected Vul4J~\cite{vul4j}, a manually curated set of vulnerabilities, which is used by other works~\cite{pinconschi2022maestro, papotti2022acceptance, dietrich2023security, garg2023guiding} despite its recent appearance.
+Furthermore, we also consider that since this database is a hand-curated collection, it may not necessarily apply to all vulnerabilities.
+We attempted to mitigate this by including another vulnerability database (CVEFixes) in our study.
+
+% gpt pre-trained?
+This further reduces the possibility that the model has already learned the vulnerabilities because we only used a subset of the CVEFixes database, precisely we included the vulnerabilities that were discovered and fixed after the GPT-4 learning cutoff date (in contrast, most vulnerabilities in Vul4J have already been discovered and fixed before 2021).
+
+One threat to our results could be the probabilistic nature of the model.
+We mitigated this by running our analyses twice.
+
+% hibas kiertekeles
+Another threat would be the possibility of making mistakes during the manual evaluation.
+We attempted to mitigate this by documenting all evaluation criteria before starting the evaluations.
+We did our best to adhere to these criteria during the evaluations.
+Furthermore, each evaluated data was reviewed by at least one additional author.
+
+%kodok minosege
+A potential threat could be errors in the scripts we created.
+To prevent this, we performed thorough code reviews when the codes were completed, and at least one author also manually tested the final scripts.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+In conclusion, our research presents the value of using GPT-4 in vulnerability fixing, particularly for real-world security issues in a practically applicable scenario.
+In contrast to many related works, we took a unique approach by emphasizing real-world relevance.
+Our evaluation included objective test cases and human evaluations, which reveal whether developers could use or at least accept such solutions.
+
+The key findings from our study are
+1) GPT-4's ability to automatically fix vulnerabilities in real-world scenarios is far from perfect, although it shows promising results (33.33\%\xspace fix ratio on average).
+2) While GPT-4 might face challenges in generating the exact fix for complex issues, its generated texts seem quite useful for developers.
+3) GPT-4's reliable fixes are primarily simple, good-practice solutions.
+
+In summary, GPT-4 represents a significant advancement in automatic vulnerability fixing, with the potential to enhance security efforts.
+However, ongoing research and development are essential to optimize its performance further and address complex security challenges effectively.
+Our work can serve as a baseline for future comparisons on real-world automated vulnerability repair.
+
+
+\section*{Data Availability}
+The online appendix and the data used to create this paper is available at \url{https://doi.org/10.5281/zenodo.10529405}.
+
 
 The author of this PhD thesis is responsible for the following contributions presented in this chapter:
 \begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]

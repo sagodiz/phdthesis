@@ -1,62 +1,1158 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% NSF-SSE proposal publications %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-@article{b:isis-tracking-techreport,
-    author      = "Branislav Kus\'y and J\'anos Sallai",
-    title       = "Analytical solution for radio-interferometric localization of mobile sensors",
-    journal     = "Technical Report (ISIS-06-710), http://www.isis.vanderbilt.edu",
-    institution = "Institute for Software Integrated Systems, Vanderbilt University",
-    address     = "Nashville, Tennessee",
-    month       = dec,
-    url         = "http://www.isis.vanderbilt.edu",
-    year        = "2007",
+%%%%%%%%%%%%%%%%%%% COMMON REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%
 
+@misc{codex,
+	author = {Mark Chen and Jerry Tworek and Heewoo Jun and Qiming Yuan and Henrique Ponde de Oliveira Pinto and Jared Kaplan and Harri Edwards and Yuri Burda and Nicholas Joseph and Greg Brockman and Alex Ray and Raul Puri and Gretchen Krueger and Michael Petrov and Heidy Khlaaf and Girish Sastry and Pamela Mishkin and Brooke Chan and Scott Gray and Nick Ryder and Mikhail Pavlov and Alethea Power and Lukasz Kaiser and Mohammad Bavarian and Clemens Winter and Philippe Tillet and Felipe Petroski Such and Dave Cummings and Matthias Plappert and Fotios Chantzis and Elizabeth Barnes and Ariel Herbert-Voss and William Hebgen Guss and Alex Nichol and Alex Paino and Nikolas Tezak and Jie Tang and Igor Babuschkin and Suchir Balaji and Shantanu Jain and William Saunders and Christopher Hesse and Andrew N. Carr and Jan Leike and Josh Achiam and Vedant Misra and Evan Morikawa and Alec Radford and Matthew Knight and Miles Brundage and Mira Murati and Katie Mayer and Peter Welinder and Bob McGrew and Dario Amodei and Sam McCandlish and Ilya Sutskever and Wojciech Zaremba},
+	title  = {Evaluating large language models trained on code},
+	year   = {2021}
+}
+
+@inproceedings{vul4j,
+	author = {Bui, Quang-Cuong and Scandariato, Riccardo and Ferreyra, Nicol\'{a}s E. D\'{\i}az},
+	title = {Vul4J: A Dataset of Reproducible Java Vulnerabilities Geared towards the Study of Program Repair Techniques},
+	year = {2022},
+	isbn = {9781450393034},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3524842.3528482},
+	doi = {10.1145/3524842.3528482},
+	abstract = {In this work we present Vul4J, a Java vulnerability dataset where each vulnerability is associated to a patch and, most importantly, to a Proof of Vulnerability (PoV) test case. We analyzed 1803 fix commits from 912 real-world vulnerabilities in the Project KB knowledge base to extract the reproducible vulnerabilities, i.e., vulnerabilities that can be triggered by one or more PoV test cases. To this aim, we ran the test suite of the application in both, the vulnerable and secure versions, to identify the corresponding PoVs. Furthermore, if no PoV test case was spotted, then we wrote it ourselves. As a result, Vul4J includes 79 reproducible vulnerabilities from 51 open-source projects, spanning 25 different Common Weakness Enumeration (CWE) types. To the extent of our knowledge, this is the first dataset of its kind created for Java. Particularly, it targets the study of Automated Program Repair (APR) tools, where PoVs are often necessary in order to identify plausible patches. We made our dataset and related tools publically available on GitHub.},
+	booktitle = {Proceedings of the 19th International Conference on Mining Software Repositories},
+	pages = {464–468},
+	numpages = {5},
+	keywords = {vulnerability, java, program repair},
+	location = {Pittsburgh, Pennsylvania},
+	series = {MSR '22}
+}
+
+@inproceedings{attention,
+	author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, \L{}ukasz and Polosukhin, Illia},
+	title = {Attention is All You Need},
+	year = {2017},
+	isbn = {9781510860964},
+	publisher = {Curran Associates Inc.},
+	address = {Red Hook, NY, USA},
+	abstract = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.},
+	booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+	pages = {6000–6010},
+	numpages = {11},
+	location = {Long Beach, California, USA},
+	series = {NIPS'17}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% END OF COMMON REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%% Thesis1 references %%%%%%%%%%%%%%%%%%%%%%%
+%done
+@incollection{lamda,
+	title	= {LaMDA: Language Models for Dialog Applications},
+	author	= {Aaron Daniel Cohen and Adam Roberts and Alejandra Molina and Alena Butryna and Alicia Jin and Apoorv Kulshreshtha and Ben Hutchinson and Ben Zevenbergen and Blaise Hilary Aguera-Arcas and Chung-ching Chang and Claire Cui and Cosmo Du and Daniel De Freitas Adiwardana and Dehao Chen and Dmitry (Dima) Lepikhin and Ed H. Chi and Erin Hoffman-John and Heng-Tze Cheng and Hongrae Lee and Igor Krivokon and James Qin and Jamie Hall and Joe Fenton and Johnny Soraker and Kathy Meier-Hellstern and Kristen Olson and Lora Mois Aroyo and Maarten Paul Bosma and Marc Joseph Pickett and Marcelo Amorim Menegali and Marian Croak and Mark Díaz and Matthew Lamm and Maxim Krikun and Meredith Ringel Morris and Noam Shazeer and Quoc V. Le and Rachel Bernstein and Ravi Rajakumar and Ray Kurzweil and Romal Thoppilan and Steven Zheng and Taylor Bos and Toju Duke and Tulsee Doshi and Vincent Y. Zhao and Vinodkumar Prabhakaran and Will Rusch and YaGuang Li and Yanping Huang and Yanqi Zhou and Yuanzhong Xu and Zhifeng Chen},
+	year	= {2022},
+	booktitle	= {arXiv}
+}
+%done
+@article{gpt3,
+	title={Language models are few-shot learners},
+	author={Brown, Tom and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared D and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and others},
+	journal={Advances in neural information processing systems},
+	volume={33},
+	pages={1877--1901},
+	year={2020}
+}
+
+%done
+@ARTICLE{static_analysis_poc, 
+	author={Black, Paul},
+	journal={IEEE Security \& Privacy},
+	title={Static Analyzers: Seat Belts for Your Code},
+	year={2012},
+	volume={10},
+	number={3},
+	pages={48-52},
+	doi={10.1109/MSP.2012.2}
+}
+%done
+@article{static_analyzer_comparison,
+	title={Benchmarking approach to compare web applications static analysis tools detecting OWASP top ten security vulnerabilities},
+	author={Higuera, Juan R Bermejo and Higuera, Javier Bermejo and Montalvo, Juan A Sicilia and Villalba, Javier Cubo and P{\'e}rez, Juan Jos{\'e} Nombela},
+	journal={Comput. Mater. Continua},
+	volume={64},
+	number={3},
+	pages={1555--1577},
+	year={2020}
+}
+%done
+@inproceedings{static_analyzer1,
+	author = {Samhi, Jordan and Gao, Jun and Daoudi, Nadia and Graux, Pierre and Hoyez, Henri and Sun, Xiaoyu and Allix, Kevin and Bissyand\'{e}, Tegawend\'{e} F. and Klein, Jacques},
+	title = {JuCify: A Step towards Android Code Unification for Enhanced Static Analysis},
+	year = {2022},
+	isbn = {9781450392211},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3510003.3512766},
+	doi = {10.1145/3510003.3512766},
+	abstract = {Native code is now commonplace within Android app packages where it co-exists and interacts with Dex bytecode through the Java Native Interface to deliver rich app functionalities. Yet, state-of-the-art static analysis approaches have mostly overlooked the presence of such native code, which, however, may implement some key sensitive, or even malicious, parts of the app behavior. This limitation of the state of the art is a severe threat to validity in a large range of static analyses that do not have a complete view of the executable code in apps. To address this issue, we propose a new advance in the ambitious research direction of building a unified model of all code in Android apps. The JuCify approach presented in this paper is a significant step towards such a model, where we extract and merge call graphs of native code and bytecode to make the final model readily-usable by a common Android analysis framework: in our implementation, JuCify builds on the Soot internal intermediate representation. We performed empirical investigations to highlight how, without the unified model, a significant amount of Java methods called from the native code are "unreachable" in apps' call-graphs, both in goodware and malware. Using JuCify, we were able to enable static analyzers to reveal cases where malware relied on native code to hide invocation of payment library code or of other sensitive code in the Android framework. Additionally, JuCify's model enables state-of-the-art tools to achieve better precision and recall in detecting data leaks through native code. Finally, we show that by using JuCify we can find sensitive data leaks that pass through native code.},
+	booktitle = {Proceedings of the 44th International Conference on Software Engineering},
+	pages = {1232–1244},
+	numpages = {13},
+	location = {Pittsburgh, Pennsylvania},
+	series = {ICSE '22}
+}
+%done
+@inproceedings{static_analyzer2,
+	author = {Zhang, Ying and Xiao, Ya and Kabir, Md Mahir Asef and Yao, Danfeng (Daphne) and Meng, Na},
+	title = {Example-Based Vulnerability Detection and Repair in Java Code},
+	year = {2022},
+	isbn = {9781450392983},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3524610.3527895},
+	doi = {10.1145/3524610.3527895},
+	abstract = {The Java libraries JCA and JSSE offer cryptographic APIs to facilitate secure coding. When developers misuse some of the APIs, their code becomes vulnerable to cyber-attacks. To eliminate such vulnerabilities, people built tools to detect security-API misuses via pattern matching. However, most tools do not (1) fix misuses or (2) allow users to extend tools' pattern sets. To overcome both limitations, we created Seader---an example-based approach to detect and repair security-API misuses. Given an exemplar (insecure, secure) code pair, Seader compares the snippets to infer any API-misuse template and corresponding fixing edit. Based on the inferred info, given a program, Seader performs inter-procedural static analysis to search for security-API misuses and to propose customized fixes.For evaluation, we applied Seader to 28 (insecure, secure) code pairs; Seader successfully inferred 21 unique API-misuse templates and related fixes. With these (vulnerability, fix) patterns, we applied Seader to a program benchmark that has 86 known vulnerabilities. Seader detected vulnerabilities with 95\% precision, 72\% recall, and 82\% F-score. We also applied Seader to 100 open-source projects and manually checked 77 suggested repairs; 76 of the repairs were correct. Seader can help developers correctly use security APIs.},
+	booktitle = {Proceedings of the 30th IEEE/ACM International Conference on Program Comprehension},
+	pages = {190–201},
+	numpages = {12},
+	keywords = {pattern inference, inter-procedural analysis, vulnerability repair},
+	location = {Virtual Event},
+	series = {ICPC '22}
+}
+%done
+@article{rex,
+	title={ReX: A Framework for Generating Local Explanations to Recurrent Neural Networks},
+	author={Junhao Liu and Xin Zhang},
+	journal={ArXiv},
+	year={2022},
+	volume={abs/2209.03798},
+	url={https://api.semanticscholar.org/CorpusID:252118969}
+}
+%done
+@INPROCEEDINGS{sonarqube_good_active,
+	author={Marcilio, Diego and Bonifácio, Rodrigo and Monteiro, Eduardo and Canedo, Edna and Luz, Welder and Pinto, Gustavo},
+	booktitle={2019 IEEE/ACM 27th International Conference on Program Comprehension (ICPC)},
+	title={Are Static Analysis Violations Really Fixed? A Closer Look at Realistic Usage of SonarQube},
+	year={2019},
+	volume={},
+	number={},
+	pages={209-219},
+	doi={10.1109/ICPC.2019.00040}
+}
+%done
+@article{academic_sonar_usage,
+	title={Sorald: Automatic Patch Suggestions for SonarQube Static Analysis Violations},
+	author={Someoliayi, Khashayar Etemadi and Harrand, Nicolas Yves Maurice and Larsen, Simon and Adzemovic, Haris and Phu, Henry Luong and Verma, Ashutosh and Madeiral, Fernanda and Wikstrom, Douglas and Monperrus, Martin},
+	journal={IEEE Transactions on Dependable and Secure Computing},
+	year={2022},
+	publisher={IEEE}
+}
+%done
+@INPROCEEDINGS{academic_sonar_usage2,
+	author={Marcilio, Diego and Furia, Carlo A. and Bonifácio, Rodrigo and Pinto, Gustavo},
+	booktitle={2019 19th International Working Conference on Source Code Analysis and Manipulation (SCAM)},
+	title={Automatically Generating Fix Suggestions in Response to Static Code Analysis Warnings},
+	year={2019},
+	volume={},
+	number={},
+	pages={34-44},
+	doi={10.1109/SCAM.2019.00013}
+}
+%done
+@InProceedings{codegen_benchmark,
+	author = "Thomas Helmuth and Peter Kelly",
+	title = "{PSB2}: The Second Program Synthesis Benchmark Suite",
+	booktitle =	"2021 Genetic and Evolutionary Computation Conference",
+	series = {GECCO '21},
+	year = "2021",
+	isbn13 = {978-1-4503-8350-9},
+	address = {Lille, France},
+	size = {10 pages},
+	doi = {10.1145/3449639.3459285},
+	publisher = {Association for Computing Machinery},
+	publisher_address = {New York, NY, USA},
+	month = {10-14} # jul,
+	doi-url = {https://doi.org/10.1145/3449639.3459285},
+	URL = {https://dl.acm.org/doi/10.1145/3449639.3459285},
+}
+%done
+@article{early_program_synthesis,
+	author = {Manna, Zohar and Waldinger, Richard},
+	title = {A Deductive Approach to Program Synthesis},
+	year = {1980},
+	issue_date = {Jan. 1980},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	volume = {2},
+	number = {1},
+	issn = {0164-0925},
+	url = {https://doi.org/10.1145/357084.357090},
+	doi = {10.1145/357084.357090},
+	abstract = {Program synthesis is the systematic derivation of a program from a given specification. A deductive approach to program synthesis is presented for the construction of recursive programs. This approach regards program synthesis as a theorem-proving task and relies on a theorem-proving method that combines the features of transformation rules, unification, and mathematical induction within a single framework.},
+	journal = {ACM Trans. Program. Lang. Syst.},
+	month = {jan},
+	pages = {90–121},
+	numpages = {32}
+}
+%done
+@inproceedings{generative_models,
+	title={Structured generative models of natural source code},
+	author={Maddison, Chris and Tarlow, Daniel},
+	booktitle={International Conference on Machine Learning},
+	pages={649--657},
+	year={2014},
+	organization={PMLR}
+}
+%done
+@inproceedings{copilot_code_evaluation,
+	author = {Vaithilingam, Priyan and Zhang, Tianyi and Glassman, Elena L.},
+	title = {Expectation vs. Experience: Evaluating the Usability of Code Generation Tools Powered by Large Language Models},
+	year = {2022},
+	isbn = {9781450391566},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3491101.3519665},
+	doi = {10.1145/3491101.3519665},
+	abstract = {Recent advances in Large Language Models (LLM) have made automatic code generation possible for real-world programming tasks in general-purpose programming languages such as Python. However, there are few human studies on the usability of these tools and how they fit the programming workflow. In this work, we conducted a within-subjects user study with 24 participants to understand how programmers use and perceive Copilot, a LLM-based code generation tool. We found that, while Copilot did not necessarily improve the task completion time or success rate, most participants preferred to use Copilot in daily programming tasks, since Copilot often provided a useful starting point and saved the effort of searching online. However, participants did face difficulties in understanding, editing, and debugging code snippets generated by Copilot, which significantly hindered their task-solving effectiveness. Finally, we highlighted several promising directions for improving the design of Copilot based on our observations and participants’ feedback.},
+	booktitle = {Extended Abstracts of the 2022 CHI Conference on Human Factors in Computing Systems},
+	articleno = {332},
+	numpages = {7},
+	keywords = {github copilot, large language model},
+	location = {New Orleans, LA, USA},
+	series = {CHI EA '22}
+}
+%done
+@inproceedings{copilot_code_evaluation2,
+	author = {Sobania, Dominik and Briesch, Martin and Rothlauf, Franz},
+	title = {Choose Your Programming Copilot: A Comparison of the Program Synthesis Performance of Github Copilot and Genetic Programming},
+	year = {2022},
+	isbn = {9781450392372},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3512290.3528700},
+	doi = {10.1145/3512290.3528700},
+	abstract = {GitHub Copilot, an extension for the Visual Studio Code development environment powered by the large-scale language model Codex, makes automatic program synthesis available for software developers. This model has been extensively studied in the field of deep learning, however, a comparison to genetic programming, which is also known for its performance in automatic program synthesis, has not yet been carried out. In this paper, we evaluate GitHub Copilot on standard program synthesis benchmark problems and compare the achieved results with those from the genetic programming literature. In addition, we discuss the performance of both approaches. We find that the performance of the two approaches on the benchmark problems is quite similar, however, in comparison to GitHub Copilot, the program synthesis approaches based on genetic programming are not yet mature enough to support programmers in practical software development. Genetic programming usually needs a huge amount of expensive hand-labeled training cases and takes too much time to generate solutions. Furthermore, source code generated by genetic programming approaches is often bloated and difficult to understand. For future work on program synthesis with genetic programming, we suggest researchers to focus on improving the execution time, readability, and usability.},
+	booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference},
+	pages = {1019–1027},
+	numpages = {9},
+	keywords = {GitHub copilot, genetic programming, program synthesis, codex, large-scale language models, software engineering},
+	location = {Boston, Massachusetts},
+	series = {GECCO '22}
+}
+%done
+@inproceedings{copilot_code_evaluation_3,
+	author = {Al Madi, Naser},
+	title = {How Readable is Model-Generated Code? Examining Readability and Visual Inspection of GitHub Copilot},
+	year = {2023},
+	isbn = {9781450394758},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3551349.3560438},
+	doi = {10.1145/3551349.3560438},
+	abstract = {Background: Recent advancements in large language models have motivated the practical use of such models in code generation and program synthesis. However, little is known about the effects of such tools on code readability and visual attention in practice. Objective: In this paper, we focus on GitHub Copilot to address the issues of readability and visual inspection of model generated code. Readability and low complexity are vital aspects of good source code, and visual inspection of generated code is important in light of automation bias. Method: Through a human experiment (n=21) we compare model generated code to code written completely by human programmers. We use a combination of static code analysis and human annotators to assess code readability, and we use eye tracking to assess the visual inspection of code. Results: Our results suggest that model generated code is comparable in complexity and readability to code written by human pair programmers. At the same time, eye tracking data suggests, to a statistically significant level, that programmers direct less visual attention to model generated code. Conclusion: Our findings highlight that reading code is more important than ever, and programmers should beware of complacency and automation bias with model generated code.},
+	booktitle = {Proceedings of the 37th IEEE/ACM International Conference on Automated Software Engineering},
+	articleno = {205},
+	numpages = {5},
+	keywords = {Copilot, GitHub, Eye Tracking, Empirical Study, Readability},
+	location = {Rochester, MI, USA},
+	series = {ASE '22}
+}
+%done
+@article{chatgpt_vulnerable,
+	title={How Secure is Code Generated by ChatGPT?},
+	author={Khoury, Rapha{\"e}l and Avila, Anderson R and Brunelle, Jacob and Camara, Baba Mamadou},
+	journal={arXiv preprint arXiv:2304.09655},
+	year={2023}
+}
+%done
+@article{copilot_code_vulnerable,
+	author = {Asare, Owura and Nagappan, Meiyappan and Asokan, N.},
+	keywords = {Software Engineering (cs.SE), Cryptography and Security (cs.CR), FOS: Computer and information sciences, FOS: Computer and information sciences},
+	title = {Is GitHub's Copilot as Bad As Humans at Introducing Vulnerabilities in Code?},
+	journal={Empirical Software Engineering},
+	volume={28},
+	pages={129-},
+	year = {2023},
+	doi={10.1007/s10664-023-10380-1}
+}
+%done
+@INPROCEEDINGS{copilot_code_vulnerable2,
+	author={Pearce, Hammond and Ahmad, Baleegh and Tan, Benjamin and Dolan-Gavitt, Brendan and Karri, Ramesh},
+	booktitle={2022 IEEE Symposium on Security and Privacy (SP)},
+	title={Asleep at the Keyboard? Assessing the Security of GitHub Copilot’s Code Contributions},
+	year={2022},
+	volume={},
+	number={},
+	pages={754-768},
+	doi={10.1109/SP46214.2022.9833571}}
+%done
+@INPROCEEDINGS{copilot_code_vulnerable3,
+	author={Siddiq, Mohammed Latif and Majumder, Shafayat H. and Mim, Maisha R. and Jajodia, Sourov and Santos, Joanna C. S.},
+	booktitle={2022 IEEE 22nd International Working Conference on Source Code Analysis and Manipulation (SCAM)},
+	title={An Empirical Study of Code Smells in Transformer-based Code Generation Techniques},
+	year={2022},
+	volume={},
+	number={},
+	pages={71-82},
+	doi={10.1109/SCAM55253.2022.00014}}
+%done
+@article{copilot_code_similar_performance,
+	title={Programmer’s New Friend: GitHub Copilot},
+	author={Babar, Aditya},
+	journal={International Journal of Research Publication and Reviews},
+	year={2022},
+	pages={2721-2725}
+}
+%done
+@INPROCEEDINGS{codex_as_fix,
+	author={Pearce, Hammond and Tan, Benjamin and Ahmad, Baleegh and Karri, Ramesh and Dolan-Gavitt, Brendan},
+	booktitle={2023 IEEE Symposium on Security and Privacy (SP)}, 
+	title={Examining Zero-Shot Vulnerability Repair with Large Language Models}, 
+	year={2023},
+	volume={},
+	number={},
+	pages={2339-2356},
+	doi={10.1109/SP46215.2023.10179324}}
+%done
+@INPROCEEDINGS{sonar_plugin_sm,
+	author={Ferenc, Rudolf and Langó, László and Siket, István and Gyimóthy, Tibor and Bakota, Tibor},
+	booktitle={2014 IEEE 14th International Working Conference on Source Code Analysis and Manipulation},
+	title={Source Meter Sonar Qube Plug-in},
+	year={2014},
+	volume={},
+	number={},
+	pages={77-82},
+	doi={10.1109/SCAM.2014.31}
+}
+%done
+@inproceedings{why_metrics_not_enough,
+	title={Software Engineering Metrics: What Do They Measure and How Do We Know?},
+	author={Cem Kaner and Walter P. Bond},
+	year={2004},
+	booktitle={Proc. Int'l Software Metrics Symposium, Chicago, IL, USA, Sept. 2004},
+	pages={1--12},
+}
+%done
+@inproceedings{fix_program_synthesis_models,
+	author = {Jain, Naman and Vaidyanath, Skanda and Iyer, Arun and Natarajan, Nagarajan and Parthasarathy, Suresh and Rajamani, Sriram and Sharma, Rahul},
+	title = {Jigsaw: Large Language Models Meet Program Synthesis},
+	year = {2022},
+	isbn = {9781450392211},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3510003.3510203},
+	doi = {10.1145/3510003.3510203},
+	abstract = {Large pre-trained language models such as GPT-3 [10], Codex [11], and Google's language model [7] are now capable of generating code from natural language specifications of programmer intent. We view these developments with a mixture of optimism and caution. On the optimistic side, such large language models have the potential to improve productivity by providing an automated AI pair programmer for every programmer in the world. On the cautionary side, since these large language models do not understand program semantics, they offer no guarantees about quality of the suggested code. In this paper, we present an approach to augment these large language models with post-processing steps based on program analysis and synthesis techniques, that understand the syntax and semantics of programs. Further, we show that such techniques can make use of user feedback and improve with usage. We present our experiences from building and evaluating such a tool Jigsaw, targeted at synthesizing code for using Python Pandas API using multi-modal inputs. Our experience suggests that as these large language models evolve for synthesizing code from intent, Jigsaw has an important role to play in improving the accuracy of the systems.},
+	booktitle = {Proceedings of the 44th International Conference on Software Engineering},
+	pages = {1219–1231},
+	numpages = {13},
+	location = {Pittsburgh, Pennsylvania},
+	series = {ICSE '22}
+}
+%done
+@article{llm_usages, 
+	title={Sparks of artificial general intelligence: Early experiments with gpt-4. March 2023},
+	author={Bubeck, S{\'e}bastien and Chandrasekaran, Varun and Eldan, Ronen and Gehrke, Johannes and Horvitz, Eric and Kamar, Ece and Lee, Peter and Lee, Yin Tat and Li, Yuanzhi and Lundberg, Scott and others},
+	journal={URL https://www. microsoft. com/en-us/research/publication/sparks-of-artificial-general-inte lligence-early-experiments-with-gpt-4},
+	year={2023}
+}
+%done
+@misc{github_prompt_engineering,
+	title={How to get Codex to produce the code you want!},
+	howpublished ={\url{https://microsoft.github.io/prompt-engineering/}},
+	note={Accessed: 2024-04-02}
+}
+%done
+@inproceedings{codex_prompting,
+	author = {Denny, Paul and Kumar, Viraj and Giacaman, Nasser},
+	title = {Conversing with Copilot: Exploring Prompt Engineering for Solving CS1 Problems Using Natural Language},
+	year = {2023},
+	isbn = {9781450394314},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3545945.3569823},
+	doi = {10.1145/3545945.3569823},
+	abstract = {GitHub Copilot is an artificial intelligence tool for automatically generating source code from natural language problem descriptions. Since June 2022, Copilot has officially been available for free to all students as a plug-in to development environments like Visual Studio Code. Prior work exploring OpenAI Codex, the underlying model that powers Copilot, has shown it performs well on typical CS1 problems thus raising concerns about its potential impact on how introductory programming courses are taught. However, little is known about the types of problems for which Copilot does not perform well, or about the natural language interactions that a student might have with Copilot when resolving errors. We explore these questions by evaluating the performance of Copilot on a publicly available dataset of 166 programming problems. We find that it successfully solves around half of these problems on its very first attempt, and that it solves 60\% of the remaining problems using only natural language changes to the problem description. We argue that this type of prompt engineering, which we believe will become a standard interaction between human and Copilot when it initially fails, is a potentially useful learning activity that promotes computational thinking skills, and is likely to change the nature of code writing skill development.},
+	booktitle = {Proceedings of the 54th ACM Technical Symposium on Computer Science Education V. 1},
+	pages = {1136–1142},
+	numpages = {7},
+	keywords = {artificial intelligence, cs1, openai, introductory programming, large language models, foundation models, github copilot},
+	location = {Toronto ON, Canada},
+	series = {SIGCSE 2023}
+}
+%done
+@article{chatgpt_prompt_design,
+	title={ChatGPT Prompt Patterns for Improving Code Quality, Refactoring, Requirements Elicitation, and Software Design},
+	author={Jules White and Sam Hays and Quchen Fu and Jesse Spencer-Smith and Douglas C. Schmidt},
+	journal={ArXiv},
+	year={2023},
+	volume={abs/2303.07839},
+	url={https://api.semanticscholar.org/CorpusID:257505363}
+}
+
+@inproceedings{codegen_dsl,
+	author = {Dieumegard, Arnaud and Toom, Andres and Pantel, Marc},
+	title = {Model-Based Formal Specification of a DSL Library for a Qualified Code Generator},
+	year = {2012},
+	isbn = {9781450317993},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/2428516.2428527},
+	doi = {10.1145/2428516.2428527},
+	abstract = {Critical embedded systems development is a complex and highly sensitive task. Model-driven engineering (MDE) intends to bridge the gaps between the different parts of this process: high-level requirements, design, implementation and verification, by promoting formalization of the various process artefacts as models. This paper focuses on the rigorous and flexible model-based specification and implementation of a part of the requirement language of an embedded code generator. It relies on the use of OCL integrated in a textual specification language as a means to formally specify graphical modeling languages such as Simulink and Scicos and their extensible sophisticated block libraries.},
+	booktitle = {Proceedings of the 12th Workshop on OCL and Textual Modelling},
+	pages = {61–62},
+	numpages = {2},
+	keywords = {automatic code generation, software qualification, OCL, MDE, Simulink, formal specification, Scicos},
+	location = {Innsbruck, Austria},
+	series = {OCL '12}
+}
+
+@INPROCEEDINGS{dsl_recent,
+	author={Schmitt, Christian and Kuckuk, Sebastian and Köstler, Harald and Hannig, Frank and Teich, Jürgen},
+	booktitle={2014 14th International Conference on Computational Science and Its Applications}, 
+	title={An Evaluation of Domain-Specific Language Technologies for Code Generation}, 
+	year={2014},
+	volume={},
+	number={},
+	pages={18-26},
+	doi={10.1109/ICCSA.2014.16}
 }
 
 
-@inproceedings{b:isis-floodrouting,
-    author  = "Mikl\'os Mar\'oti",
-    title   = "Directed Flood-Routing Framework For Wireless Sensor Networks",
-    booktitle = "In Proc. of the 5th ACM/IFIP/USENIX International Conference on Middleware",
-    year    = "2004",
-    isbn    = "3-540-23428-4",
-    pages   = "99--114",
-    location = "Toronto, Canada",
-    publisher = "Springer-Verlag New York, Inc.",
-    address = "New York, NY, USA",
-}@inproceedings{b:isis-floodrouting-blind,
-    author  = "no author given",
-    title   = "no title given",
+@inproceedings{old_code_gen,
+	title={Code generation for expressions with common subexpressions},
+	author={Aho, Alfred V and Johnson, Stephen C and Ullman, Jeffrey D},
+	booktitle={Proceedings of the 3rd ACM SIGACT-SIGPLAN symposium on Principles on programming languages},
+	pages={19--31},
+	year={1976}
+}
+
+@misc{temperature_not_enough,
+	title={LLM is Like a Box of Chocolates: the Non-determinism of ChatGPT in Code Generation}, 
+	author={Shuyin Ouyang and Jie M. Zhang and Mark Harman and Meng Wang},
+	year={2023},
+	eprint={2308.02828},
+	journal={arXiv},
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% END OF THESIS1 REFERENCES %%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%% Thesis2 references %%%%%%%%%%%%%%%%%%%%%%%
+
+@InProceedings{gpt2-lajko2,
+	author="Lajk{\'o}, M{\'a}rk
+	and Horv{\'a}th, D{\'a}niel
+	and Csuvik, Viktor
+	and Vid{\'a}cs, L{\'a}szl{\'o}",
+	editor="Gervasi, Osvaldo
+	and Murgante, Beniamino
+	and Misra, Sanjay
+	and Rocha, Ana Maria A. C.
+	and Garau, Chiara",
+	title="Fine-Tuning GPT-2 to Patch Programs, Is It Worth It?",
+	booktitle="Computational Science and Its Applications -- ICCSA 2022 Workshops",
+	year="2022",
+	publisher="Springer International Publishing",
+	address="Cham",
+	pages="79--91",
+	abstract="The application of Artificial Intelligence (AI) in the Software Engineering (SE) field is always a bit delayed compared to state-of-the-art research results. While the Generative Pre-trained Transformer (GPT-2) model was published in 2018, only a few recent works used it for SE tasks. One of such tasks is Automated Program Repair (APR), where the applied technique should find a fix to software bugs without human intervention. One problem emerges here: the creation of proper training data is resource-intensive and requires several hours of additional work from researchers. The sole reason for it is that training a model to repair programs automatically requires both the buggy program and the fixed one on large scale and presumably in an already pre-processed form. There are currently few such databases, so teaching and fine-tuning models is not an easy task. In this work, we wanted to investigate how the GPT-2 model performs when it is not fine-tuned for the APR task, compared to when it is fine-tuned. From previous work, we already know that the GPT-2 model can automatically generate patches for buggy programs, although the literature lacks studies where no fine-tuning has taken place. For the sake of the experiment we evaluated the GPT-2 model out-of-the-box and also fine-tuned it before the evaluation on 1559 JavaSript code snippets. Based on our results we can conclude that although the fine-tuned model was able to learn how to write syntactically correct source code almost on every attempt, the non-fine-tuned model lacked some of these positive features.",
+	isbn="978-3-031-10542-5"
+}
+
+@inproceedings{gpt2-lajko,
+	author = {Lajk\'{o}, M\'{a}rk and Csuvik, Viktor and Vid\'{a}cs, L\'{a}szl\'{o}},
+	title = {Towards JavaScript Program Repair with Generative Pre-Trained Transformer (GPT-2)},
+	year = {2022},
+	isbn = {9781450392853},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3524459.3527350},
+	doi = {10.1145/3524459.3527350},
+	abstract = {The goal of Automated Program Repair (APR) is to find a fix to software bugs, without human intervention. The so-called Generate and Validate (G\&V) approach deemed to be the most popular method in the last few years, where the APR tool creates a patch and it is validated against an oracle. Recent years for Natural Language Processing (NLP) were of great interest, with new pre-trained models shattering records on tasks ranging from sentiment analysis to question answering. Usually these deep learning models inspire the APR community as well. These approaches usually require a large dataset on which the model can be trained (or fine-tuned) and evaluated. The criterion to accept a patch depends on the underlying dataset, but usually the generated patch should be exactly the same as the one created by a human developer. As NLP models are more and more capable to form sentences, and the sentences will form coherent paragraphs, the APR tools are also better and better at generating syntactically and semantically correct source code. As the Generative Pre-trained Transformer (GPT) model is now available to everyone thanks to the NLP and AI research community, it can be fine-tuned to specific tasks (not necessarily on natural language). In this work we use the GPT-2 model to generate source code, to the best of our knowledge, the GPT-2 model was not used for Automated Program Repair so far. The model is fine-tuned for a specific task: it has been taught to fix JavaScript bugs automatically. To do so, we trained the model on 16863 JS code snippets, where it could learn the nature of the observed programming language. In our experiments we observed that the GPT-2 model was able to learn how to write syntactically correct source code almost on every attempt, although it failed to learn good bug-fixes in some cases. Nonetheless it was able to generate the correct fixes in most of the cases, resulting in an overall accuracy up to 17.25\%.},
+	booktitle = {Proceedings of the Third International Workshop on Automated Program Repair},
+	pages = {61–68},
+	numpages = {8},
+	keywords = {automated program repair, GPT, JavaScript, code refinement, machine learning},
+	location = {Pittsburgh, Pennsylvania},
+	series = {APR '22}
+}
+
+@article{gpt2-code-gen,
+	author = {Paik, Incheon and Wang, Jun-Wei},
+	year = {2021},
+	month = {11},
+	pages = {2706},
+	title = {Improving Text-to-Code Generation with Features of Code Graph on GPT-2},
+	volume = {10},
+	journal = {Electronics},
+	doi = {10.3390/electronics10212706}
+}
+
+@INPROCEEDINGS{codex_bug_fix,
+	author={Prenner, Julian Aron and Babii, Hlib and Robbes, Romain},
+	booktitle={2022 IEEE/ACM International Workshop on Automated Program Repair (APR)},
+	title={Can OpenAI's Codex Fix Bugs?: An evaluation on QuixBugs},
+	year={2022},
+	volume={},
+	number={},
+	pages={69-75},
+	doi={10.1145/3524459.3527351}
+}
+
+@INPROCEEDINGS {quix_bugs_abuser_2,
+	author = {D. Sobania and M. Briesch and C. Hanna and J. Petke},
+	booktitle = {2023 IEEE/ACM International Workshop on Automated Program Repair (APR)},
+	title = {An Analysis of the Automatic Bug Fixing Performance of ChatGPT},
+	year = {2023},
+	volume = {},
+	issn = {},
+	pages = {23-30},
+	abstract = {To support software developers in finding and fixing software bugs, several automated program repair techniques have been introduced. Given a test suite, standard methods usually either synthesize a repair, or navigate a search space of software edits to find test-suite passing variants. Recent program repair methods are based on deep learning approaches. One of these novel methods, which is not primarily intended for automated program repair, but is still suitable for it, is ChatGPT. The bug fixing performance of ChatGPT, however, is so far unclear. Therefore, in this paper we evaluate ChatGPT on the standard bug fixing benchmark set, QuixBugs, and compare the performance with the results of several other approaches reported in the literature. We find that ChatGPT&#x27;s bug fixing performance is competitive to the common deep learning approaches CoCoNut and Codex and notably better than the results reported for the standard program repair approaches. In contrast to previous approaches, ChatGPT offers a dialogue system through which further information, e.g., the expected output for a certain input or an observed error message, can be entered. By providing such hints to ChatGPT, its success rate can be further increased, fixing 31 out of 40 bugs, outperforming state-of-the-art.},
+	keywords = {deep learning;navigation;source coding;computer bugs;maintenance engineering;benchmark testing;chatbots},
+	doi = {10.1109/APR59189.2023.00012},
+	url = {https://doi.ieeecomputersociety.org/10.1109/APR59189.2023.00012},
+	publisher = {IEEE Computer Society},
+	address = {Los Alamitos, CA, USA},
+	month = {may}
+}
+
+@INPROCEEDINGS{generate_examples,
+	author={Pearce, Hammond and Tan, Benjamin and Ahmad, Baleegh and Karri, Ramesh and Dolan-Gavitt, Brendan},
+	booktitle={2023 IEEE Symposium on Security and Privacy (SP)},
+	title={Examining Zero-Shot Vulnerability Repair with Large Language Models},
+	year={2023},
+	volume={},
+	number={},
+	pages={2339-2356},
+	doi={10.1109/SP46215.2023.10179324}
+}
+
+@INPROCEEDINGS{real_examples_linting,
+	author={Nashid, Noor and Sintaha, Mifta and Mesbah, Ali},
+	booktitle={2023 IEEE/ACM 45th International Conference on Software Engineering (ICSE)},
+	title={Retrieval-Based Prompt Selection for Code-Related Few-Shot Learning},
+	year={2023},
+	volume={},
+	number={},
+	pages={2450-2462},
+	doi={10.1109/ICSE48619.2023.00205}
+}
+
+@article{same_as_us_but_too_much_hint,
+	title={How Effective Are Neural Networks for Fixing Security Vulnerabilities},
+	author={Yi Wu and Nan Jiang and Hung Viet Pham and Thibaud Lutellier and Jordan Davis and Lin Tan and Petr Babkin and Sameena Shah},
+	journal={Proceedings of the 32nd ACM SIGSOFT International Symposium on Software Testing and Analysis},
+	year={2023},
+	url={https://api.semanticscholar.org/CorpusID:258967736}
+}
+
+% TODO: maybe use it as a proof, that they use this technique. But it is not APR by LLM
+@inproceedings{fix_llm_with_tests,
+	author = {Fan, Zhiyu and Gao, Xiang and Mirchev, Martin and Roychoudhury, Abhik and Tan, Shin Hwei},
+	title = {Automated Repair of Programs from Large Language Models},
+	year = {2023},
+	isbn = {9781665457019},
+	publisher = {IEEE Press},
+	url = {https://doi.org/10.1109/ICSE48619.2023.00128},
+	doi = {10.1109/ICSE48619.2023.00128},
+	abstract = {Large language models such as Codex, have shown the capability to produce code for many programming tasks. However, the success rate of existing models is low, especially for complex programming tasks. One of the reasons is that language models lack awareness of program semantics, resulting in incorrect programs, or even programs which do not compile. In this paper, we systematically study whether automated program repair (APR) techniques can fix the incorrect solutions produced by language models in LeetCode contests. The goal is to study whether APR techniques can enhance reliability in the code produced by large language models. Our study revealed that: (1) automatically generated code shares common programming mistakes with human-crafted solutions, indicating APR techniques may have potential to fix auto-generated code; (2) given bug location information provided by a statistical fault localization approach, the newly released Codex edit mode, which supports editing code, is similar to or better than existing Java repair tools TBar and Recoder in fixing incorrect solutions. By analyzing the experimental results generated by these tools, we provide several suggestions: (1) enhancing APR tools to surpass limitations in patch space (e.g., introducing more flexible fault localization) is desirable; (2) as large language models can derive more fix patterns by training on more data, future APR tools could shift focus from adding more fix patterns to synthesis/semantics based approaches, (3) combination of language models with APR to curate patch ingredients, is worth studying.},
+	booktitle = {Proceedings of the 45th International Conference on Software Engineering},
+	pages = {1469–1481},
+	numpages = {13},
+	location = {Melbourne, Victoria, Australia},
+	series = {ICSE '23}
+}
+
+@inproceedings{apr_defects4j_too,
+	title={Automated program repair in the era of large pre-trained language models},
+	author={Xia, Chunqiu Steven and Wei, Yuxiang and Zhang, Lingming},
+	booktitle={Proceedings of the 45th International Conference on Software Engineering (ICSE 2023). Association for Computing Machinery},
+	year={2023}
+}
+
+@inproceedings{defects4j,
+	author={Just, Ren{\'e} and Jalali, Darioush and Ernst, Michael D},
+	year = {2014},
+	month = {07},
+	pages={437--440},
+	title={Defects4J: A database of existing faults to enable controlled testing studies for Java programs},
+	booktitle={Proceedings of the 2014 international symposium on software testing and analysis},
+	isbn = {978-1-4503-2645-2},
+	doi = {10.1145/2610384.2628055}
+}
+
+@ARTICLE{many_bugs,
+	author={Le Goues, Claire and Holtschulte, Neal and Smith, Edward K. and Brun, Yuriy and Devanbu, Premkumar and Forrest, Stephanie and Weimer, Westley},
+	journal={IEEE Transactions on Software Engineering},
+	title={The ManyBugs and IntroClass Benchmarks for Automated Repair of C Programs},
+	year={2015},
+	volume={41},
+	number={12},
+	pages={1236-1256},
+	doi={10.1109/TSE.2015.2454513}
+}
+
+@inproceedings{quix_bugs,
+	author = {Lin, Derrick and Koppel, James and Chen, Angela and Solar-Lezama, Armando},
+	title = {QuixBugs: A Multi-Lingual Program Repair Benchmark Set Based on the Quixey Challenge},
+	year = {2017},
+	isbn = {9781450355148},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3135932.3135941},
+	doi = {10.1145/3135932.3135941},
+	abstract = {Recent years have seen an explosion of work in automated program repair. While previous work has focused exclusively on tools for single languages, recent work in multi-language transformation has opened the door for multi-language program repair tools. Evaluating the performance of such a tool requires having a benchmark set of similar buggy programs in different languages. We present QuixBugs, consisting of 40 programs translated to both Python and Java, each with a bug on a single line. The QuixBugs benchmark suite is based on problems from the Quixey Challenge, where programmers were given a short buggy program and 1 minute to fix the bug.},
+	booktitle = {Proceedings Companion of the 2017 ACM SIGPLAN International Conference on Systems, Programming, Languages, and Applications: Software for Humanity},
+	pages = {55–56},
+	numpages = {2},
+	keywords = {benchmark, automated program repair},
+	location = {Vancouver, BC, Canada},
+	series = {SPLASH Companion 2017}
+}
+
+@INPROCEEDINGS{bugs_js,
+	author={Gyimesi, P{e}'ter and Vancsics, B{e}'la and Stocco, Andrea and Mazinanian, Davood and Beszédes, {A}'rp{a}'d and Ferenc, Rudolf and Mesbah, Ali},
+	booktitle={2019 12th IEEE Conference on Software Testing, Validation and Verification (ICST)}, 
+	title={BugsJS: a Benchmark of JavaScript Bugs}, 
+	year={2019},
+	volume={},
+	number={},
+	pages={90-101},
+	doi={10.1109/ICST.2019.00019}
+}
+
+@inproceedings{bert,
+	title = "{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+	author = "Devlin, Jacob  and
+	Chang, Ming-Wei  and
+	Lee, Kenton  and
+	Toutanova, Kristina",
+	booktitle = "Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)",
+	month = jun,
+	year = "2019",
+	address = "Minneapolis, Minnesota",
+	publisher = "Association for Computational Linguistics",
+	url = "https://aclanthology.org/N19-1423",
+	doi = "10.18653/v1/N19-1423",
+	pages = "4171--4186",
+	abstract = "We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models (Peters et al., 2018a; Radford et al., 2018), BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5 (7.7 point absolute improvement), MultiNLI accuracy to 86.7{\%} (4.6{\%} absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).",
+}
+
+@inproceedings{codebert,
+	title = "{C}ode{BERT}: A Pre-Trained Model for Programming and Natural Languages",
+	author = "Feng, Zhangyin  and
+	Guo, Daya  and
+	Tang, Duyu  and
+	Duan, Nan  and
+	Feng, Xiaocheng  and
+	Gong, Ming  and
+	Shou, Linjun  and
+	Qin, Bing  and
+	Liu, Ting  and
+	Jiang, Daxin  and
+	Zhou, Ming",
+	booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2020",
+	month = nov,
+	year = "2020",
+	address = "Online",
+	publisher = "Association for Computational Linguistics",
+	url = "https://aclanthology.org/2020.findings-emnlp.139",
+	doi = "10.18653/v1/2020.findings-emnlp.139",
+	pages = "1536--1547",
+	abstract = "We present CodeBERT, a bimodal pre-trained model for programming language (PL) and natural language (NL). CodeBERT learns general-purpose representations that support downstream NL-PL applications such as natural language code search, code documentation generation, etc. We develop CodeBERT with Transformer-based neural architecture, and train it with a hybrid objective function that incorporates the pre-training task of replaced token detection, which is to detect plausible alternatives sampled from generators. This enables us to utilize both {``}bimodal{''} data of NL-PL pairs and {``}unimodal data, where the former provides input tokens for model training while the latter helps to learn better generators. We evaluate CodeBERT on two NL-PL applications by fine-tuning model parameters. Results show that CodeBERT achieves state-of-the-art performance on both natural language code search and code documentation generation. Furthermore, to investigate what type of knowledge is learned in CodeBERT, we construct a dataset for NL-PL probing, and evaluate in a zero-shot setting where parameters of pre-trained models are fixed. Results show that CodeBERT performs better than previous pre-trained models on NLPL probing.",
+}
+
+@inproceedings{line_level_testcase,
+	author = {Xia, Chunqiu Steven and Zhang, Lingming},
+	title = {Less Training, More Repairing Please: Revisiting Automated Program Repair via Zero-Shot Learning},
+	year = {2022},
+	isbn = {9781450394130},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/3540250.3549101},
+	doi = {10.1145/3540250.3549101},
+	abstract = {Due to the promising future of Automated Program Repair (APR), researchers have proposed various APR techniques, including heuristic-based, template-based, and constraint-based techniques. Among such classic APR techniques, template-based techniques have been widely recognized as state of the art. However, such template-based techniques require predefined templates to perform repair, and their effectiveness is thus limited. To this end, researchers have leveraged the recent advances in Deep Learning to further improve APR. Such learning-based techniques typically view APR as a Neural Machine Translation problem, using the buggy/fixed code snippets as the source/target languages for translation. In this way, such techniques heavily rely on large numbers of high-quality bug-fixing commits, which can be extremely costly/challenging to construct and may limit their edit variety and context representation. In this paper, we aim to revisit the learning-based APR problem, and propose AlphaRepair, the first cloze-style (or infilling-style) APR approach to directly leveraging large pre-trained code models for APR without any fine-tuning/retraining on historical bug fixes. Our main insight is instead of modeling what a repair edit should look like (i.e., a NMT task), we can directly predict what the correct code is based on the context information (i.e., a cloze or text infilling task). Although our approach is general and can be built on various pre-trained code models, we have implemented AlphaRepair as a practical multilingual APR tool based on the recent CodeBERT model. Our evaluation of AlphaRepair on the widely used Defects4J benchmark shows for the first time that learning-based APR without any history bug fixes can already outperform state-of-the-art APR techniques. We also studied the impact of different design choices and show that AlphaRepair performs even better on a newer version of Defects4J (2.0) with 3.3X more fixes than best performing baseline, indicating that AlphaRepair can potentially avoid the dataset-overfitting issue of existing techniques. Additionally, we demonstrate the multilingual repair ability of AlphaRepair by evaluating on the QuixBugs dataset where AlphaRepair achieved the state-of-the-art results on both Java and Python versions.},
+	booktitle = {Proceedings of the 30th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
+	pages = {959–971},
+	numpages = {13},
+	keywords = {Zero-shot Learning, Deep Learning, Automated Program Repair},
+	location = {Singapore, Singapore},
+	series = {ESEC/FSE 2022}
+}
+
+@ARTICLE{apr,
+	author={Le Goues, Claire and Pradel, Michael and Roychoudhury, Abhik and Chandra, Satish},
+	journal={IEEE Software},
+	title={Automatic Program Repair},
+	year={2021},
+	volume={38},
+	number={4},
+	pages={22-27},
+	doi={10.1109/MS.2021.3072577}
+}
+
+%Quite bad that it is arxive
+@misc{conversational_bug_fix_1,
+	title={Conversational Automated Program Repair},
+	author={Chunqiu Steven Xia and Lingming Zhang},
+	year={2023},
+	eprint={2301.13246},
+	archivePrefix={arXiv},
+	primaryClass={cs.SE}
+}
+
+%Quite bad that it is arxive
+@misc{bugs_generated,
+	author = {Charalambous, Yiannis and Tihanyi, Norbert and Sun, Youcheng and Ferrag, Mohamed Amine and Cordeiro, Lucas},
+	year = {2023},
+	month = {05},
+	pages = {},
+	title = {A New Era in Software Security: Towards Self-Healing Software via Large Language Models and Formal Verification},
+	doi = {10.48550/arXiv.2305.14752}
+}
+
+@inproceedings{bhandari2021cvefixes,
+	title = {{CVEfixes: Automated Collection of Vulnerabilities and Their Fixes from Open-Source Software}},
+	booktitle = {{Proceedings of the 17th International Conference on Predictive Models and Data Analytics in Software Engineering (PROMISE '21)}},
+	author = {Bhandari, Guru and Naseer, Amara and Moonen, Leon},
+	year = {2021},
+	pages = {10},
+	publisher = {{ACM}},
+	doi = {10.1145/3475960.3475985},
+	copyright = {Open Access},
+	isbn = {978-1-4503-8680-7},
+	language = {en}
+}
+
+@misc{li2023large,
+	title={Large Language Models Understand and Can be Enhanced by Emotional Stimuli}, 
+	author={Cheng Li and Jindong Wang and Yixuan Zhang and Kaijie Zhu and Wenxin Hou and Jianxun Lian and Fang Luo and Qiang Yang and Xing Xie},
+	year={2023},
+	eprint={2307.11760},
+	archivePrefix={arXiv},
+	primaryClass={cs.CL}
+}
+
+@article{wei2022chain,
+	title={Chain-of-thought prompting elicits reasoning in large language models},
+	author={Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Xia, Fei and Chi, Ed and Le, Quoc V and Zhou, Denny and others},
+	journal={Advances in Neural Information Processing Systems},
+	volume={35},
+	pages={24824--24837},
+	year={2022}
+}
+
+@inproceedings{pinconschi2022maestro,
+	title={Maestro: A platform for benchmarking automatic program repair tools on software vulnerabilities},
+	author={Pinconschi, Eduard and Bui, Quang-Cuong and Abreu, Rui and Ad{\~a}o, Pedro and Scandariato, Riccardo},
+	booktitle={Proceedings of the 31st ACM SIGSOFT International Symposium on Software Testing and Analysis},
+	pages={789--792},
+	year={2022}
+}
+
+@article{papotti2022acceptance,
+	title={On the acceptance by code reviewers of candidate security patches suggested by Automated Program Repair tools},
+	author={Papotti, Aurora and Paramitha, Ranindya and Massacci, Fabio},
+	journal={arXiv preprint arXiv:2209.07211},
+	year={2022}
+}
+
+@article{dietrich2023security,
+	title={On the Security Blind Spots of Software Composition Analysis},
+	author={Dietrich, Jens and Rasheed, Shawn and Jordan, Alexander},
+	journal={arXiv preprint arXiv:2306.05534},
+	year={2023}
+}
+
+@misc{garg2023guiding,
+	title={Guiding Quality Assurance Through Context Aware Learning},
+	author={Garg, Aayush},
+	year={2023},
+	school={University of Luxembourg, Luxembourg}
+}
+
+@misc{cve,
+	key = {CVE},
+	title = {{Common Vulnerabilities and Exposures}},
+	howpublished = {\url{https://cve.mitre.org/}},
+	urldate = {2023-10-13},
+	note = {{A}ccessed: 2023-10-13},
+	year = {2023}
+}
+
+@misc{cwe,
+	key = {CWE},
+	title = {{Common Weaknesses Enumeration}},
+	howpublished = {\url{https://cwe.mitre.org/}},
+	urldate = {2023-10-13},
+	note = {{A}ccessed: 2023-10-13},
+	year = {2023}
+}
+
+@inproceedings{saha2019harnessing,
+	title={Harnessing evolution for multi-hunk program repair},
+	author={Saha, Seemanta and others},
+	booktitle={2019 IEEE/ACM 41st International Conference on Software Engineering (ICSE)},
+	pages={13--24},
+	year={2019},
+	organization={IEEE}
+}
+
+@inproceedings{lutellier2020coconut,
+	title={Coconut: combining context-aware neural translation models using ensemble for program repair},
+	author={Lutellier, Thibaud and Pham, Hung Viet and Pang, Lawrence and Li, Yitong and Wei, Moshi and Tan, Lin},
+	booktitle={Proceedings of the 29th ACM SIGSOFT international symposium on software testing and analysis},
+	pages={101--114},
+	year={2020}
+}
+
+@article{tufano2019empirical,
+	title={An empirical study on learning bug-fixing patches in the wild via neural machine translation},
+	author={Tufano, Michele and Watson, Cody and Bavota, Gabriele and Penta, Massimiliano Di and White, Martin and Poshyvanyk, Denys},
+	journal={ACM Transactions on Software Engineering and Methodology (TOSEM)},
+	volume={28},
+	number={4},
+	pages={1--29},
+	year={2019},
+	publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{yuan2022circle,
+	title={CIRCLE: Continual repair across programming languages},
+	author={Yuan, Wei and Zhang, Quanjun and He, Tieke and Fang, Chunrong and Hung, Nguyen Quoc Viet and Hao, Xiaodong and Yin, Hongzhi},
+	booktitle={Proceedings of the 31st ACM SIGSOFT International Symposium on Software Testing and Analysis},
+	pages={678--690},
+	year={2022}
+}
+
+@article{rathje2023gpt,
+	title={GPT is an effective tool for multilingual psychological text analysis},
+	author={Rathje, Steve and Mirea, Dan-Mircea and Sucholutsky, Ilia and Marjieh, Raja and Robertson, Claire and Van Bavel, Jay J},
+	year={2023},
+	publisher={PsyArXiv}
+}
+
+@article{cheng2023artificial,
+	title={Artificial intelligence in sports medicine: could GPT-4 make human doctors obsolete?},
+	author={Cheng, Kunming and Guo, Qiang and He, Yongbin and Lu, Yanqiu and Xie, Ruijie and Li, Cheng and Wu, Haiyang},
+	journal={Annals of Biomedical Engineering},
+	pages={1--5},
+	year={2023},
+	publisher={Springer}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% END OF THESIS2 REFERENCES %%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% THESIS3 REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%%%
+@inproceedings{llm_test_code_generation_survey,
+	author    = {Hasali Edirisinghe and Dilani Wickramaarachchi},
+	title     = {Quality assurance for llm-generated test cases: A systematic literature review},
+	booktitle = {2024 8th SLAAI International Conference on Artificial Intelligence (SLAAI-ICAI)},
+	pages     = {1--6},
+	year      = {2024}
+}
+
+@article{llm_vuln_apr_survey,
+	author  = {Xin Zhou and Sicong Cao and Xiaobing Sun and David Lo},
+	title   = {Large language model for vulnerability detection and repair: Literature review and the road ahead},
+	journal = {ACM Trans. Softw. Eng. Methodol.},
+	year    = {2024},
+	month   = {December},
+	note    = {Just Accepted}
+}
+
+@inproceedings{llm_code_comprehension_1,
+	author    = {Jonan Richards and Mairieli Wessel},
+	title     = {What you need is what you get: Theory of mind for an llm-based code understanding assistant},
+	booktitle = {2024 IEEE International Conference on Software Maintenance and Evolution (ICSME)},
+	pages     = {666--671},
+	year      = {2024}
+}
+
+@inproceedings{llm_code_comprehension_2,
+	author    = {Daye Nam and Andrew Macvean and Vincent Hellendoorn and Bogdan Vasilescu and Brad Myers},
+	title     = {Using an llm to help with code understanding},
+	booktitle = {Proceedings of the IEEE/ACM 46th International Conference on Software Engineering},
+	series    = {ICSE '24},
+	address   = {New York, NY, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2024}
+}
+
+@inproceedings{llm_code_generation_survey,
+	author    = {Jianxun Wang and Yixiang Chen},
+	title     = {A review on code generation with llms: Application and evaluation},
+	booktitle = {2023 IEEE International Conference on Medical Artificial Intelligence (MedAI)},
+	pages     = {284--289},
+	year      = {2023}
+}
+
+@article{data_no_share_1,
+	author  = {Tian Song and Hang Zhang and Yijia Xiao},
+	title   = {A high-quality generation approach for educational programming projects using llm},
+	journal = {IEEE Transactions on Learning Technologies},
+	volume  = {17},
+	pages   = {2242--2255},
+	year    = {2024}
+}
+
+@inproceedings{data_no_share_2,
+	author    = {Chunqiu Steven Xia and Lingming Zhang},
+	title     = {Automated program repair via conversation: Fixing 162 out of 337 bugs for \$0.42 each using chatgpt},
+	booktitle = {Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis},
+	series    = {ISSTA 2024},
+	pages     = {819--831},
+	address   = {New York, NY, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2024}
+}
+
+@inproceedings{data_no_share_3,
+	author    = {Jaromir Savelka and Arav Agarwal and Christopher Bogart and Yifan Song and Majd Sakr},
+	title     = {Can generative pre-trained transformers (gpt) pass assessments in higher education programming courses?},
+	booktitle = {Proceedings of the 2023 Conference on Innovation and Technology in Computer Science Education V. 1},
+	series    = {ITiCSE 2023},
+	pages     = {117--123},
+	address   = {New York, NY, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2023}
+}
+
+@inproceedings{data_no_share_4,
+	author    = {Shengcheng Yu and Chunrong Fang and Yuchen Ling and Chentian Wu and Zhenyu Chen},
+	title     = {Llm for test script generation and migration: Challenges, capabilities, and opportunities},
+	booktitle = {2023 IEEE 23rd International Conference on Software Quality, Reliability, and Security (QRS)},
+	pages     = {206--217},
+	year      = {2023}
+}
+
+@inproceedings{data_no_share_5,
+	author    = {Xiaolong Tian},
+	title     = {Evaluating the repair ability of llm under different prompt settings},
+	booktitle = {2024 IEEE International Conference on Software Services Engineering (SSE)},
+	pages     = {313--322},
+	year      = {2024}
+}
+
+@article{unittest_llm,
+	author  = {Max Schäfer and Sarah Nadi and Aryaz Eghbali and Frank Tip},
+	title   = {An empirical evaluation of using large language models for automated unit test generation},
+	journal = {IEEE Transactions on Software Engineering},
+	volume  = {50},
+	number  = {1},
+	pages   = {85--105},
+	year    = {2024}
+}
+
+@inproceedings{apr_llm,
+	author    = {Chunqiu Steven Xia and Yuxiang Wei and Lingming Zhang},
+	title     = {Automated program repair in the era of large pre-trained language models},
+	booktitle = {2023 IEEE/ACM 45th International Conference on Software Engineering (ICSE)},
+	pages     = {1482--1494},
+	year      = {2023}
+}
+
+@article{generation_llm,
+	author  = {Tian Song and Hang Zhang and Yijia Xiao},
+	title   = {A high-quality generation approach for educational programming projects using llm},
+	journal = {IEEE Transactions on Learning Technologies},
+	volume  = {17},
+	pages   = {2242--2255},
+	year    = {2024}
+}
+
+@inproceedings{shared_common_data,
+	author    = {Chunqiu Steven Xia and Yuxiang Wei and Lingming Zhang},
+	title     = {Automated program repair in the era of large pre-trained language models},
+	booktitle = {2023 IEEE/ACM 45th International Conference on Software Engineering (ICSE)},
+	pages     = {1482--1494},
+	year      = {2023}
+}
+
+@article{common_shared_llm_output,
+	author  = {Fengjie Li and Jiajun Jiang and Jiajun Sun and Hongyu Zhang},
+	title   = {Hybrid automated program repair by combining large language models and program analysis},
+	journal = {ACM Trans. Softw. Eng. Methodol.},
+	month   = {January},
+	year    = {2025},
+	note    = {Just Accepted}
+}
+
+@inproceedings{defect4j,
+	author    = {René Just and Darioush Jalali and Michael D. Ernst},
+	title     = {Defects4j: a database of existing faults to enable controlled testing studies for java programs},
+	booktitle = {Proceedings of the 2014 International Symposium on Software Testing and Analysis},
+	series    = {ISSTA 2014},
+	pages     = {437--440},
+	address   = {New York, NY, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2014}
+}
+
+@inproceedings{quixbugs,
+	author    = {Derrick Lin and James Koppel and Angela Chen and Armando Solar-Lezama},
+	title     = {QuixBugs: a multi-lingual program repair benchmark set based on the quixey challenge},
+	booktitle = {Proceedings Companion of the 2017 ACM SIGPLAN International Conference on Systems, Programming, Languages, and Applications: Software for Humanity (SPLASH Companion 2017)},
+	pages     = {55--56},
+	address   = {Vancouver, BC, Canada},
+	publisher = {Association for Computing Machinery},
+	year      = {2017}
+}
+
+@article{manybugs_introclass,
+	author  = {Claire Le Goues and Neal Holtschulte and Edward K. Smith and Yuriy Brun and Premkumar Devanbu and Stephanie Forrest and Westley Weimer},
+	title   = {The ManyBugs and IntroClass benchmarks for automated repair of C programs},
+	journal = {IEEE Transactions on Software Engineering},
+	volume  = {41},
+	number  = {12},
+	pages   = {1236--1256},
+	year    = {2015},
+	publisher = {IEEE}
+}
+
+@misc{mbpp,
+	author = {Jacob Austin and Augustus Odena and Maxwell Nye and Maarten Bosma and Henryk Michalewski and David Dohan and Ellen Jiang and Carrie Cai and Michael Terry and Quoc Le and Charles Sutton},
+	title  = {Program synthesis with large language models},
+	year   = {2021}
+}
+
+@inproceedings{pareto_usage,
+	author    = {Yong Zheng and David Xuejun Wang},
+	title     = {Multi-criteria ranking by using relaxed pareto ranking methods},
+	booktitle = {Adjunct Proceedings of the 31st ACM Conference on User Modeling, Adaptation and Personalization},
+	series    = {UMAP '23 Adjunct},
+	pages     = {81--85},
+	address   = {New York, NY, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2023}
+}
+
+@misc{CodeQwen1.5-7B-Chat,
+	author = {Qwen},
+	title  = {Codeqwen1.5-7b-chat},
+	year   = {2024},
+	url    = {https://huggingface.co/Qwen/CodeQwen1.5-7B-Chat/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{deepseek-coder-33b-instruct,
+	author = {DeepSeek-AI},
+	title  = {deepseek-coder-33b-instruct},
+	year   = {2023},
+	url    = {https://huggingface.co/deepseek-ai/deepseek-coder-33b-instruct/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{Meta-Llama-3-70B-Instruct,
+	author = {Meta},
+	title  = {Meta-llama-3-70b-instruct},
+	year   = {2024},
+	url    = {https://huggingface.co/meta-llama/Meta-Llama-3-70B-Instruct/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{CodeLlama-13b-Instruct-hf,
+	author = {Meta},
+	title  = {Codellama-13b-instruct-hf},
+	year   = {2024},
+	url    = {https://huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{Meta-Llama-3-8B-Instruct,
+	author = {Meta},
+	title  = {Meta-llama-3-8b-instruct},
+	year   = {2024},
+	url    = {https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{deepseek-coder-6.7b-instruct,
+	author = {DeepSeek-AI},
+	title  = {deepseek-coder-6.7b-instruct},
+	year   = {2023},
+	url    = {https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-instruct/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{deepseek-llm-67b-chat,
+	author = {DeepSeek-AI},
+	title  = {deepseek-llm-67b-chat},
+	year   = {2023},
+	url    = {https://huggingface.co/deepseek-ai/deepseek-llm-67b-chat/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{Qwen1.5-32B-Chat,
+	author = {Qwen},
+	title  = {Qwen1.5-32b-chat},
+	year   = {2024},
+	url    = {https://huggingface.co/Qwen/Qwen1.5-32B-Chat/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@misc{Qwen1.5-72B-Chat,
+	author = {Qwen},
+	title  = {Qwen1.5-72b-chat},
+	year   = {2024},
+	url    = {https://huggingface.co/Qwen/Qwen1.5-72B-Chat/},
+	note   = {[Online; accessed 28-Feb-2025]}
+}
+
+@inproceedings{temperature_optimization_2,
+	author    = {Jiawei Liu and Chunqiu Steven Xia and Yuyao Wang and Lingming Zhang},
+	title     = {Is your code generated by ChatGPT really correct? rigorous evaluation of large language models for code generation},
+	booktitle = {Proceedings of the 37th International Conference on Neural Information Processing Systems},
+	series    = {NIPS '23},
+	pages     = {1--15},
+	article   = {943},
+	address   = {Red Hook, NY, USA},
+	publisher = {Curran Associates Inc.},
+	year      = {2023}
+}
+
+@inproceedings{temperature_optimization_3,
+	author    = {Frank F. Xu and Uri Alon and Graham Neubig and Vincent Josua Hellendoorn},
+	title     = {A systematic evaluation of large language models of code},
+	booktitle = {Proceedings of the 6th ACM SIGPLAN International Symposium on Machine Programming},
+	series    = {MAPS 2022},
+	pages     = {1--10},
+	address   = {San Diego, CA, USA},
+	publisher = {Association for Computing Machinery},
+	year      = {2022}
+}
+
+@inproceedings{from_words_to_watts,
+	author    = {Siddharth Samsi and Dan Zhao and Joseph McDonald and Baolin Li and Adam Michaleas and Michael Jones and William Bergeron and Jeremy Kepner and Devesh Tiwari and Vijay Gadepally},
+	title     = {From words to watts: benchmarking the energy costs of large language model inference},
+	booktitle = {Proceedings of the 2023 IEEE High Performance Extreme Computing Conference (HPEC)},
+	pages     = {1--9},
+	publisher = {IEEE},
+	year      = {2023}
+}
+
+@incollection{llm_story,
+	author    = {Koppuravuri Harsha and Kanakam Tarun Kumar and D. Sumathi and E. Ajith Jubilson},
+	title     = {A survey on LLMs: evolution, applications, and future frontiers},
+	booktitle = {Generative AI: Current Trends and Applications},
+	editor    = {Khalid Raza and Naeem Ahmad and Deepak Singh},
+	pages     = {289--327},
+	publisher = {Springer Nature Singapore},
+	address   = {Singapore},
+	year      = {2024}
 }
 
 
-
-@book{b:arrl,
-     author="R. Dean Straw",
-     title="The ARRL Antenna Book, 20th Ed.",
-     publisher="American Radio Relay League, Inc.",
-     isbn = {0-87259-904-3},
-     year="2003"
+@misc{result_data,
+	author = {Zoltán Ságodi and István Kolláth and Péter Hegedűs and Rudolf Ferenc},
+	title  = {Shared dataset for LLM evaluations over temperatures},
+	year   = {2025},
+	url    = {https://doi.org/10.5281/zenodo.14936169},
+	note   = {Dataset containing raw and processed outputs from LLM inferences, including scripts and environment descriptors}
 }
-
-@techreport{b:mays01,
-    author      = "B.T. Mays",
-    title       = "Shockwave and Muzzle Blast Classification via Joint Time Frequency and Wavelet Analysis",
-    institution = "Army Research Lab Adelphi MD 20783-1197",
-    year        = 2001,
-    month       = sep,
-}
-
-
-@patent{b:duckworth99,
-    authors = "G.L. Duckworth and D.C. Gilbert and J.E. Barger",
-    year    = 1999,
-    month   = jul,
-    title   = "{U.S. Patent 5,930,202: Acoustic counter-sniper system}",
-    key = "Duckworth",
-}
-
-@misc{b:cisco-loc,
-    title   = "{CISCO} Location Services-Based Services website",
-    howpublished = "\url{http://www.cisco.com/en/US/docs/solutions/Enterprise/Mobility/wifich3.html}",
-    key = "CISCO",
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% END OF THESIS3 REFERENCES %%%%%%%%%%%%%%%%%%%%%%%%%

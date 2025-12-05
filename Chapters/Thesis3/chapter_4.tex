@@ -1,20 +1,469 @@
-\chapter{Name of Chapter IV}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMANDS FOR THESIS3 %%%%%%%%%
+
+\definecolor{lightgraybox}{gray}{0.95}
+\newenvironment{ieeepromptbox}
+{\def\FrameCommand{\fboxrule=1pt \fcolorbox{black}{lightgraybox}}%
+	\MakeFramed{\advance\hsize-\width \FrameRestore}%
+	\noindent\textbf{LLM Prompt}\par\vspace{0.5em}}
+{\endMakeFramed}
+
+%%%%%%%%%%%%%%%% END OF COMMANDS THESIS3 %%%%%%%%%%%%%%%%%%%%%
+\chapter{Deeper Analysis of LLM Temperature}
 \label{chapter_4}
 
 Chapter brief.
 
-\section{Introduction}
-Chapter intro.
-\textit{Structure of the chapter}: Section REF summarizes the related works and briefly presents previous results. The Work I is covered in Section REF. The Work II is covered in Section REF. Result and final thoughts are summarized in Section~\ref{ch4:contrib}.
-\section{Related Works}
-Chapter related research.
 
-\section{Chapter Work I.}
-Work I. \cite{b:arrl}
-\section{Chapter Work II.}
-Work II. \cite{b:duckworth99}
+\section{Introduction}
+\label{th4:section:introduction}
+
+Large Language Models (LLMs) became integral to software engineering research, addressing various tasks such as test case generation~\cite{llm_test_code_generation_survey}, vulnerability detection~\cite{llm_vuln_apr_survey}, automated program repair~\cite{llm_vuln_apr_survey}, source code comprehension~\cite{llm_code_comprehension_1, llm_code_comprehension_2}, and program synthesis~\cite{llm_code_generation_survey}.
+Many studies evaluate LLMs at large scale; however, they often do not provide access to the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+While evaluation scripts are frequently shared, this raises several concerns.
+
+First, since LLMs rely on probabilistic generation, their outputs can vary, making it difficult to reproduce the exact results reported in studies.
+Second, which our paper is mostly built around, the computational cost of running these evaluations is substantial, requiring significant GPU resources.
+By reusing previously generated LLM outputs, researchers can mitigate these computational demands, reducing energy consumption and enabling broader accessibility.
+The hardware requirements are also considerable, as the evaluation of larger models necessitates access to specialized computational resources, such as high-memory GPUs, which may be beyond the reach of many researchers due to limited availability or prohibitive cost.
+
+Our dataset, containing 18,900 raw and 18,896 processed LLM outputs, 
+was produced in a study where various LLM families (Llama, Qwen, DeepSeek) were inferenced under various temperature settings.
+This dataset enables researchers to analyze LLM outputs without the need to execute the models themselves.
+Beyond energy efficiency, this approach also addresses hardware constraints, as some LLMs demand substantial GPU memory, which may not be available to all researchers.
+By making these generated outputs accessible, we facilitate analysis even for those without the necessary computational resources.
+Our dataset also addresses the limitations of well-known benchmarks by incorporating problems sourced from a programming competition, named Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}.
+Although this is an international competition, its likelihood of being included in LLM training corpora is lower, reducing the risk of bias in model evaluation, thus making the generated LLM outputs relatively unique compared to the well-known benchmark results.
+
+In addition to releasing the dataset, we also provide several potential use cases to illustrate its applicability in different contexts.
+To demonstrate its practical value, we include a brief analysis that explores one specific scenario.
+In this analysis, we focus on examining the effect of temperature on the success rate of the Qwen model family.
+These results emphasize the need for a more comprehensive and systematic investigation to uncover the nuanced ways in which temperature influences performance.
+
+
+\section{Related Work}
+\label{th4:sec:related}
+
+Generative AI became an integral part of software engineering especially with the raise of LLM, when the Transformer~\cite{attention} architecture was presented.
+	LLMs are now widely adopted across many domains~\cite{llm_story}, including education, finance, and healthcare, where they support tasks ranging from personalized learning to risk assessment and medical decision support.
+	LLMs are also extensively used and researched in software engineering.
+
+A key application of LLMs in software engineering is program code synthesis, where a model generates source code based on a given natural language (NL) description.
+This capability serves as the foundation for various software engineering tasks.
+Schäfer et al.~\cite{unittest_llm} used LLMs to generate unit tests, Xia et al.~\cite{apr_llm} performed automated program repair using LLMs, Song et al.~\cite{generation_llm} synthesized full programs.
+Besides the results, researchers must consider the energy consumption of their LLM related research without reusing generated text.
+	Samsi et al.~\cite{from_words_to_watts} measured the energy requirements of various models.
+Given the computational cost of LLM-based code synthesis, reusing previously generated outputs can significantly enhance efficiency, reducing redundant computations.
+
+Reusing generated output not only mitigates the energy requirements but also provides consistent research base.
+	Although reusing generated texts could help researchers, there are works which did not share the results.
+	Song et al.~\cite{data_no_share_1} generated projects for educational purposes.
+	Xia et al.~\cite{data_no_share_2} used LLMs for automated program repair.
+	While benchmarks provide fixed versions, therefore, the fixed versions are available, models often do not generate only the fixed versions, rather including extra information in the output from which the useful part should be extracted.
+	Similarly, there are works~\cite{data_no_share_3,data_no_share_4,data_no_share_5} that do not share their valuable resources publicly.
+
+Although some studies do publish LLM-generated outputs, these are often limited to the initial papers introducing a particular model.
+Works with available LLM outputs frequently rely on well-established benchmarks, leading to repetitive LLM outputs such as outputs generated on HumanEval~\cite{codex}.
+Xia et al.~\cite{shared_common_data} used multiple common datasets, such as Defects4J~\cite{defect4j}, QuixBugs~\cite{quixbugs}, and ManyBugs~\cite{manybugs_introclass}.
+Li et al.~\cite{common_shared_llm_output} also used Defects4J.
+A key limitation of using well-known benchmarks is the potential for biased evaluations.
+Since LLMs are trained on vast text corpora that may include these benchmarks, their performance can be artificially inflated.
+A notable example is HumanEval\footnote{\url{https://github.com/openai/human-eval}}, originally designed to assess OpenAI’s Codex~\cite{codex} model, which has since become a widely used benchmark in LLM evaluation.
+Other widely used benchmark is for example Vul4J~\cite{vul4j} due to its proof of vulnerability tests.
+
+
+\section{Methods}
+\label{th4:section:methods}
+
+In this section, we describe the approach for selecting the models and programming tasks included in the dataset and also describe the framework and prompt engineering we used for inference.
+
+
+\subsection{Inference overview}
+
+We inferenced nine open-source LLMs on seven programming tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}. The descriptions of these programming tasks were embedded within a fixed prompt template (See in Section~\ref{th4:our_prompt}), ensuring consistency across all models and tasks.
+
+Model inference was conducted using the Hugging Face Transformers library\footnote{\url{https://huggingface.co/docs/transformers/en/index}}, adhering to the recommended model configurations. The temperature parameter was systematically varied for each execution, with an incremental step of 0.01.
+As a result, for every model and programming task we generated 100 outputs.
+We performed the entire process three times.
+
+\subsection{Model Selection}
+\label{th4:section:model_selection}
+
+Our methodology began with the selection of multiple large language models (LLMs).
+We first curated a list of widely used open-source LLMs relevant to software-related research.
+From this list, we selected the top three models based on their official performance results on the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
+To ensure a realistic assessment, we considered top-1 evaluation for both benchmarks.
+Unlike top-k evaluation, which runs the model \texttt{k} times and selects the best outcome, thereby leveraging probabilistic variability, top-1 evaluation assesses the model based on a single execution per task.
+This approach more accurately reflects real-world usage scenarios, where multiple attempts are often infeasible, rather than 10 or 100 evaluations.
+The selected models and their corresponding benchmark results are summarized in Table~\ref{th4:table:model_list}.
+
+We selected the top three from the collected models.
+This process required evaluating model performance across both benchmarks while addressing cases where official results were unavailable for one of them.
+We could not find an official evaluation on MBPP for multiple models, thus we assigned the worst value in order not to make a model better as it could be.
+To achieve a balanced and principled selection, we employed the Pareto ranking method~\cite{pareto_usage}, which is widely used in economics to determine optimal trade-offs between two competing variables and even handles 0 values without completely biasing the result, such as average.
+It can take into consideration lower values and promote options with lower value for one variable only if the option is outstanding in another variable.
+The lower the rank is, the better the model performance is based on its combined score on the two benchmarks.
+This approach not only identifies the best-performing models but also guarantees that the final selection is globally optimal with respect to the given evaluation criteria.
+The Pareto ranks are also included in Table~\ref{th4:table:model_list}.
+Based on the ranks, we selected \texttt{CodeQwen1.5-7B-Chat}~\cite{CodeQwen1.5-7B-Chat}, \texttt{deepseek-coder-33b-instruct}~\cite{deepseek-coder-33b-instruct}, \texttt{Meta-Llama-\\3-70B-Instruct}~\cite{Meta-Llama-3-70B-Instruct}.
+
+\begin{table}[h]
+	\centering
+	\resizebox{0.99\textwidth}{!}{
+		\begin{tabular}{|l|r|r|r|}
+			\hline
+			\textbf{Model Name}                    & \textbf{HumanEval Score} & \textbf{MBPP Score} & \textbf{Pareto Score} \\
+			\hline
+			\textbf{CodeQwen1.5-7B-Chat}           & 83.50                    & 77.70               & \textbf{1.0}           \\ \hline
+			\textbf{deepseek-coder-33b-instruct}   & 79.30                    & 70.00               &\textbf{2.0}            \\ \hline
+			\textbf{Meta-Llama-3-70B-Instruct}     & 81.70                    & 0.00                & \textbf{2.0}           \\ \hline
+			DeepSeek-Coder-instruct-6.7B           & 78.60                    & 65.40               & 3.0                    \\ \hline
+			SantaCoder-1.1B                        & 49.00                    & 68.00               & 3.0                    \\ \hline
+			CodeLlama-instruct-70B                 & 67.80                    & 62.20               & 4.0                    \\ \hline
+			Magicoder-S-DS-6.7B                    & 70.70                    & 62.00               & 4.0                    \\ \hline
+			StarCoder(-prompted)                   & 33.60                    & 52.70               & 5.0                    \\ \hline
+			WizardCoder                            & 57.30                    & 51.80               & 5.0                    \\ \hline
+			CodeGen-Mono-16B                       & 29.28                    & 35.28               & 6.0                    \\ \hline
+			Instruct-CodeGen                       & 37.10                    & 0.00                & 6.0                    \\ \hline
+			CodeGeeX  13B                          & 22.89                    & 24.37               & 7.0                    \\ \hline
+			CodeT5+-instruct-16B                   & 35.00                    & 0.00                & 7.0                    \\ \hline
+			CodeGen2-7B                            & 19.09                    & 0.00                & 8.0                    \\ \hline
+			InCoder                                & 15.00                    & 19.00               & 8.0                    \\ \hline
+			PolyCoder-2.7B                         & 5.59                     & 0.00                & 9.0                    \\ \hline
+		\end{tabular}
+	}
+	\caption{Performance of various models on HumanEval, MBPP, and their Pareto scores.}
+	\label{th4:table:model_list}
+\end{table}
+
+
+While the selected top three models represent the best-performing base models, they belong to different model families and vary in size.
+To provide a more comprehensive analysis, we extended our scope to include multiple model sizes within each family.
+
+In addition to the top three models, we incorporated six additional models, ensuring a more holistic comparison across architectures (Llama, Qwen, DeepSeek) and model sizes.
+The additionally selected model versions are as follows:
+\begin{itemize}
+	\item Llama family: \texttt{CodeLlama-13b-Instruct-hf}~\cite{CodeLlama-13b-Instruct-hf}, \texttt{Meta-Llama-3-8B-Instruct}~\cite{Meta-Llama-3-8B-Instruct}
+	\item DeepSeek family: \texttt{deepseek-coder-6.7b-\\instruct}~\cite{deepseek-coder-6.7b-instruct}, \texttt{deepseek-llm-67b-chat}~\cite{deepseek-llm-67b-chat}
+	\item Qwen family: \texttt{Qwen1.5-32B-Chat}~\cite{Qwen1.5-32B-Chat}, \texttt{Qwen1.5-\\72B-Chat}~\cite{Qwen1.5-72B-Chat}
+\end{itemize}
+\subsection{Programming Task Selection}
+\label{th4:section:programming_task_selection}
+
+
+As discussed in Section~\ref{th4:section:introduction}, widely used and well-established benchmarks may exhibit inherent biases.
+Such biases can limit the generalizability of evaluation results, thereby reducing their effectiveness in assessing LLM behavior under diverse conditions.
+Although most open-source models disclose details regarding their training datasets, this information is not always entirely accurate and may contain omissions.
+An excellent example is the Llama model.
+As statet by Meta the Llama-3 model ''Llama 3 is pretrained on over 15T tokens that were all collected from publicly available sources.''\footnote{\url{https://ai.meta.com/blog/meta-llama-3/}}
+
+Initially, we considered leveraging tasks from prominent programming platforms such as LeetCode.
+However, our investigation revealed that the publicly available problems and their corresponding test inputs are already incorporated into various existing benchmarks.
+Consequently, we sought alternative, lesser-known programming challenges and identified a Transylvanian university that organizes annual programming competitions (Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}).
+A distinguishing characteristic of these competitions is that the problems are manually crafted each year, ensuring uniqueness.
+
+To systematically process and select appropriate algorithmic problems, we established the following criteria:
+\begin{itemize}
+	\item Each problem must include at least 10 test cases to enable a comprehensive evaluation across diverse scenarios.
+	\item The problem descriptions should not rely on images for explanations, as LLMs are primarily optimized for text-based processing.
+\end{itemize}
+
+Furthermore, we deliberately selected an odd number of problems to facilitate decision-making in subsequent evaluation stages.
+The final set of selected problems is presented in Table~\ref{th4:table:selected_problems}.
+We manually categorized the programming tasks, based on the descriptions of the ECN rules\footnote{\url{https://ecn.ms.sapientia.ro/rules.php}}, to provide a broader overview of the tasks. 
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{Selected problem} & \textbf{Problem type}  & \textbf{Number of testcases} \\ \hline
+		2017-L                    &  Sorting and Searching & 16 \\ \hline
+		2018-H                    &  Mathematics           & 20 \\ \hline
+		2019-D                    &  Graph                 & 21 \\ \hline
+		2019-J                    &  String Processing     & 13 \\ \hline
+		2019-M                    &  Dynamic Programming   & 27 \\ \hline
+		2022-B                    &  Dynamic Programming   & 16 \\ \hline
+		2023-A                    &  Graph                 & 20 \\ \hline 
+	\end{tabular}
+	\caption{Selected problems from the ECN competition, identified by their respective year and problem number, along with their corresponding problem type and number of test cases. Original source:\url{https://ecn.ms.sapientia.ro/problems.php}}
+	\label{th4:table:selected_problems}
+\end{table}
+We prompted the LLMs to solve these problems using C++.
+As a strongly typed, compiled language, C++ enables the detection of not only semantic errors but also syntactic and certain logical errors at compile time.
+This reduces the need for extensive runtime testing, as fundamental issues can be identified during compilation without executing the program.
+
+
+\subsection{Inference Framework}
+\label{th4:section:framework}
+
+For our experiments, we selected HuggingFace Transformers\footnote{\url{https://huggingface.co/docs/transformers/en/index}}, a widely used framework for training and evaluating machine learning algorithms and models.
+To ensure optimal performance, we followed the recommended configurations for each model, mostly defined by a config.json or described in the model sheet on HuggingFace.
+
+The inferences were conducted on the Komondor supercomputer\footnote{\url{https://hpc.kifu.hu/hu/komondor}}, located in Hungary.
+We were able to allocate four NVIDIA A100 GPUs for our experiments.
+Additionally, we had access to two NVIDIA H100 GPUs, which significantly accelerated the inference of larger models.
+
+\subsection{Prompt engineering}
+
+Given that this dataset primarily investigates the effects of temperature on code synthesis, we did not introduce variations in prompts.
+However, we employed fundamental prompt engineering techniques to enhance model responses.
+The applied strategies include:
+\begin{itemize}
+	\item \textbf{Role Specification:} Providing a predefined role helps establish context for the model. This was implemented within the system prompt.
+	\item \textbf{Structured Output Requests:} Enforcing a specific output format improves response predictability, facilitating more reliable result parsing.
+	\item \textbf{Explanation Enforcement:} Requiring explanations in responses encourages the model to generate semantically coherent solutions.
+	\item \textbf{Few-shot Learning:} When example input-output pairs were available within the task description, we incorporated them to guide the model behavior.
+\end{itemize}
+Each prompt inherently included the unique description of the corresponding programming task.
+While different models may exhibit distinct sensitivities to prompt engineering techniques, we aimed to isolate temperature as the sole variable in our experiments.
+Consequently, we used a standardized prompt across all models and temperature settings.
+
+The final prompt template is provided alongside the dataset.
+Although we did not introduce multiple prompt variations, the scripts are designed to accommodate distinct system prompts per model and task.
+
+The prompt utilized in our experiments is as follows:\\
+\begin{minipage}{0.99\textwidth}
+	\label{th4:our_prompt}
+	
+	\begin{ieeepromptbox}
+		Your task is to solve problems that are described as real-life likely scenarios, meaning you have to figure out the solution and implement it.
+		You have to provide the solution C++ code between ` ` ` tags.
+		Explain the solution why it solves the problem.
+		Pay attention to possible edge cases.
+		You will be provided with the description and a few input output examples.
+		I will not alter your code so follow strictly how to read, in what format to read, the input and how to write the output.
+		It is very important for me.
+		
+		The description:
+		"""
+		$<$TASK-DESCRIPTION$>$
+		"""
+		
+		Example I/O:
+		"""
+		$<$EXAMPLE$>$
+		"""
+		
+		Generate the solution in C++ between ` ` ` tags and an explanation why it works.
+	\end{ieeepromptbox}
+	
+\end{minipage}
+
+
+\section{Data Records}
+\label{th4:section:data_records}
+
+The dataset\cite{result_data} comprises raw and processed outputs derived from the inference of large language models (LLMs) across diverse model families, and parameter sizes.
+Inferences were conducted under controlled conditions, with temperature values systematically varied within the interval $[0.01;1.00]$, using 0.01 increments.
+
+The data is organized hierarchically to reflect the inference structure.
+At the top level, the dataset is partitioned into three distinct model families.
+Within each model family, there are three models differing primarily in size, with approximately 10 billion (10B), 30 billion (30B), and 70 billion (70B) parameters, respectively.
+For each model, inference was repeated across three independent runs (denoted as run1, run2, and run3) to account for stochastic variability inherent in LLM outputs.
+Each run directory contains subfolders corresponding to 100 distinct temperature settings.
+Within each temperature setting, the data is further subdivided into seven task-specific folders, each representing a unique programming task identified by year-letter codes as described in Section~\ref{th4:section:programming_task_selection}.
+
+Every task folder contains two artifacts:
+\begin{itemize}
+	\item Raw output file, which is the unprocessed output generated by the LLM;
+	\item Processed file, containing curated outputs where only the source code segments have been extracted. This processing step was necessary as the original LLM responses included both source code and accompanying explanations, with the latter excluded to focus on code-specific analysis. From DeepSeek family 4 results did not contain any source code, therefore, we could not prepare cpp files for those, resulting in 18,896 processed files.
+\end{itemize}
+
+This meticulous structure facilitates efficient retrieval and comparison of results across model families, model sizes, temperature settings, and programming tasks. In total, the dataset encompasses:
+\textbf{3} model families,
+\textbf{3} model sizes per family,
+\textbf{3} runs per model,
+\textbf{100} temperature settings per run, and
+\textbf{7} programming tasks per temperature setting.
+In total, this yields \textbf{18,900} raw LLM outputs and an additional \textbf{18,896} corresponding processed files.
+
+The data record also contains a JSON file (\texttt{temperature\\\_stats.json}), which contains test case results related to the generated programs.
+We discuss these results in Section~\ref{th4:sec:results_profile}
+
+\section{Technical Validation}
+\label{th4:section:technical_validation}
+
+The raw outputs remain entirely unaltered, preserving their integrity for reproducibility and unbiased analysis.
+
+In contrast, the processed outputs were generated using a heuristic-based text processing pipeline designed to extract source code from the raw responses.
+This approach, while efficient, introduces the potential risk of incomplete or erroneous parsing, where valid source code segments might not be correctly identified.
+In four cases there are no cpp files, as the model did not generate any source code.
+The list is available besides the scripts, named \texttt{result\_without\_source\_code.list}.
+
+To validate the accuracy of the processed outputs, we attempted to compile each extracted C++ source code file using {\ttfamily\bfseries g++ (Debian 10.2.1-6) 10.2.1 20210110}.
+Successful compilation was treated as an indicator of both syntactic correctness in the generated code and the successful parsing of the raw output, therefore, we only had to validate the cases with compilation error.
+There were \textbf{3,959} instances where compilation failed.
+These failures could stem from two primary sources: genuine compilation errors present in the LLM-generated code, or errors introduced during the heuristic processing phase.
+
+To differentiate between these causes, we conducted a manual verification of \textbf{351} randomly selected cases from the failed compilations, ensuring a \textbf{95\%} confidence level with a \textbf{5\%} margin of error.
+The manual evaluations showed no error in our process and all the compile errors were in fact errors generated by the models.
+The full list of failing cases (\texttt{failing\_compilation.list}), along with the manually sampled ids (\texttt{random\_ids.list}), is provided within the shared dataset besides the scripts.
+
+\section{Results profile and applicability}
+\label{th4:sec:results_profile}
+
+Following the compilation of the processed files intended for validation, we proceeded to execute the resulting binaries against the test cases supplied by Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}.
+The number of results varied per binary depending on the specific task (see Table~\ref{th4:table:selected_problems}).
+For easier reproducibility, test cases and the required outputs are collected in the \texttt{io} folder of the dataset.
+
+Subsequent to execution, all observed outcomes were merged into a single structured data file which is named \texttt{temperature\_stats.json}.
+This JSON file serves as a comprehensive repository, capturing detailed execution information down to the granularity of individual test cases.
+The design of this dataset facilitates both fine-grained analysis and aggregated evaluations of system behavior under varying runtime conditions.
+
+A summary of the high-level execution outcomes is presented in Table~\ref{th4:table:outcomes}.
+These results offer a foundation upon which users of the dataset may conduct further analyses to identify and quantify behavioral patterns exhibited by the underlying language models.
+Notably, the experiments were carried out using three independent inference runs per test case, configured to perform Top-1 generation.
+Furthermore, temperature values were varied incrementally in steps of 0.01, thereby enabling precise control over the generation randomness.
+
+This setup inherently supports multiple aggregation strategies.
+For instance, one possible interpretation could be to consider the three inference runs as producing a Top-3 result set, thereby emphasizing diversity in successful outputs.
+Alternatively, users may choose to re-aggregate the temperature steps using coarser intervals—such as merging several 0.01 increments into larger step sizes—to derive broader trends and reduce noise in the data.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline
+		\textbf{Outcome} & \textbf{Number}  \\ \hline
+		Passed           & 6.900            \\ \hline
+		Failed           & 18.755           \\ \hline
+		Runtime Error    & 2.306            \\ \hline
+		Timeout          & 1.921            \\ \hline
+		\textbf{Sum}     & \textbf{29.882}  \\ \hline
+	\end{tabular}
+	\caption{Number of different outcomes during program executions on test cases.}
+	\label{th4:table:outcomes}
+\end{table}
+
+As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
+These results, in conjunction with the detailed metadata preserved in the JSON file, enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+We list a few scenarios, not aiming for completeness, which our dataset can be used for, without any further inference:
+\begin{itemize}
+	\item \textbf{Simple code generation evaluations on non-standard coding tasks}: analyzing fail-pass rates, the characteristics of runtime errors or even the code similarities. With our dataset researchers just have to parse a JSON file and figure out relevant metrics. With the output files authors can perform in depth analysis on the generated texts as a series of tokens.
+	
+	\item \textbf{Analyzing task based behavior}: various tasks annotated with their problem types (see Table \ref{th4:table:selected_problems}) allows researchers to investigate various metrics, such as fail-pass rates or runtime/memory complexity, depending on the task type itself.
+	
+	\item \textbf{Deeper analysis of temperature}: there are papers \cite{temperature_optimization_2, temperature_optimization_3}which discuss the temperature setting for optimal generated code, although, it is not clearly stated whether it is required or even useful on finer grained scale. As our dataset contains a wide range of temperatures and 18.900 raw generations the effects of temperature can be analyzed at multiple granularities.
+	
+	\item \textbf{Investigation of the possible correlation between performance and the size or family of the model}: as our dataset contains multiple model families with multiple model sizes, it is possible to evaluate how different sized models behave and even to evaluate how different families perform on the same model size.
+\end{itemize}
+
+
+\section{Use case: analysis of temperature}
+\label{th4:sec:use_case}
+
+To illustrate the applicability of our dataset, especially the \texttt{temperature\_stats.json} file, we present a brief use case.
+Specifically, we examine whether model performance depends on the temperature parameter.
+Furthermore, we demonstrate that the results can be meaningfully aggregated by reducing the granularity of temperature sampling from the original step size of 0.01 to 0.1.
+To get the required data, we simply load the provided JSON file and access the required elements.
+
+For this analysis, we focus on the Qwen model family across two randomly selected benchmark tasks: Task 2019 D and Task 2022 B.
+Our working hypothesis is that models exhibit comparable performance dynamics across tasks when the temperature parameter is varied.
+To obtain the coarser 0.1 sampling, we compute the mean performance over every 10 consecutive values in the original dataset and mark it as the highest value in the interval.
+For example, aggregating the interval [0.01;0.1] we average the values and assign it to the temperature value of 0.1.
+
+Based on this aggregated dataset, we generate two plots (Figure~\ref{th4:fig:temperature_independence_averaged}), each corresponding to one of the tasks.
+Each plot includes results for the three models from the Qwen family.
+To evaluate the hypothesis, we conduct a comparative analysis of the two plots.
+Divergent performance trends across the tasks would indicate that the models respond differently to temperature adjustments, thereby refuting the hypothesis.
+
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=1.7in]{Chapters/Thesis3/fig/usecase/rq1-averaged-Qwen-family-2019_D}
+		\caption{Qwen models on task 2019 D}
+	\end{subfigure}%
+	\\
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[height=1.7in]{Chapters/Thesis3/fig/usecase/rq1-averaged-Qwen-family-2022_B}
+		\caption{Qwen models on task 2022 B}
+	\end{subfigure}%
+	\\
+	
+	\caption{Qwen models' performance on two programming tasks for different temperature values with a step size of 0.1.}
+	\label{th4:fig:temperature_independence_averaged}
+\end{figure}
+
+In the plots, the X-axis represents the aggregated temperature values, while the Y-axis indicates the percentage of successfully solved test cases.
+Although the absolute Y-axis scales differ between the two tasks, our analysis focuses on the relative changes in performance trends.
+
+For the blue line (CodeQwen1.5-7B-Chat), the performance on chart (a) is relatively stable, with a slight peak around a temperature of 0.6.
+In contrast, on chart (b) the curve exhibits multiple peaks, with a noticeable drop near 0.6 and a declining trend toward the end of the temperature range.
+The orange line (Qwen1.5-32B-Chat) shows a high starting value on chart (a), after which performance drops and remains consistently low.
+On chart (b), the curve begins at a low level, remains flat, and only increases slightly at the upper end of the temperature range.
+Finally, the green line (Qwen1.5-72B-Chat) displays a similar initial trend in both charts, but the locations of the peaks differ between the two tasks, indicating task-dependent sensitivity to the temperature parameter.
+
+
+\begin{framed}
+	\noindent In our use case with two randomly selected tasks, all models from the Qwen family exhibit distinct performance trends as the temperature parameter varies.
+		Since the observed trajectories differ across tasks, our initial hypothesis is not supported.
+\end{framed}
+
+A more comprehensive analysis would be needed to account for both fine and coarse-grained temperature settings and extend the comparison to additional model families.
+Furthermore, employing more sophisticated similarity metrics would enable a more rigorous evaluation of performance dynamics.
+Nevertheless, the presented case study is intended primarily as an illustrative example of how the dataset can be utilized, rather than as an in-depth analysis.
+A thorough investigation along these lines would constitute separate future work.
+
+
+\section{Conclusion}
+\label{th4:sec:conclusion}
+
+In this work we describe how we processed 18,900 raw code generations from Large Language Models, using fine-grained temperature settings during inference.
+Before evaluation, we applied a pre-processing step to extract only the actual source code segments from the outputs.
+This extraction step was manually validated, although not across the entire dataset.
+
+The cleaned and compiled sources were then evaluated using test cases.
+To make the results easily accessible, we exported all evaluation outcomes into a JSON file, enabling faster and more convenient reuse of the data.
+
+We also outlined potential scenarios where this dataset could support further research, and showcased a short use case focused on temperature analysis.
+Interestingly, the analysis revealed an unexpected finding: temperature does not have a general effect on the success rate of generated code.
+This result highlights the value of our dataset, showing that it can serve as a strong foundation for deeper investigations into the behavior of LLMs.
+
+
+\section{Threats to validity}
+\label{th4:sec:threats_to_validity}
+
+Although we did our best to have the most general and reliable results, there are still factors which could mislead our dataset, therefore, all the research based on this dataset.
+
+\textit{Internal threats to validity.}
+\\
+\textbf{Source code:} our results were created using scripts that we created, therefore, it is possible that we made mistakes which alter the results.
+The best we could do is have our code reviewed and we publish the scripts (see Section \ref{th4:section:code_availability}) so anyone can check its validity.
+\\
+\textbf{Badly processed results:} we did not only provide the raw outputs from the models, but also processed them.
+This process involved heuristics, thus the results are not guaranteed to be perfect.
+We did manual evaluation on a statistically significant scale and found no mistakes, however, this does not guarantee that there are no mistakes at all.
+
+%Although our results are designed to provide data for researchers and we did not make results which should be generalized, researchers using our data might face the following 
+
+\textit{External threats to validity.}
+\\
+\textbf{Model selection:} we used 3 model families with 3 different sizes which results in 9 models, it still cannot be considered large enough to cover every possible LLM, we did our best to cover the ones that might be used by other researchers who could select models based on popular benchmark scores.
+We selected the models based on those scores using Pareto ranking, which is a commonly used method to take multiple factors into consideration.
+
+\section{Code Availability}
+\label{th4:section:code_availability}
+
+For the generation of our dataset, we inferenced 9 distinct LLMs, and we provide full transparency by publishing the corresponding scripts along with the Python environment descriptors necessary for reproducibility.
+
+The processed outputs were generated using a dedicated Python script, which is also included in the shared dataset.
+All scripts are located within the scripts directory, organized alongside the top-level model-family folders.
+This directory contains:
+\begin{itemize}
+	\item The Python scripts used for each LLM inference;
+	\item The Python environment configuration files;
+	\item The processing script responsible for extracting source code from the raw outputs;
+	\item An additional Python script designed to automate the compilation of all parsed source code files;
+	\item A Python script that evaluates the compiled binaries;
+	\item The list of cpp files, which did not compile and the IDs of manually evaluated files.
+\end{itemize}
+
+The script for our use case are also included in order to help other authors by providing an example code that processes our dataset.
+	It is found in the \texttt{use\_case} folder.
+
+
 \section{Discussion and concluding remarks}
-\label{ch4:contrib}
+\label{th4:ch4:contrib}
 
 Chapter conclusion.
 

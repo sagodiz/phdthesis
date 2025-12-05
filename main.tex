@@ -39,6 +39,23 @@ headsep=1cm
 \usepackage{enumitem}
 \usepackage[acronym, nopostdot]{glossaries}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%% THESIS1 PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings} %Thesis1
+\usepackage{adjustbox} % Thesis1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% END OF THESIS1 PACKAGES %%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%% THESIS2 PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xspace}
+\usepackage{fancybox,framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% END OF THESIS2 PACKAGES %%%%%%%%%%%%%%%%%%%%
+
+
+
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
 % \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -142,41 +159,6 @@ headsep=1cm
 
 % Intro:
 \include{Chapters/intro_section}
-
-\section{Examples}
-
-% Acronym examples
-Given a set of numbers, there are elementary methods to compute 
-its \acrlong{gcd}, which is abbreviated \acrshort{gcd}. This process 
-is similar to that used for the \acrfull{lcm}.
-
-% Figure example:
-Examples of figure:
-\begin{figure}[h]
-\caption{Example of figure}
-\centering
-\includegraphics[width=0.3\linewidth]{Figures/szte_logo}
-\end{figure}
-
-% Table example:
-Examples of table:
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\#    & Col 1 & Col2 \\ \hline
-Row 1 & 0     & 1    \\ \hline
-Row 2 & 2     & 3    \\ \hline
-\end{tabular}
-\caption{Example of table}
-\label{main:table_1}
-\end{table}
-
-Example of equations:
-% Equations example
-\begin{equation}
-    x_{test} = b^2 + c^2
-\end{equation}
 
 % Thesis:
 \include{Chapters/Thesis1/chapter_2} 

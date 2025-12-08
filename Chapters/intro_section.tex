@@ -1,28 +1,76 @@
 \chapter{Introduction}
 
-Introduction
-\vfill
-\newpage
+%Software Engineering is an ever growing and evolving field.
+%Not only are there many and many new fields, but the technology behind it is a constantly and rapidly changing topic.
+%Since the manually created software, We got to a point where the Integrated Development Environments (IDEs),- which are a huge help for developers by the syntax highlight, navigation, formatting and so on features,- are included in every developers arsenal.
+%These tools were created for the convinience of the  developers, although many has failed and they are constantly changing by the requirements of the developer community.
 
-Intro cont.
+%Such tools are the recently introduced Artificial Intelligence (AI) based Large Language Models (LLMs) which are currently transforming our jobs as software engineers.
+%Similarly, these tools and models require adaptation to developer requirements and also, the developers must discover what these tools are capable of, what are the main tasks which can be performed on a higher quality or same quality but faster by using them.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Software engineering is a continuously growing and evolving field.
+Not only do new subfields emerge constantly, but the underlying technologies are also changing at a rapid pace.
+From the early days of manually written software, we have progressed to a point where Integrated Development Environments (IDEs)—which provide substantial support through features such as syntax highlighting, code navigation, and automated formatting—have become standard tools in every developer’s arsenal.
+Although these tools were created for developer convenience, many have failed over time, and those that remain continue to evolve in response to the changing requirements of the developer community.
+
+Such tools are the recently introduced Artificial Intelligence (AI) based Large Language Models (LLMs), which are currently reshaping the daily work of software engineers.
+As with earlier tools, these models must adapt to developer needs, and developers, in turn, must explore their capabilities to determine which tasks can be performed at higher quality—or at the same quality more efficiently—through their use.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Developers are facing many difficulties such as the need of change in coding habits and the way how creative work becomes mostly a review work by the appliance of AI models.
+%In this work another difficulties are highlighted which are mostly considered from a technical point.
+%With LLMs popping out daily developers cannot choose the right models for their work.
+%Experiencing with the most hyped models takes time and could miss potential optimal models.
+%It is a problem, that the newly presented tools or models do not have a common base of quality measurement, a way of comparing them, therefore, one model cannot be confidently preferred over another.
+
+%Another technical problem is that although a few benchmarks are available, developers cannot completely trust in them, as the benchmarks either consist of smaller non-real-life scenarios or they are prone to overfitting on the benchmarks for better evaluation.
+%Developers must know, what is the real current level of LLMs in a real-life scenario.
+
+%Yet another problem is that these models are configured by many hyper-parameters, which provide a great customization to developers once they select the well-performing model for their usage, however, they cannot know how to configure for their task the model even if there is any pattern in configuring various models.
+%Although generic information is available on many of such hyper-parameters in a larger scale, but as a daily user developers might not benefit or even notice these differences.
+
+Developers today face numerous challenges, including the need to change established coding habits and adapt to a workflow in which creative work is increasingly transformed into review-oriented work through the use of AI models.
+This work also highlights additional challenges that are primarily technical in nature.
+With new LLMs appearing almost daily, developers struggle to select the most suitable model for their tasks.
+Experimenting with the most popular models is time-consuming and may lead them to overlook potentially optimal alternatives.
+A further issue is that newly introduced tools and models lack a common, standardized framework for quality measurement and comparison; as a result, developers cannot confidently prefer one model over another.
+
+Another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
+These benchmarks often rely on small, non–real-world scenarios or are prone to overfitting, as models may be optimized specifically for better benchmark performance.
+Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
+
+An additional problem is that these models are controlled by numerous hyper-parameters.
+While these offer extensive customization once a well-performing model has been selected, developers often lack guidance on how to configure the model effectively for their specific tasks or whether consistent configuration patterns exist across different models.
+Although general information about many hyper-parameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
+
+%\vfill
+%\newpage
+\vspace{-5px}
 \section{Contributions}
 
-The ideas, figures, tables and results included in this thesis were published in scientific papers (listed at the end of the thesis). In a nutshell, the author is responsible for the following contributions:
+The ideas, figures, tables and results included in this thesis were published in scientific papers (listed at the end of the thesis).
+The scientific papers, although contain human related experiments, are mostly focused on the technical problems introduces previously.
+The contributions of the author are briefly introduced as follows:
 
 \vspace*{1em}
 
 \noindent
-\textbf{Chapter 2.}: Brief Contrib.
+\textbf{Comparing Large Language Models}: Chapter~\ref{chapter_2} covers the results of the first thesis point~\cite{thesispoint_1}, and discusses the problem of comparing LLMs and introduces a new methodology to support model selection.
+Although the methodology may appear straightforward, it extends existing studies in this area, as most LLM comparison research focuses on only a single aspect of a model and, therefore fails to provide a comprehensive perspective.
+The study also incorporates the role of human interaction with the LLMs under investigation.
+Based on the proposed methodology, a case study is presented that evaluates the two major openly available LLMs at the time of the study.
 
 \vspace*{1em}
 
 \noindent
-\textbf{Chapter 3.}: Brief Contrib.
+\textbf{Fixing Vulnerabilities in Real-World Software}: Chapter~\ref{chapter_3} presents the results of the second thesis point~\cite{thesispoint_2}, a practical evaluation of GPT-4 on real-world problems.
+The study introduces an evaluation methodology with particular emphasis on prompt engineering, which has emerged as a critical skill in modern software engineering and among LLM users in general.
+A case study is performed alongside this methodology, and the results are presented and validated using multiple datasets.
 
 \vspace*{1em}
 
 \noindent
-\textbf{Chapter 4.}: Brief Contrib.
-
-
-
+\textbf{Deeper Analysis of LLM Temperature}: Chapter~\ref{chapter_4} introduces the third thesis point~\cite{thesispoint_3}, which addresses the problem of hyper-parameter configuration, with a specific focus on the use of the temperature parameter.
+The analysis methodology is discussed with particular emphasis on model selection and evaluation task design.
+The study introduces a dataset intended for future use and presents an example use case demonstrating that the temperature parameter does not exhibit a consistent or generic pattern; therefore, further investigation is required.

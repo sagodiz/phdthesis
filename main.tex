@@ -39,6 +39,8 @@ headsep=1cm
 \usepackage{enumitem}
 \usepackage[acronym, nopostdot]{glossaries}
 
+\usepackage{todonotes}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%% THESIS1 PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{listings} %Thesis1
@@ -48,11 +50,11 @@ headsep=1cm
 %%%%%%%%%%%%%%%%%%%%%% END OF THESIS1 PACKAGES %%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%% THESIS2 PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%% THESIS3 PACKAGES %%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{xspace}
 \usepackage{fancybox,framed}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%% END OF THESIS2 PACKAGES %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% END OF THESIS3 PACKAGES %%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -159,11 +161,12 @@ headsep=1cm
 
 % Intro:
 \include{Chapters/intro_section}
-
+% Common background / Common intro
+\include{Chapters/background}
 % Thesis:
-\include{Chapters/Thesis1/chapter_2} 
-\include{Chapters/Thesis2/chapter_3}
-\include{Chapters/Thesis3/chapter_4}
+\include{Chapters/Thesis1/chapter}
+\include{Chapters/Thesis2/chapter}
+\include{Chapters/Thesis3/chapter}
 % References:
 \include{Chapters/references}
 
@@ -178,7 +181,7 @@ headsep=1cm
 \include{Chapters/summaries}
 \include{Chapters/osszefoglalok}
 \include{Chapters/my_publications}
-
+\include{Chapters/declarations}
 % Acknowledgement
 \include{ack}
 

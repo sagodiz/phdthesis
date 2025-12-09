@@ -1,0 +1,32 @@
+\chapter{Background}
+\label{chap:background}
+
+%Source code generation is the process of automatically producing code based on high-level abstractions defined in domain-specific languages (DSLs)~\cite{codegen_dsl} or other declarative languages.
+%The objective of source code generation is to reduce the amount of low-level, repetitive coding work that developers need to do, enabling them to focus on higher-level tasks and reducing the likelihood of errors and bugs.
+%While source code generation has a long history, from the 70's~\cite{old_code_gen} even to the 2010s~\cite{dsl_recent}, recent advances in LLMs~\cite{codex} allow developers to express required program code using natural language definitions.
+
+In recent years, Large Language Models (LLMs) have gained significant attention across various domains, from psychology~\cite{rathje2023gpt} to medicine~\cite{cheng2023artificial}, but LLMs look highly promising within software engineering, too.
+LLMs primarily deal with textual and linguistic elements, but since source code can also be considered a form of language, it is unsurprising that these models can be employed for tasks involving source code. 
+Most of the LLMs are based on the transformer architecture~\cite{attention} that includes an encoder and a decoder component.
+
+%%% possible CUT
+An encoder-based model is BERT~\cite{bert} or CodeBERT~\cite{codebert}, which is designed specifically to work on code.
+BERT models work with masked tokens, and predict them based on the previous and following text, therefore, the generation task is not natural for such models.
+The other part of the transformer architecture is decoders, which are used in the Generative Pre-trained Transformer (GPT) architecture.
+One such model, specifically trained on source code, is Codex~\cite{codex}, which is based on the GPT-3 architecture.
+The latest model publicly available in this lineage is GPT-4.
+
+Some of the most promising areas within software engineering that could leverage these models is program synthesis also known as program generation, and automatic program repair, as it involves generating new ``text'', the source code.
+Source code generation is the process of automatically producing code based on high-level abstractions defined in domain-specific languages (DSLs)~\cite{codegen_dsl} or other declarative languages.
+The objective of source code generation is to reduce the amount of low-level, repetitive coding work that developers need to do, enabling them to focus on higher-level tasks and reducing the likelihood of errors and bugs.
+While source code generation has a long history, from the 70's~\cite{old_code_gen} even to the 2010s~\cite{dsl_recent}, recent advances in LLMs~\cite{codex} allow developers to express required program code using natural language definitions.
+
+Automatic program repair aims to ease the developer tasks by assisting in the correction of faulty code.
+Fixing a program is more challenging than creating new ones, as the developer has to understand the mindset of the original developer and devise an alternative approach as the original one was faulty.
+Leveraging automated systems, e.g. Language Models, to fix these problems, developers get more time to do in the creative field.
+This automatic fixing is especially critical in the field of vulnerabilities, where a fix might cannot wait for a developer to understand the error and fix it, it needs immediate fixing.
+
+The term software vulnerability is defined as a security flaw or weakness hidden in the software that could be exploited by a malicious user, therefore, risking the safety of sensitive data, the integrity of the software or even financial loss.
+\todo{Vulnerability connect to Quality}
+\todo{Functional: describe}
+\todo{Non-functional: describe}

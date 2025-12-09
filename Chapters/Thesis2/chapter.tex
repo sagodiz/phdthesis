@@ -8,7 +8,7 @@
 {\endMakeFramed}
 
 %%%%%%%%%%%%%%%% END OF COMMANDS THESIS3 %%%%%%%%%%%%%%%%%%%%%
-\chapter{Deeper Analysis of LLM Temperature}
+\chapter{A Program Synthesis Dataset for LLM Temperature Analysis}
 \label{chapter_4}
 
 Chapter brief.
@@ -17,7 +17,7 @@ Chapter brief.
 \section{Introduction}
 \label{th4:section:introduction}
 
-Large Language Models (LLMs) became integral to software engineering research, addressing various tasks such as test case generation~\cite{llm_test_code_generation_survey}, vulnerability detection~\cite{llm_vuln_apr_survey}, automated program repair~\cite{llm_vuln_apr_survey}, source code comprehension~\cite{llm_code_comprehension_1, llm_code_comprehension_2}, and program synthesis~\cite{llm_code_generation_survey}.
+%Large Language Models (LLMs) became integral to software engineering research, addressing various tasks such as test case generation~\cite{llm_test_code_generation_survey}, vulnerability detection~\cite{llm_vuln_apr_survey}, automated program repair~\cite{llm_vuln_apr_survey}, source code comprehension~\cite{llm_code_comprehension_1, llm_code_comprehension_2}, and program synthesis~\cite{llm_code_generation_survey}.
 Many studies evaluate LLMs at large scale; however, they often do not provide access to the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
 While evaluation scripts are frequently shared, this raises several concerns.
 
@@ -369,13 +369,13 @@ Divergent performance trends across the tasks would indicate that the models res
 	\centering
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[height=1.7in]{Chapters/Thesis3/fig/usecase/rq1-averaged-Qwen-family-2019_D}
+		\includegraphics[height=1.7in]{Chapters/Thesis2/fig/usecase/rq1-averaged-Qwen-family-2019_D}
 		\caption{Qwen models on task 2019 D}
 	\end{subfigure}%
 	\\
 	\begin{subfigure}[t]{0.5\textwidth}
 		\centering
-		\includegraphics[height=1.7in]{Chapters/Thesis3/fig/usecase/rq1-averaged-Qwen-family-2022_B}
+		\includegraphics[height=1.7in]{Chapters/Thesis2/fig/usecase/rq1-averaged-Qwen-family-2022_B}
 		\caption{Qwen models on task 2022 B}
 	\end{subfigure}%
 	\\
@@ -403,21 +403,6 @@ A more comprehensive analysis would be needed to account for both fine and coars
 Furthermore, employing more sophisticated similarity metrics would enable a more rigorous evaluation of performance dynamics.
 Nevertheless, the presented case study is intended primarily as an illustrative example of how the dataset can be utilized, rather than as an in-depth analysis.
 A thorough investigation along these lines would constitute separate future work.
-
-
-\section{Conclusion}
-\label{th4:sec:conclusion}
-
-In this work we describe how we processed 18,900 raw code generations from Large Language Models, using fine-grained temperature settings during inference.
-Before evaluation, we applied a pre-processing step to extract only the actual source code segments from the outputs.
-This extraction step was manually validated, although not across the entire dataset.
-
-The cleaned and compiled sources were then evaluated using test cases.
-To make the results easily accessible, we exported all evaluation outcomes into a JSON file, enabling faster and more convenient reuse of the data.
-
-We also outlined potential scenarios where this dataset could support further research, and showcased a short use case focused on temperature analysis.
-Interestingly, the analysis revealed an unexpected finding: temperature does not have a general effect on the success rate of generated code.
-This result highlights the value of our dataset, showing that it can serve as a strong foundation for deeper investigations into the behavior of LLMs.
 
 
 \section{Threats to validity}
@@ -459,21 +444,18 @@ This directory contains:
 \end{itemize}
 
 The script for our use case are also included in order to help other authors by providing an example code that processes our dataset.
-	It is found in the \texttt{use\_case} folder.
+It is found in the \texttt{use\_case} folder.
 
+\section{Summary}
+\label{th4:sec:conclusion}
 
-\section{Discussion and concluding remarks}
-\label{th4:ch4:contrib}
+In this work we describe how we processed 18,900 raw code generations from Large Language Models, using fine-grained temperature settings during inference.
+Before evaluation, we applied a pre-processing step to extract only the actual source code segments from the outputs.
+This extraction step was manually validated, although not across the entire dataset.
 
-Chapter conclusion.
+The cleaned and compiled sources were then evaluated using test cases.
+To make the results easily accessible, we exported all evaluation outcomes into a JSON file, enabling faster and more convenient reuse of the data.
 
-The author of this PhD thesis is responsible for the following contributions presented in this chapter:
-\begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
-	\item[II/1.] Contribution I.
-	
-    \item[II/2.] Contribution II.
-	
-    \item[II/3.] Contribution III.
-	
-    \item[II/4.] Contribution X
-\end{enumerate}
+We also outlined potential scenarios where this dataset could support further research, and showcased a short use case focused on temperature analysis.
+Interestingly, the analysis revealed an unexpected finding: temperature does not have a general effect on the success rate of generated code.
+This result highlights the value of our dataset, showing that it can serve as a strong foundation for deeper investigations into the behavior of LLMs.

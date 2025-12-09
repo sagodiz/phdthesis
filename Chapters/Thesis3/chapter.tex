@@ -143,7 +143,7 @@
 %%%%%%%%%%%%%%%%%%%%%% END OF COMMANDS FOR THESIS2 %%%%%%%%%%%%%%%%%%%%%
 
 
-\chapter{Fixing Vulnerabilities in Real-Word Software}
+\chapter{Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}
 \label{chapter_3}
 
 Chapter brief.
@@ -151,25 +151,10 @@ Chapter brief.
 \section{Introduction}
 \label{sec:intro}
 
-In recent years, Large Language Models (LLMs) have gained significant attention across various domains, from psychology~\cite{rathje2023gpt} to medicine~\cite{cheng2023artificial}, but LLMs look highly promising within software engineering, too.
-LLMs primarily deal with textual and linguistic elements, but since source code can also be considered a form of language, it is unsurprising that these models can be employed for tasks involving source code. 
-Most of the LLMs are based on the transformer architecture~\cite{attention} that includes an encoder and a decoder component.
-
-%%% possible CUT
-An encoder-based model is BERT~\cite{bert} or CodeBERT~\cite{codebert}, which is designed specifically to work on code.
-BERT models work with masked tokens, and predict them based on the previous and following text, therefore, the generation task is not natural for such models.
-The other part of the transformer architecture is decoders, which are used in the Generative Pre-trained Transformer (GPT) architecture.
-One such model, specifically trained on source code, is Codex~\cite{codex}, which is based on the GPT-3 architecture.
-The latest model publicly available in this lineage is GPT-4.
-
-One of the most promising areas within software engineering that could leverage these models is automatic program repair, as it involves generating new ``text'', the correct source code.
-%\todo{Elengedjuk, h vannak masked toolok is?} -> el :)
 However, there is no or minimal reliable evaluation of the capabilities of such models that would cover real-life systems and fixing actual vulnerabilities.
 To further discover this area, we evaluate the vulnerability-fixing capabilities of GPT-4 on real-world vulnerabilities in a scenario that would be applicable in practice directly.
 Our main goal is to give an objective assessment of the current performance of GPT-4 in terms of automated vulnerability repair that could form a comparison basis in the future (e.g., for further GPT optimizations, prompting techniques, fine-tuned models).
 
-The term software vulnerability does not have a formal definition.
-Possible vulnerabilities can be found in nearly any software system, but we aimed to use documented vulnerabilities that have already occurred in real-world software systems.
 That is precisely why we selected the Vul4J~\cite{vul4j} database as our evaluation benchmark.
 Vul4J consists of 79 real-world Java vulnerabilities and contains detailed information on how the particular issue was mitigated (i.e., the fixing patch).
 A distinct advantage of Vul4J is that it also provides unit tests that trigger the different issues (i.e., a proof-of-vulnerability), which helps the automated and objective assessment of the model-generated results.
@@ -903,8 +888,8 @@ Furthermore, each evaluated data was reviewed by at least one additional author.
 A potential threat could be errors in the scripts we created.
 To prevent this, we performed thorough code reviews when the codes were completed, and at least one author also manually tested the final scripts.
 
-\section{Conclusion}
-\label{sec:conclusion}
+\section{Summary}
+\label{sec:summary}
 
 In conclusion, our research presents the value of using GPT-4 in vulnerability fixing, particularly for real-world security issues in a practically applicable scenario.
 In contrast to many related works, we took a unique approach by emphasizing real-world relevance.

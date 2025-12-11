@@ -23,10 +23,13 @@ While source code generation has a long history, from the 70's~\cite{old_code_ge
 
 Automatic program repair aims to ease the developer tasks by assisting in the correction of faulty code.
 Fixing a program is more challenging than creating new ones, as the developer has to understand the mindset of the original developer and devise an alternative approach as the original one was faulty.
-Leveraging automated systems, e.g. Language Models, to fix these problems, developers get more time to do in the creative field.
+Leveraging automated systems, e.g. Language Models, to fix these problems~\cite{conversational_bug_fix_1, same_as_us_but_too_much_hint}, developers get more time to do in the creative field.
 This automatic fixing is especially critical in the field of vulnerabilities, where a fix might cannot wait for a developer to understand the error and fix it, it needs immediate fixing.
 
-The term software vulnerability is defined as a security flaw or weakness hidden in the software that could be exploited by a malicious user, therefore, risking the safety of sensitive data, the integrity of the software or even financial loss.
-\todo{Vulnerability connect to Quality}
-\todo{Functional: describe}
-\todo{Non-functional: describe}
+The term software vulnerability is defined as a ''security flaw, glitch, or weakness found in software code that could be exploited by an attacker''~\cite{vuln_def}, therefore, risking the safety of sensitive data, the integrity of the software or even financial loss.
+Vulnerabilities are key targets for static analyzers, yet identifying them often requires detailed knowledge of the software and its underlying architecture.
+Although vulnerability detection is inherently challenging, overall software quality frequently offers useful indicators of where such issues may emerge.
+Assessing software quality is comparatively easier and can therefore support more effective vulnerability discovery.
+
+Software quality can be evaluated through static analysis, which examines the source code directly, typically without requiring compilation.
+Because static analysis operates solely on the source code, the use of large language models (LLMs) also qualifies as a form of static analysis: LLMs can process uncompiled code and perform a variety of tasks, including automated program repair and refactoring.

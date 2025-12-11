@@ -2,73 +2,113 @@
 \markboth{Summary}{Summary}
 \addcontentsline{toc}{chapter}{Summary}
 
-The PhD thesis presents ... 
+Software engineering is a rapidly evolving field.
+Developers have demonstrated, and will continue to demonstrate, a persistent need for source code analysis, both in direct and indirect forms.
+Direct forms include tools that assess code quality or detect vulnerabilities, while indirect forms encompass applications that leverage such analyses internally, such as IDEs or automated program repair (APR) tools.
 
-The dissertation consists of three major parts. In Chapter...
+Large Language Models can be considered a type of static analysis tool, as they operate directly on source code without requiring compilation.
+LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
+Although these models are applied in diverse areas, this thesis focuses specifically on source code synthesis.
+
+\todo{Aim of the thesis}
+
 
 \section*{Work I.}
 
 Intro
 
-In Chapter~\ref{chapter_2}, brief...
+In Chapter~\ref{chapter_2}, contributes a methodology for comparing LLMs, enabling developers to conduct in-depth evaluations. \todo{Summary}
 
 \section*{Work II.}
 
 Intro
 
-In Chapter~\ref{chapter_3}, brief...
+In Chapter~\ref{chapter_3}, presents a dataset and provides a preliminary analysis of the temperature hyper parameter across various models.... \todo{Summary}
 
 \newpage
 \section*{Work III.}
 
 Intro
 
-In Chapter~\ref{chapter_4}, brief...
+In Chapter~\ref{chapter_4}, addresses vulnerability fixing, treating it as a specialized form of source code synthesis with the added constraint of correcting hidden vulnerabilities in the original code.... \todo{Summary}
+
+\section*{Future Work}
+
+Overall, this thesis highlights an important segment of the broader topic of LLMs in software engineering, while also indicating directions for future research.
+In Chapter~\ref{chapter_2}, optional comparison criteria could be incorporated, and an automated system might be developed to perform functional and non-functional tests.
+While human evaluation cannot be fully automated, a substantial portion of the process could be streamlined.
+
+In Chapter~\ref{chapter_3}, the patterns associated with the temperature hyper parameter can be further explored at multiple levels.
+This includes not only understanding its effects on model behavior but also determining the optimal granularity for its application.
+
+Although Chapter~\ref{chapter_4} may appear complete, given that GPT-4 is now considered an older model, there remains room for further work.
+Newer models could be evaluated, and improved inference techniques could be developed to achieve higher success rates.
+While the one-third success rate observed is promising, real-world developers require even more reliable outcomes.
+
+\vspace{5em}
+To conclude this thesis, Large Language Models have become an integral part of software engineering, but they still require extensive research across multiple areas and levels to fully meet the needs of the developer community.
+
 
 \vfill
 \pagebreak
 
 \section*{Contributions of the thesis}
 
-In the \textbf{first thesis group}, the contributions are related to .. . Detailed discussion can be found in Chapter~\ref{chapter_2}.
+In the \textbf{first thesis group}, the contributions are related to Large Language Model comparison in software synthesis. Detailed discussion can be found in Chapter~\ref{chapter_2}.
 
 \begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
-    \item[I/1.] Contrib I.
+	
+    \item[I/1.] I collected relating methodologies and determined the gaps in those methodologies.
     
-    \item[I/2.] Contrib II.
+    \item[I/2.] I created the comparison methodology.
     
-    \item[I/3.] Contrib III.
+    \item[I/3.] I searched for an evaluation benchmark.
     
-    \item[I/4.] Contrib IV.
+    \item[I/4.] I evaluated the Language Models on the benchmark.
+    
+    \item[I/5.] I performed the quality analysis of the synthetized programs.
+    
+    \item[I/6.] I designed the human evaluation.
+    
+    \item[I/7.] I created the Human Evaluation framework.
+    
 \end{enumerate}
 
 \vspace{1cm}
 
 \noindent
-In the \textbf{second thesis group}, the contributions are related to the .. . Detailed discussion can be found in Chapter~\ref{chapter_3}.
+In the \textbf{second thesis group}, the contributions are related to creation of a dataset and the hyper parameter investigation of Large Language Models in software synthesis. Detailed discussion can be found in Chapter~\ref{chapter_3}.
 
 \begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
-    \item[II/1.] Contrib I.
+	
+    \item[II/1.] I designed the study.
     
-    \item[II/2.] Contrib II.
+    \item[II/2.] I created the model selection framework.
     
-    \item[II/3.] Contrib III.
+    \item[II/3.] I created the model evaluation framework.
     
-    \item[II/4.] Contrib IV.
+    \item[II/4.] I evaluated the data according to the temperature variable effect.
+    
 \end{enumerate}
 
 \vfill
 \pagebreak
 
 \noindent
-In the \textbf{third thesis group}, the contributions are related to the .. . Detailed discussion can be found in Chapter~\ref{chapter_4}.
+In the \textbf{third thesis group}, the contributions are related to the evaluation of GPT-4 in real-life vulnerability fixing. Detailed discussion can be found in Chapter~\ref{chapter_4}.
 
 \begin{enumerate}[wide = 0pt, widest = {III/5.}, leftmargin =*]
-    \item[III/1.] Contrib I.
+	
+    \item[III/1.] I searched for prompt engineering techniques.
     
-    \item[III/2.] Contrib II.
+    \item[III/2.] I designed the evaluation of the prompts and also the models.
     
-    \item[III/3.] Contrib III.
+    \item[III/3.] I participated in the manual evaluation of the generated source code.
     
-    \item[III/4.] Contrib IV.
+    \item[III/4.] I participated in the manual evaluation of the generated textual responses.
+    
 \end{enumerate}
+
+The author states that while the thesis results are primarily his own work, the
+pronoun we is used instead of I to recognize the input of co-authors in the papers
+forming the basis of this thesis.

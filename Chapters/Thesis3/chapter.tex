@@ -143,15 +143,20 @@
 %%%%%%%%%%%%%%%%%%%%%% END OF COMMANDS FOR THESIS2 %%%%%%%%%%%%%%%%%%%%%
 
 
-\chapter{Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}
+\chapter{Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}
 \label{chapter_3}
 
-Chapter brief.
+The previous chapters discussed the use of LLMs in software synthesis.
+In this chapter, we take it further by exploring how LLMs, specifically GPT-4, can be applied to vulnerability remediation.
+Fixing vulnerabilities requires generating new source code, making the task closely related to program synthesis.
+However, it introduces an additional constraint: the corrected code must not only be functionally sound but must also preserve the original behavior while eliminating the vulnerability.
+
+This chapter provides an opportunity to assess the reliability of GPT-4 in performing vulnerability fixing.
 
 \section{Introduction}
 \label{sec:intro}
 
-However, there is no or minimal reliable evaluation of the capabilities of such models that would cover real-life systems and fixing actual vulnerabilities.
+Vulnerability fixing is already discussed in many studies, however, there is no or minimal reliable evaluation of the capabilities of such models that would cover real-life systems and fixing actual vulnerabilities.
 To further discover this area, we evaluate the vulnerability-fixing capabilities of GPT-4 on real-world vulnerabilities in a scenario that would be applicable in practice directly.
 Our main goal is to give an objective assessment of the current performance of GPT-4 in terms of automated vulnerability repair that could form a comparison basis in the future (e.g., for further GPT optimizations, prompting techniques, fine-tuned models).
 
@@ -904,18 +909,6 @@ In summary, GPT-4 represents a significant advancement in automatic vulnerabilit
 However, ongoing research and development are essential to optimize its performance further and address complex security challenges effectively.
 Our work can serve as a baseline for future comparisons on real-world automated vulnerability repair.
 
-
 \section*{Data Availability}
 The online appendix and the data used to create this paper is available at \url{https://doi.org/10.5281/zenodo.10529405}.
 
-
-The author of this PhD thesis is responsible for the following contributions presented in this chapter:
-\begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
-	\item[II/1.] Contribution I.
-	
-    \item[II/2.] Contribution II.
-	
-    \item[II/3.] Contribution III.
-	
-    \item[II/4.] Contribution X
-\end{enumerate}

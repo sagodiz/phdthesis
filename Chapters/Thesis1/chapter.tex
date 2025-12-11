@@ -1,7 +1,12 @@
 \chapter{Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}
 \label{chapter_2}
 
-Chapter brief.
+In this chapter, we present a methodology designed to support developers who intend to compare large language models (LLMs).
+By following the outlined steps, developers can ensure that all key aspects of LLM comparison, often dispersed across various studies, are systematically addressed.
+The methodology synthesizes elements from multiple research approaches to provide a comprehensive framework.
+For clarity and practical relevance, the chapter also includes a case study demonstrating how the methodology can be applied in practice, giving readers a concrete example of how to conduct an LLM comparison.
+
+We consider this task a significant step as developers are already using multiple LLM-based tools and they will continue integrating them into their daily workflows due to the substantial advantages they provide in software development.
 
 \section{Introduction}
 \label{l:introduction}
@@ -15,6 +20,7 @@ Chapter brief.
 %The objective of source code generation is to reduce the amount of low-level, repetitive coding work that developers need to do, enabling them to focus on higher-level tasks and reducing the likelihood of errors and bugs.
 %While source code generation has a long history, from the 70's~\cite{old_code_gen} even to the 2010s~\cite{dsl_recent}, recent advances in LLMs~\cite{codex} allow developers to express required program code using natural language definitions.
 
+The use of LLMs can significantly reduce the time spent on coding, although it also comes with certain limitations.
 While having more time for abstract tasks and generating code with low cost is advantageous, in software development, the quality of the source code is at least as important as the time spent on development.
 There are multiple factors affecting source code quality, and there are several ways to measure it.
 One approach is using static code analysis~\cite{static_analysis_poc}, which allows for the code to be analyzed without executing it, without any tests, or even without a compiled binary file.
@@ -715,7 +721,7 @@ After the human evaluations we can answer
 The developers approved the generated source code most of the time.
 Developers did not consider the model-synthetized code perfect or out-of-the-box usable, but they considered the code acceptable.
 
-\subsection{Summary}
+\subsection{Aspects to consider}
 With the final evaluations we can answer
 \textbf{RQ 3: What aspects should be considered when choosing LLM-based generative tools?}
 
@@ -731,7 +737,7 @@ When choosing Large Language Model (LLM)-based generative tools, particularly fo
 	
 \end{itemize}
 
-In conclusion, when selecting an LLM-based generative tool for code generation, it is essential to consider how well it understands high-level task definitions, its performance in functional and technical validity assessments, and factors related to human evaluation like first impression, usability, and modifiability.
+In summary, when selecting an LLM-based generative tool for code generation, it is essential to consider how well it understands high-level task definitions, its performance in functional and technical validity assessments, and factors related to human evaluation like first impression, usability, and modifiability.
 These considerations help in choosing a tool that not only meets immediate coding needs but also integrates well into the broader development life cycle.
 
 Although we included only the basic must-include parts, there could be scenarios where other aspects are important too.
@@ -799,13 +805,10 @@ Using this comparison we aim to observe the preferred models of developers among
 This opens the opportunity to investigate what model features are preferred providing more information to develop better models.
 Using a decent comparing methodology we can also investigate the effects of various prompting techniques and fine-tunings, therefore, providing knowledge for improving models.
 
-The author of this PhD thesis is responsible for the following contributions presented in this chapter:
-\begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
-	\item[II/1.] Contribution I.
-	
-	\item[II/2.] Contribution II.
-	
-	\item[II/3.] Contribution III.
-	
-	\item[II/4.] Contribution X
-\end{enumerate}
+\section{Summary}
+
+In this work, we introduce a methodology for comparing LLMs.
+This methodology enables developers to evaluate models in depth and across a broad range of dimensions.
+To illustrate its application, we present a use case involving two LLMs: ChatGPT and Codex.
+The case study demonstrates that these models generally produce functionally correct code and adhere to good coding practices.
+Although developers typically accept the generated code, it often requires additional refinement before final use.

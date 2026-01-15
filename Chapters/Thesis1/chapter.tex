@@ -343,8 +343,10 @@ Since using random test cases mainly affected code that did not achieve a 100\% 
 
 Regarding C++, ChatGPT performs slightly better on both edge case and random selected testing using epsilon-matching.
 
+
 \begin{table*}[!h]
-	\begin{tabular}{|p{1.8cm}|rr|r|rr|r||rr|r|rr|r|}
+	\resizebox{0.99\textwidth}{!}{
+	\begin{tabular}{|p{2.9cm}|rr|r|rr|r||rr|r|rr|r|}
 		\hline
 		& \multicolumn{3}{c|}{Edge - Exact}                                                                    & \multicolumn{3}{c||}{Edge - Epsilon}                                                                                    & \multicolumn{3}{c|}{Random - Exact}                                                                       & \multicolumn{3}{c|}{Random - Epsilon}                                                                                   \\ \hline
 		Task               & ChatGPT                          & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}   & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l||}{Diff}   & \multicolumn{1}{l}{ChatGPT} & \multicolumn{1}{l|}{Copilot}                 & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    \\ \hline
@@ -374,9 +376,11 @@ Regarding C++, ChatGPT performs slightly better on both edge case and random sel
 		twitter            & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}     & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
 		vector\_distance   & 40\%                             & \multicolumn{1}{r|}{40\%}                             & \cellcolor[HTML]{FFFFFF}0   & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0   & \textcolor{red}{0\%}        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & 75\%                             & \multicolumn{1}{r|}{75\%}                             & \cellcolor[HTML]{FFFFFF}0    \\ \hline
 	\end{tabular}
+  }
 	\vspace{2px}
 	\caption{C++ - Edge case and random generated test pass ratio with exact and epsilon matching.}
 	\label{t:tests-cpp}
+	
 \end{table*}
 
 \subsubsection{Java}
@@ -417,7 +421,8 @@ Regarding Java, ChatGPT performs slightly better, but Copilot's working examples
 
 
 \begin{table*}[!h]
-	\begin{tabular}{|p{1.8cm}|rr|r|rr|r||rr|r|rr|r|}
+	\resizebox{0.99\textwidth}{!}{
+	\begin{tabular}{|p{2.9cm}|rr|r|rr|r||rr|r|rr|r|}
 		\hline
 		& \multicolumn{3}{c|}{Edge - Exact}                                                                         & \multicolumn{3}{c||}{Edge - Epsilon}                                                                                     & \multicolumn{3}{c|}{Random - Exact}                                                                       & \multicolumn{3}{c|}{Random - Epsilon}                                                                                   \\ \hline
 		Task               & \multicolumn{1}{l}{ChatGPT}          & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l||}{Diff}    & \multicolumn{1}{l}{ChatGPT}         & \multicolumn{1}{l|}{Copilot}                 & \multicolumn{1}{l|}{Diff}    & \multicolumn{1}{l}{ChatGPT}      & \multicolumn{1}{l|}{Copilot}                          & \multicolumn{1}{l|}{Diff}    \\ \hline
@@ -447,6 +452,7 @@ Regarding Java, ChatGPT performs slightly better, but Copilot's working examples
 		twitter            & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}              & \multicolumn{1}{r|}{\textcolor{teal}{100\%}} & \cellcolor[HTML]{FFFFFF}0    & \textcolor{teal}{100\%}          & \multicolumn{1}{r|}{\textcolor{teal}{100\%}}          & \cellcolor[HTML]{FFFFFF}0    \\ \hline
 		vector\_distance   & \textbf{60\%}                        & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FFC266}60   & \textcolor{teal}{\textbf{100\%}} & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9900}100  & \textcolor{red}{0\%}                 & \multicolumn{1}{r|}{\textcolor{red}{0\%}}    & \cellcolor[HTML]{FFFFFF}0    & \textbf{98\%}                    & \multicolumn{1}{r|}{\textcolor{red}{0\%}}             & \cellcolor[HTML]{FF9C06}98   \\ \hline
 	\end{tabular}
+  }
 	\vspace{2px}
 	\caption{Java - Edge case and random generated test pass ratio with exact and epsilon matching.}
 	\label{t:tests-java}
@@ -481,8 +487,8 @@ Therefore, we focused on a few cases where one model differs from the other more
 Additionally, aside from pure metrics, it is crucial to consider the code smells that these models generate since they may be prioritized.
 
 \begin{table*}[!h]
-	\footnotesize
 	\centering
+	\resizebox{0.99\textwidth}{!}{
 	\begin{tabular}{|l|rr|rr|rr|rr|rr|rr|rr|rr|rr|rr|}
 		\hline
 		& \multicolumn{10}{c|}{C++} & \multicolumn{10}{c|}{Java} \\ \hline
@@ -517,6 +523,7 @@ Additionally, aside from pure metrics, it is crucial to consider the code smells
 		vector\_distance      &   2 &   1 &  30 &  20 &  30 &  19 &   6 &   2 &   1 &   1 & 0 & 0 & 15 & 24 & 10 & 20 & 2 & 4 & 1 & 1 \\ \hline
 		
 	\end{tabular}
+}
 	\vspace{2px}
 	\caption{Static analyzer result for C++ and Java (G = ChatGPT, P = Copilot).}
 	\label{t:static_analyzers}
@@ -618,9 +625,9 @@ After scoring all the values, the developers had to decide which of the shown so
 
 
 \begin{table*}[!h]
-	\begin{adjustbox}{width=\linewidth,center} %\columnwidth
-		\footnotesize
-		\begin{tabular}{|p{1.58cm}|rr|rr|rr|rr|rr|r||rr|rr|rr|rr|rr|r|}
+	%\begin{adjustbox}{width=\linewidth,center} %\columnwidth
+	\resizebox{0.99\textwidth}{!}{	
+		\begin{tabular}{|p{2.9cm}|rr|rr|rr|rr|rr|r||rr|rr|rr|rr|rr|r|}
 			\hline
 			& \multicolumn{11}{c||}{C++} & \multicolumn{11}{c|}{Java} \\ \hline
 			\multirow{2}{*}{Task} & \multicolumn{2}{c|}{F.Impr.}  & \multicolumn{2}{c|}{Usab.} & \multicolumn{2}{c|}{Read.} & \multicolumn{2}{c|}{Modif.} & \multicolumn{2}{c|}{Acc.} & \multirow{2}{*}{G/P} &\multicolumn{2}{c|}{F.Impr.}  & \multicolumn{2}{c|}{Usab.} & \multicolumn{2}{c|}{Read.} & \multicolumn{2}{c|}{Modif.} & \multicolumn{2}{c|}{Acc.} & \multirow{2}{*}{G/P} \\ \cline{2-11} \cline{13-22}
@@ -653,7 +660,8 @@ After scoring all the values, the developers had to decide which of the shown so
 			average                & \cellcolor[HTML]{AACD9A}\textbf{5.8} & {\cellcolor[HTML]{DEECD8}\textbf{2.2}} & \cellcolor[HTML]{B4D4A7}\textbf{5.0} & {\cellcolor[HTML]{E2EEDD}\textbf{2.0}} & \cellcolor[HTML]{93C07F}\textbf{7.3} & {\cellcolor[HTML]{B5D4A7}\textbf{5.0}} & \cellcolor[HTML]{A1C890}\textbf{6.4} & {\cellcolor[HTML]{B0D1A1}\textbf{5.4}} & \cellcolor[HTML]{ACCF9D}\textbf{5.6} & {\cellcolor[HTML]{D8E9D1}\textbf{2.6}} & \cellcolor[HTML]{FFDDAC}\textbf{-3.2} & \cellcolor[HTML]{8FBE7B}\textbf{7.5} & {\cellcolor[HTML]{CAE1C1}\textbf{3.6}} & \cellcolor[HTML]{A0C88F}\textbf{6.4} & {\cellcolor[HTML]{AED0A0}\textbf{5.4}} & \cellcolor[HTML]{82B66C}\textbf{8.4} & {\cellcolor[HTML]{B6D4A8}\textbf{5.0}} & \cellcolor[HTML]{92BF7E}\textbf{7.4} & {\cellcolor[HTML]{A9CD99}\textbf{5.8}} & \cellcolor[HTML]{9DC68B}\textbf{6.6} & {\cellcolor[HTML]{B4D4A7}\textbf{5.0}} & \cellcolor[HTML]{BD9256}\textbf{-2.9} \\ \hline
 			st. devition            & 3.7                                  & {4.3}                                  & 4.9                                  & {4.5}                                  & 2.4                                  & {3.2}                                  & 2.8                                  & {3.1}                                  & 5.5                                  & {5.8}                                  & 4.4                                   & 2.5                                  & {4.2}                                  & 4.6                                  & {3.5}                                  & 1.4                                  & {3.2}                                  & 2.3                                  & {2.7}                                  & 4.9                                  & {3.9}                                  & 3.5                                   \\ \hline
 		\end{tabular}
-	\end{adjustbox}
+	}
+%	\end{adjustbox}
 	\vspace{2px}
 	\caption{Developer evaluation results for C++ and Java\\ (G = ChatGPT, P = Copilot, F.Impr.~= First Impression, Usab.~= Usability, Read.~=Readability, Modif.~= Modifiability, Acc.~=Acceptance, G/P = ChatGPT or Copilot is better)}
 	\label{t:reviews}

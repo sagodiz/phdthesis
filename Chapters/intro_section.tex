@@ -40,9 +40,14 @@ This work also highlights additional challenges that are primarily technical in 
 With new LLMs appearing almost daily, developers struggle to select the most suitable model for their tasks.
 Experimenting with the most popular models is time-consuming and may lead them to overlook potentially optimal alternatives.
 A further issue is that newly introduced tools and models lack a common, standardized framework for quality measurement and comparison; as a result, developers cannot confidently prefer one model over another.
+Although various benchmarks are available, those mostly measure the functionality of the generated code.
+Even with versatile benchmarks, developers have to find those benchmarks and often evaluate the models on them as most of the models are not evaluated from the perspectives of source code quality, security, or other non-functional criteria.
 
-Another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
-These benchmarks often rely on small, non–real-world scenarios or are prone to overfitting, as models may be optimized specifically for better benchmark performance.
+As benchmarks are mentioned, another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
+These benchmarks often rely on small, non–real-world scenarios.
+Such benchmarks do not provide actual information about how models would perform when applied in actual development.
+It is also a problem that these benchmarks are prone to overfitting, as models may be optimized specifically for better benchmark performance.
+As model trainers know, which benchmarks are checked for quality measures, those benchmarks could be placed multiple times in the training set in order to seemingly increase the performance.
 Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
 
 An additional problem is that these models are controlled by numerous hyper-parameters.
@@ -56,4 +61,4 @@ Although general information about many hyper-parameters is available at a broad
 This dissertation addresses the three aforementioned challenges in a systematic manner.
 While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
 Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
-Source code security, by contrast, is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.
+Source code security is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.

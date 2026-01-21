@@ -6,11 +6,11 @@ Software engineering is a rapidly evolving field.
 Developers have demonstrated, and will continue to demonstrate, a persistent need for source code analysis, both in direct and indirect forms.
 Direct forms include tools that assess code quality or detect vulnerabilities, while indirect forms encompass applications that leverage such analyses internally, such as IDEs or automated program repair (APR) tools.
 
-Large Language Models can be considered a type of static analysis tool, as they operate directly on source code without requiring compilation.
+Large Language Models can be considered a type of static analysis tool, as they can operate directly on source code without requiring compilation.
 LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
 Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
 
-The aim of this thesis is to discover and deepen the connection between developers and LLMs as their ultimate development aid.
+The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid.
 This thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques and the highlight of hyper-parameters.
 This thesis also provides an actual status report not just an abstract idea on what the realistic expectations are.
 
@@ -73,6 +73,8 @@ Using this JSON file We also presented, that the temperature hyper-parameter of 
 
 \section*{Work III.}
 
+Intro
+
 In Chapter~\ref{chapter_4}, We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
 We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
 
@@ -82,11 +84,7 @@ To prevent our results to be influenced by GPT-4 being familiar with the vulnera
 
 We created our prompt by considering multiple prompting strategies and we selected the best performing on a sub-set of Vul4J.
 With our prompt, we prompted GPT-4 to fix the source code and also provide a textual answer.
-This two sided request allowed us to discover if GPT-4 can be a useful guide even if it cannot provide a valid vulnerability fix.
-
-The results were validated by the tests provided by the Vul4J benchmark and also by hand as a developer considers a solution a valid fix even if it fails a too specific test case.
-We investigated the results and found that GPT-4 can successfully fix 33.33\% of the real vulnerabilities, however, We did not find any relation between the successful fixes and the vulnerability types.
-We also found that GPT-4 provides helpful textual answers in more than half of the cases.
+This two sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
 
 \newpage
 \section*{Future Work}
@@ -148,8 +146,7 @@ In the \textbf{second thesis group}, the contributions are related to creation o
     
 \end{enumerate}
 
-\vfill
-\pagebreak
+\vspace{1cm}
 
 \noindent
 In the \textbf{third thesis group}, the contributions are related to the evaluation of GPT-4 in real-life vulnerability fixing. Detailed discussion can be found in Chapter~\ref{chapter_4}.

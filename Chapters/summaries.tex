@@ -45,7 +45,7 @@ We also note, that additional evaluations might be added, such as complexity or 
 
 \section*{Work II.}
 
-In Chapter~\ref{chapter_3}, We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+In Chapter~\ref{chapter_4}, We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
 Inferencing LLMs especially larger ones requires special hardware which might not be avaliable for everyone who wants to research LLMs.
 To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families with various model sizes, including models with the size of 70 billion parameters.
 These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
@@ -73,9 +73,7 @@ Using this JSON file We also presented, that the temperature hyper-parameter of 
 
 \section*{Work III.}
 
-Intro
-
-In Chapter~\ref{chapter_4}, We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
+In Chapter~\ref{chapter_3}, We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
 We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
 
 This task is evaluated on a real-life vulnerability benchmark, Vul4J.
@@ -85,6 +83,7 @@ To prevent our results to be influenced by GPT-4 being familiar with the vulnera
 We created our prompt by considering multiple prompting strategies and we selected the best performing on a sub-set of Vul4J.
 With our prompt, we prompted GPT-4 to fix the source code and also provide a textual answer.
 This two sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+Our findings show that in real-world scenario the GPT-4 model can fix 33.33\% of the vulnerabilities  and can provide useful answers in around 50\% of the cases.
 
 \newpage
 \section*{Future Work}

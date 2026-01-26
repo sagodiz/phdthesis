@@ -43,48 +43,49 @@ A metodológia felállítása után egy esettanulmányban megmutattuk, hogyan is
 Megjegyezzük azt is, hogy extra kiértékelési szempontok is bevethetők, legyen az teljesítmény mérés vagy komplexitás vizsgálat, attól függően, a fejlesztőcsapatnak milyen igényei vannak.
 
 
-\section*{Work II.}
+\section*{Tézis II.}
 
-In Chapter~\ref{chapter_3}, We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
-Inferencing LLMs especially larger ones requires special hardware which might not be avaliable for everyone who wants to research LLMs.
-To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families with various model sizes, including models with the size of 70 billion parameters.
-These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
+A \ref{chapter_4}. fejezetben egy adathalmazt állítottunk elő, mely 18.900 feldolgozatlan és 18.896 feldolgozott LLM által generált C++ kódot tartalmaz.
+A nyelvi modellek futtatása, kifejezetten a nagyobbaké speciális hardvert igényel, mely nem mindenkinek áll rendelkezésre, aki ebben a témában tervez kutatni.
+Annak érdekében, hogy minél nagyobb lehetőségei legyenek a kutatóközösségnek 9 nyelvi modellt futtattunk le, 3 modellcsalád mentés és több különféle méretben, mely méretek között a legnagyobbak nagyjából 70 miliárd paraméterrel rendelkeznek.
+A kiértékelt modelleket változó temperature hiperparaméter értékkel futtattuk, melyet 0,01-től kezdődően egészen 1,00-ig állítottunk századnyi lépésközel.
 
-The creation of this dataset did not include randomly selected values.
-We meticulously researched available open-source models and selected the best ones according  to multiple benchmarks.
-As the models were selected with great attention, the tasks to be generated are also considered with great attention.
+Ennek az adatnak az előállítása nem véletlen értékek felhasználásával készült.
+Alaposan megvizsgáltuk az elérhető szabadon felhasználható modelleket és a legjobbakat választottuk több referencia teszt alapján.
+Ahogy a modellek választására, a generálandó feladatok kiválasztására is nagy figyelmet fordítottunk.
 
-We needed tasks that provide a meaningful task for the LLMs, meaning they are not trivial to understand and implement.
-These tasks also had to be hidden from the major benchmarks of LLMs, therefore, reducing the risk of overfitting.
-To achieve this goal, we used tasks from Sapientia ECN, a programming competition.
-This competition guarantees that the tasks are non-trivial and since the tasks are hand-made by the organizers the originality of the tasks is also guaranteed.
+Olyan feladatokra volt szükségünk, melyek megfelelő nehézségűek, azaz nem triviálisak, de megfelelő módon értelmezhetők is.
+Olyan feladatokra volt szükségünk, melyek a hirhedtebb referencia tesztbázisok elől rejtve maradtak, ezáltal a modellek feladatokra való rátanulását megelőzhettük.
+ENnek érdekében a Sapientia ECN programozó verseny fealdatait használtuk fel.
+Mivel ez egy programozó verseny, garantált, hogy nem triviálisak a fealdatok, és mivel a feladatokat a szervezők készítik, így a rátanuklásra is elenyésző az esély.
 
-These tasks were provided to the LLMs alongside our prompt which we created considering good prompting practices such as role specification or few-shot learning.
-The LLMs were inferred through our inference framework.
+Ezek a feladatok kerültek a modellek promptjába a saját promptunk mellé, melyet úgy alkottunk meg, hogy figyelembe vettünk több jó promptolási gyakorlatot, akárcsak a szerepkör definiálás vagy a few-shot-learning, mely példákat ad a modellnek a promptban.
+A modelleket a saját modellfuttató rendszerünket felhasználva futtattuk.
 
-We also validated the generated outputs by compiling them.
-Ones that compiled successfully were taken as successful generations, although ones that failed the compilations had to be checked.
-We manually checked a statistically significant amount of those examples, and found that there were no mistakes in our framework, only the LLMs failed to generate source code that compiles.
+Az elkészült kimeneteket fordítással validáltuk.
+A sikeresen forduló kimenetet sikeres modellfuttatásnak vettük, azonban azok melyek fordítási hibásak voltak, meg\-vizs\-gál\-tuk.
+Kézzel statisztikailag szignifikáns mennyiségű példát megvizsgáltunk és azt találtuk, hogy nem a futtató rendszerünkben volt a hiba, hanem valóban a modellek fordítási hibás kódokat gyártottak.
 
-The examples that could be compiled were also evaluated with the available testcases from the programming competition.
-We collected these results in a JSON file which we published.
+A lefordítható példákat ki is értékeltük a verseny teszteseteinek segítségével.
+Az eredményeket egy JSON fájlban gyűjtöttük össze, melyet közzé is tettünk.
 
-Using this JSON file We also presented, that the temperature hyper-parameter of LLMs does not hide a pattern for source code generation and this topic requires more research.
+Ennek a JSON fájlnak a felhasználásával prezentáltuk, hogyan használható az adatunk.
+Ezt a temperature hiperparaméter vizsgálatával tettük meg, melyenek eredménye az, hogy nincsen jól elkülöníthatő optimális optimum kódgeneráláshoz, azonban ez a terület további kutatást igényel.
 
 \section*{Work III.}
 
-Intro
+Az \ref{chapter_3}. fejezetben a forráskód-szintézis alternatív formáját használtuk, hogy megjavítsuk a hibás kódokat, ezáltal automatikus kódjavítást elérve.
+A GPT-4 modell segítségével úgy generáltattuk a kódot, hogy az egy eredeti verzióból kiindulva megtartsa annak működését, de javítsa ki a benne rejlő sérülékenységet.
 
-In Chapter~\ref{chapter_4}, We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
-We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
+Ezt a Vul4J teszthalmazon értékeltük ki, mely valós életbeli sérülékenységet gyűjteménye.
+Ez a teszthalmaz olyan tesztkódokat is tartalmaz, melyek a sérülékeny kódon elbuknak, de átmennek a javított változaton.
+Annak érdekében, hogy minimalizáljuk azt a lehetőséget, hogy a GPT-4 modell rátanult a példákra, olyan teszthalmazt is kerestünk, melyben a sérülékenységek csakis a GPT-4 modell tanítási ideje után kerültek javításra.
+Ennek a gyűjteménynek nem voltak automatikus tesztjei, így ezt csakis kézzel tudtuk kiértékelni.
 
-This task is evaluated on a real-life vulnerability benchmark, Vul4J.
-This benchmarks contains tests that validate whether the plausible fix correctly removes the vulnerability or not.
-To prevent our results to be influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used a benchmark, which had no validation tests, thus We could check correctness only by hand, that has vulnerabilities only after the training period of that particular GPT-4 version.
-
-We created our prompt by considering multiple prompting strategies and we selected the best performing on a sub-set of Vul4J.
-With our prompt, we prompted GPT-4 to fix the source code and also provide a textual answer.
-This two sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+A promptunkat több promptolási technika mentén elkészített prompthalmazból választottuk ki úgy, hogy a Vul4J tesztek egy részhalmazán a legjobban teljesítő promptot használtuk.
+A végső prompt a modellt a kód javítására kérte meg, de emellett szöveges leírást is kért.
+Ez a kettősség lehetőséget adott arra, hogy megvizsgáljuk, a GPT-4 modell képes-e hasznos tanácsokat adni abban az esetben is, ha nem tudja a forráskódot kijavítani.
+Az eredmények azt mutatták, hogy a GPT-4 modell az esetek 33,33\%-ában sikeresen javítja ki a valós életbeli példákat és hasznos tanácsot az esetek közel felében képes adni.
 
 \newpage
 \section*{Future Work}

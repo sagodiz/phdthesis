@@ -7,42 +7,41 @@ A fejlesztőknek eddig is volt és ezután is lesz igényük a forráskód elemz
 Direkt mód alatt érthetjük a kód minőségének mérését vagy esetleg a sérülékenységek detektálását.
 Az indirekt módba tartoznak azok az eszközök melyek a háttérben használják a forráskód elemzést, pl. IDE-k vagy automatikus kódjavító eszközök.
 
-Large Language Models can be considered a type of static analysis tool, as they operate directly on source code without requiring compilation.
-LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
-Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
+A nagy nyelvi modellek a statikus elemző eszközök egy speciális típusának tekinthetők, mivel elegendő közvetlenül a forráskódot megadni, fordítási lépés nélkül.
+Az LLM-ek egyre inkább beépülnek a szoftverfejlesztés kulcsfontosságú folyamataiba, beleértve a tervezést, a dokumentációt és a feladatkezelést.
+Bár ezek a modellek számos területen alkalmazhatók, jelen dolgozat kifejezetten a forráskód-szintézis egyik formájára fókuszál.
 
-The aim of this thesis is to discover and deepen the connection between developers and LLMs as their ultimate development aid.
-This thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques and the highlight of hyper-parameters.
-This thesis also provides an actual status report not just an abstract idea on what the realistic expectations are.
+A dolgozat célja a fejlesztők és a nagy nyelvi modellek közötti kapcsolat feltárása és elmélyítése, hogy a nyelvi modellek a fejlesztők végső fejlesztéstámogató eszközeivé válhassanak.
+A disszertáció számos olyan aspektusát vizsgálja az LLM-eknek, amelyek a fejlesztők számára hasznosak lehetnek, különös tekintettel az összehasonlítási technikákra és a hiperparaméterek kiemelt szerepére.
+A munka nem csupán elméleti megközelítést ad, hanem egy aktuális állapotjelentést is nyújt arról, hogy mik a reális elvárások ezekkel a modellekkel szemben.
 
+\section*{Tézis I.}
 
-\section*{Work I.}
+A \ref{chapter_2}. fejezetben egy összehasonlításhoz használható metodólógiát alakítottunk ki azon fellelhető szakirodalom alapján, melyek valamilyen módon LLM-eket hasonlítottak össze.
+Ezeket a cikkeket elemezve, olyan rendszert alakítottunk ki, mely segítségével két LLM teljeskörűen összehasonlítható.
+Arra is kitérünk, hogy az egyes lépéseket hogyan kell kivitelezni és mire kell figyelmet fordítani.
 
-In Chapter~\ref{chapter_2}, We created a comparison methodology based on various papers that compare LLMs.
-This way We came-up with a methodology, that takes multiple aspects into consideration not only a few.
-The methodology details how every step should be performed what must be taken into consideration.
+A folyamat a megfelelő propmt kiválasztásával kezdődik.
+A jólmegszokott eszközökkel szemben, az LLM-eket csakis a megfelelő prompt segítségével tudjuk a legjobb minőségben kihasználni, ezért fontos, hogy kiválasszuk a feladathoz és a modellhez illő legjobb promptot.
 
-The methodology starts with the right prompt selections.
-In contrast to methods We are all got used to, LLMs cannot be used without proper prompting.
-The first thing We must do, is to select the right prompt for the model, for the task We are going to use the model for.
+Miután kiválasztottuk a promptot, a modellek funkcionális tesztelése következik, azaz a modellek által generált kód valóban azt csinálja-e amit kell.
+A legnehezebb feladat ebben a lépésben, hogy lemérjük, a kód valóban azt csinálja amit kell.
+A legegyszerűbb módja az, ha automatizált teszteket használunk, azonban nagyon fontos figyelni arra, hogy ezek a tesztek gyakran nem tudják az LLM generálta kódot felhasználni, így valamilyen teszt keretrendszert kell alkalmaznunk.
+Az, hogy kell-e kiegészítő rendszereket használnunk, módosítanunk a kódon attól függ, hogy mi az elvárt kimenet.
+Ha a fealdat része, hogy a kódnak az adott tesztekkel kompatibilisnek kell lenniük, akkor nem szükséges további módosítást végeznünk.
 
-After selecting the right prompt, we must evaluate the functional validity of the models.
-Functional validity simply said, measures if the model can provide such code that does what it should do.
-The hardest task at this point is to find a way, how can We measure ,,it does what it should do''.
-It is most likely be performed via automatized tests, although it is important to note, that these tests might not take the generated code as is, so a framework might be needed.
-Using a framework or not completely depends on the requirements, as the requirements might contain that the code must be testable by the existing tests.
+A tesztek beszerzése sem egyszerű feladat, hiszen vagy a fejlesztő csapatnak kell saját teszteket alkotniuk, vagy már meglévő kódbázist használhatnak a tesztek során, ekkor azonban fennáll a lehetősége, hogy a modellek rátanulnak a publikusan elérhető kódokra.
+Bármely megoldást is választjuk, megfelelő minőségű tesztesetet szerezni nem könnyű feladat.
 
-Getting the tests is not an easy task either, as either it is up to the team to create the tests or use existing benchmarks, although at that case overfitting must be taken into consideration.
-Either way, tests are not easy to get in good quality.
+Harmadik lépésként a nem funkcionális tesztelésen avagy a technikai minőségmérésen van a sor.
+Ez a lépés biztosítja azt, hogy az LLM által generált kód minpségében legalább olyan jó mint az eddig meglévő kódbázis.
 
-At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
-This step provides that the introduced LLM maintains the source code quality or rather increases it.
+Az utolsó lépésként az összehasonlítási lépésekhez bevettük az emberi kiértékelést, annak érdekében, hogy látható legyen, a fejlesztők hajlandók-e elfogadni a modellek által generált kódot.
+Habár ez a lépés költséges és bonyolultan kivitelezhető, nagyon fontos, hiszen végsősoron a fejlesztőknek kell együttdolgozniuk a modellekkel.
 
-As our last step, We included the human evaluation, in order to see if developers are willing to accept source code generated by LLMs.
-This step, although difficult and expensive to perform, provides a better overview if an LLM should be introduced to the developer team or not.
+A metodológia felállítása után egy esettanulmányban megmutattuk, hogyan is használatos a módszertanunk.
+Megjegyezzük azt is, hogy extra kiértékelési szempontok is bevethetők, legyen az teljesítmény mérés vagy komplexitás vizsgálat, attól függően, a fejlesztőcsapatnak milyen igényei vannak.
 
-As an additional step, We done a case study to provide an actual example, how to use our methodology.
-We also note, that additional evaluations might be added, such as complexity or performance tests, depending on the needs of the development team.
 
 \section*{Work II.}
 

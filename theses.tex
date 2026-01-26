@@ -23,6 +23,7 @@ headsep=1.2cm
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{float}
+\usepackage{framed}
 %\usepackage[euler]{textgreek}
 
 \pagestyle{plain}
@@ -228,155 +229,33 @@ Main results and significance of the work.
 \vspace*{1em}
 
 \section{Contributions of the thesis}
-%INFO: The space between the thesis group contributions can be changed using the argument of the \vspace command. In this way the placement can be altered to fit a thesis group full page. In some cases the \newpage command can be used to force the thesis group to a new page.
 
-\vspace*{1em}
+%%%%% Lazyness and i want to keep the reference
 
-In the \textbf {first thesis group}, my contributions are related to ... . Detailed discussion can be found in Chapter X.
-\vspace*{1em}
-\begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
-    \item [I / 1.] I gave a(n) ... . I developed a(n) .... . 
-    I showed that .. .
-    
-    \item [I / 2.] I proposed a(n) ...., and showed ... .
-    
-    \item [I / 3.] I designed a(n) ...., and proved ... .
+\renewcommand{\autoref}[1]{%
+	\ifnum\pdfstrcmp{#1}{chapter_2}=0
+	the Dissertation in Chapter~3%
+	\else\ifnum\pdfstrcmp{#1}{chapter_3}=0
+	the Dissertation in Chapter~5%
+	\else\ifnum\pdfstrcmp{#1}{chapter_4}=0
+	the Dissertation in Chapter~4%
+	\else
+	?% fallback
+	\fi\fi\fi
+}
 
-\end{enumerate}
+%%%%%%
 
-\vspace*{1em}
-\noindent
-
-In the \textbf {second thesis group}, my contributions are related to ... . Detailed discussion can be found in Chapter X.
-\vspace*{1em}
-\begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
-    \item [II / 1.] I gave a(n) ... . I developed a(n) .... . 
-    I showed that .. .
-    
-    \item [II / 2.] I proposed a(n) ...., and showed ... .
-    
-    \item [II / 3.] I designed a(n) ...., and proved ... .
-\end{enumerate}
-
-\vspace*{1em}
-\noindent
-
-In the \textbf {third thesis group}, my contributions are related to ... . Detailed discussion can be found in Chapter X.
-
-\begin{enumerate}[wide = 0pt, widest = {III/5.}, leftmargin =*]
-    \item [III / 1.] I gave a(n) ... . I developed a(n) .... . 
-    I showed that .. .
-    
-    \item [III / 2.] I proposed a(n) ...., and showed ... .
-    
-    \item [III / 3.] I designed a(n) ...., and proved ... .
-\end{enumerate}
-
-\vspace*{1em}
-\noindent
-Table~\ref{tab:summary_table} summarizes the relation between the thesis points and the corresponding publications.
-\vspace*{2em}
-
-% INFO: https://www.tablesgenerator.com/latex_tables Use this online tool for the table generation
-\begin{table}[h!]
-\centering
-\caption{Correspondence between the thesis points and my publications.}
-\label{tab:summary_table}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-\multirow{2}{*}{\textbf{Publication}} & \multicolumn{9}{c|}{\textbf{Thesis point}}                                                                                                                                                                                                                                        \\
-                                      & \multicolumn{1}{c|}{I/1}       & \multicolumn{1}{c|}{I/2}       & \multicolumn{1}{c|}{I/3}       & \multicolumn{1}{c|}{II/1}      & \multicolumn{1}{c|}{II/2}      & \multicolumn{1}{c|}{II/3}      & \multicolumn{1}{c|}{III/1}     & \multicolumn{1}{c|}{III/2}     & III/3     \\ \hline
-{[}1{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} &           \\ \hline
-{[}2{]}                               & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          &           \\ \hline
-{[}3{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          &           \\ \hline
-{[}4{]}                               & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          &           \\ \hline
-{[}5{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          &           \\ \hline
-{[}6{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          &           \\ \hline
-{[}7{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & $\bullet$ \\ \hline
-{[}8{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} &           \\ \hline
-{[}9{]}                               & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{$\bullet$} & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          & \multicolumn{1}{c|}{}          &           \\ \hline
-\end{tabular}
-\end{table}
+\input{Chapters/contributions}
 
 % INFO: Get the publication list to a new page. If there is too much empty space left on the page before, then comment it out
 \newpage
-\section*{The author’s publications on the subjects of the thesis}
 
-\vspace*{1em}
+% Publication list
+\undef{\chapter}
+\newcommand{\chapter}{\section}
+\input{Chapters/my_publications}
 
-\subsection*{Journal publications}
-
-\vspace*{1em}
-
-%INFO: Each enumeration can be in ascending publication year order, oldest publication first, newest publication last
-\begin{enumerate}[wide = 0pt, widest = {[4]}, leftmargin =*]
-
-\item[{[1]}] E. Xample, E. Xample2, \textbf{A. Uthor} and E. Xample3
-\newblock {A very good title for a journal publication}.
-\newblock \emph{Journal name}, Volume, page-page, year.
-
-\vspace*{1em}
-
-\item[{[2]}] \textbf{A. Uthor}, E. Xample, E. Xample2
-\newblock {Another very good title for a journal article}.
-\newblock \emph{Journal name}, Volume(Issue), page-page, year.
-
-\end{enumerate}
-
-\vspace*{1em}
-
-\subsection*{Full papers in conference proceedings}
-\vspace*{1em}
-
-\begin{enumerate}[wide = 0pt, widest = {[4]}, leftmargin =*]
-
-\item[{[3]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[4]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[5]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[6]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[7]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[8]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\vspace*{1em}
-\item[{[9]}] \textbf{A. Uthor} and E. Xample.
-\newblock {Conference publication title}.
-\newblock In \emph{Proceedings of the Xnd Some Conference}, publisher, page-page, year.
-\end{enumerate}
-
-\vspace*{2.00em}
-
-\subsection*{Further related publications}
-\vspace*{1em}
-
-\begin{enumerate}[wide = 0pt, widest = {[15]}, leftmargin =*]
-
-\item[{[10]}] \textbf{A. Uthor}, E. Xample, E. Xample2, E. Xample3, E. Xample4, E. Xample5, E. Xample6.
-\newblock {Title}.
-\newblock In \emph{The Xth International Workshop on Something}, publisher, page-page, year.
-
-\end{enumerate}
-
-\vspace*{1em}
-
-\bibliographystyle{plain}
-\renewcommand{\refname}{\large Other References }
- 
 % Make the numbering start from the end of the manual publication list 
 \makeatletter
 \apptocmd{\thebibliography}{\global\c@NAT@ctr 10\relax}{}{}
@@ -408,12 +287,90 @@ A fejezetcíme című fejezetben ... . Módszer leírása, eredmény összefogla
 
 \newpage
 
-This page contains the declaration of the co-authors about the results listed in the declaration document. The document has to be signed by the supervisor and by the head of the Doctoral School. 
+This page contains the declaration of the co-authors about the results listed in the declaration document.
+The document has to be signed by the supervisor and by the head of the Doctoral School.
 
-A declaration template is contained in the current version of the "Az iskola működési szabályzata" document, which is listed on the doctoral school webpage:
+\begin{framed}
+\noindent\textbf{Declaration}
+\vspace*{0.5cm}
 
-https://www.inf.u-szeged.hu/phd/dokumentumok
+In the PhD dissertation of Zoltán Ságodi entitled ,,\dolgozatcim'', Zoltán Ságodi's contribution was decisive in the following results:
 
+\begin{enumerate}[label=Chapter~\arabic*:,
+	leftmargin=!,
+	labelwidth=!,
+	align=left]
+	\setcounter{enumi}{2}
+	
+	\item \textbf{Zoltán Ságodi}, István Siket, and Rudolf Ferenc\\
+	\newblock {Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}.
+	\newblock \emph{IEEE Access}, VOL(12), 72303-72316, 2024.
+	\begin{itemize}
+		\item I collected relating methodologies and determined the gaps in those methodologies.
+		
+		\item I created the comparison methodology.
+		
+		\item I searched for an evaluation benchmark.
+		
+		\item I evaluated the Language Models on the benchmark.
+		
+		\item I performed the quality analysis of the synthetized programs.
+		
+		\item I designed the human evaluation.
+		
+		\item I created the Human Evaluation framework.
+	\end{itemize}
+	
+	\item \textbf{Zoltán Ságodi}, István Kolláth, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {A Program Synthesis Dataset for LLM Temperature Analysis}.
+	\newblock \emph{IEEE Access}, VOL(13), 184022-184029, 2025.
+	\begin{itemize}
+		\item I designed the study.
+		
+		\item I created the model selection framework.
+		
+		\item I created the model evaluation framework.
+		
+		\item I evaluated the data according to the temperature variable effect.
+		
+	\end{itemize}
+	
+	\item \textbf{Zoltán Ságodi}, Gábor Antal, Bence Bogenfürst, Martin Isztin, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}.
+	\newblock In \emph{Proceedings of the 28th International Conference on Evaluation and Assessment in Software Engineering (EASE '24)}, Association for Computing Machinery, 252–261, 2024.
+	\begin{itemize}
+		\item I searched for prompt engineering techniques.
+		
+		\item I designed the evaluation of the prompts and also the models.
+		
+		\item I participated in the manual evaluation of the generated source code.
+		
+		\item I participated in the manual evaluation of the generated textual responses.
+	\end{itemize}
+\end{enumerate}
+
+These results cannot be used to obtain an academic research degree, other than the submitted PhD thesis of Zoltán Ságodi.
+
+\begin{center}
+	\vspace*{1.5cm}
+	\rule{0.85\textwidth}{.45pt}
+	
+	\vspace*{0.25cm}
+	date, signature of candidate, signature of supervisors
+\end{center}
+
+\vspace*{2.5cm}
+\noindent The head of the Doctoral School of Computer Science declares that the declaration above was sent to all of the coauthors and none of them raised any objections against it.
+
+
+\begin{center}
+	\vspace*{1.5cm}
+	\rule{0.5\textwidth}{.45pt}
+	
+	\vspace*{0.25cm}
+	date, signature of head of Doctoral School
+\end{center}
+\end{framed}
 
 % This page is intentionally empty
 \newpage

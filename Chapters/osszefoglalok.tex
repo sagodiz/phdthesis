@@ -7,22 +7,22 @@ A fejlesztőknek eddig is volt és ezután is lesz igényük a forráskód elemz
 Direkt mód alatt érthetjük a kód minőségének mérését vagy esetleg a sérülékenységek detektálását.
 Az indirekt módba tartoznak azok az eszközök melyek a háttérben használják a forráskód elemzést, pl. IDE-k vagy automatikus kódjavító eszközök.
 
-A nagy nyelvi modellek a statikus elemző eszközök egy speciális típusának tekinthetők, mivel elegendő közvetlenül a forráskódot megadni, fordítási lépés nélkül.
+A nagy nyelvi modellek a statikus elemző eszközök egy speciális típusának te\-kint\-he\-tők, mivel elegendő közvetlenül a forráskódot megadni, fordítási lépés nélkül.
 Az LLM-ek egyre inkább beépülnek a szoftverfejlesztés kulcsfontosságú folyamataiba, beleértve a tervezést, a dokumentációt és a feladatkezelést.
 Bár ezek a modellek számos területen alkalmazhatók, jelen dolgozat kifejezetten a forráskód-szintézis egyik formájára fókuszál.
 
-A dolgozat célja a fejlesztők és a nagy nyelvi modellek közötti kapcsolat feltárása és elmélyítése, hogy a nyelvi modellek a fejlesztők végső fejlesztéstámogató eszközeivé válhassanak.
+A dolgozat célja a fejlesztők és a nagy nyelvi modellek közötti kapcsolat feltárása és elmélyítése, hogy a nyelvi modellek a fejlesztők végső fejlesztéstámogató esz\-kö\-ze\-i\-vé válhassanak.
 A disszertáció számos olyan aspektusát vizsgálja az LLM-eknek, amelyek a fejlesztők számára hasznosak lehetnek, különös tekintettel az összehasonlítási technikákra és a hiperparaméterek kiemelt szerepére.
 A munka nem csupán elméleti megközelítést ad, hanem egy aktuális állapotjelentést is nyújt arról, hogy mik a reális elvárások ezekkel a modellekkel szemben.
 
 \section*{Tézis I.}
 
-A \ref{chapter_2}. fejezetben egy összehasonlításhoz használható metodólógiát alakítottunk ki azon fellelhető szakirodalom alapján, melyek valamilyen módon LLM-eket hasonlítottak össze.
+A \ref{chapter_2}. fejezetben egy összehasonlításhoz használható metodólógiát alakítottunk ki azon fellelhető szakirodalom alapján, melyek valamilyen módon LLM-eket ha\-son\-lí\-tot\-tak össze.
 Ezeket a cikkeket elemezve, olyan rendszert alakítottunk ki, mely segítségével két LLM teljeskörűen összehasonlítható.
 Arra is kitérünk, hogy az egyes lépéseket hogyan kell kivitelezni és mire kell figyelmet fordítani.
 
 A folyamat a megfelelő propmt kiválasztásával kezdődik.
-A jólmegszokott eszközökkel szemben, az LLM-eket csakis a megfelelő prompt segítségével tudjuk a legjobb minőségben kihasználni, ezért fontos, hogy kiválasszuk a feladathoz és a modellhez illő legjobb promptot.
+A jólmegszokott esz\-kö\-zök\-kel szemben, az LLM-eket csakis a megfelelő prompt segítségével tudjuk a legjobb minőségben kihasználni, ezért fontos, hogy kiválasszuk a feladathoz és a modellhez illő legjobb promptot.
 
 Miután kiválasztottuk a promptot, a modellek funkcionális tesztelése következik, azaz a modellek által generált kód valóban azt csinálja-e amit kell.
 A legnehezebb feladat ebben a lépésben, hogy lemérjük, a kód valóban azt csinálja amit kell.
@@ -33,8 +33,8 @@ Ha a fealdat része, hogy a kódnak az adott tesztekkel kompatibilisnek kell len
 A tesztek beszerzése sem egyszerű feladat, hiszen vagy a fejlesztő csapatnak kell saját teszteket alkotniuk, vagy már meglévő kódbázist használhatnak a tesztek során, ekkor azonban fennáll a lehetősége, hogy a modellek rátanulnak a publikusan elérhető kódokra.
 Bármely megoldást is választjuk, megfelelő minőségű tesztesetet szerezni nem könnyű feladat.
 
-Harmadik lépésként a nem funkcionális tesztelésen avagy a technikai minőségmérésen van a sor.
-Ez a lépés biztosítja azt, hogy az LLM által generált kód minpségében legalább olyan jó mint az eddig meglévő kódbázis.
+Harmadik lépésként a nem funkcionális tesztelésen avagy a technikai mi\-nő\-ség\-mér\-és\-en van a sor.
+Ez a lépés biztosítja azt, hogy az LLM által generált kód min\-ő\-ség\-é\-ben legalább olyan jó mint az eddig meglévő kódbázis.
 
 Az utolsó lépésként az összehasonlítási lépésekhez bevettük az emberi kiértékelést, annak érdekében, hogy látható legyen, a fejlesztők hajlandók-e elfogadni a modellek által generált kódot.
 Habár ez a lépés költséges és bonyolultan kivitelezhető, nagyon fontos, hiszen végsősoron a fejlesztőknek kell együttdolgozniuk a modellekkel.
@@ -45,7 +45,7 @@ Megjegyezzük azt is, hogy extra kiértékelési szempontok is bevethetők, legy
 
 \section*{Tézis II.}
 
-A \ref{chapter_4}. fejezetben egy adathalmazt állítottunk elő, mely 18.900 feldolgozatlan és 18.896 feldolgozott LLM által generált C++ kódot tartalmaz.
+A \ref{chapter_4}. fejezetben egy adathalmazt állítottunk elő, mely 18.900 fel\-dol\-go\-zat\-lan és 18.896 feldolgozott LLM által generált C++ kódot tartalmaz.
 A nyelvi modellek futtatása, kifejezetten a nagyobbaké speciális hardvert igényel, mely nem mindenkinek áll rendelkezésre, aki ebben a témában tervez kutatni.
 Annak érdekében, hogy minél nagyobb lehetőségei legyenek a kutatóközösségnek 9 nyelvi modellt futtattunk le, 3 modellcsalád mentés és több különféle méretben, mely méretek között a legnagyobbak nagyjából 70 miliárd paraméterrel rendelkeznek.
 A kiértékelt modelleket változó temperature hiperparaméter értékkel futtattuk, melyet 0,01-től kezdődően egészen 1,00-ig állítottunk századnyi lépésközel.
@@ -59,7 +59,7 @@ Olyan feladatokra volt szükségünk, melyek a hirhedtebb referencia tesztbázis
 ENnek érdekében a Sapientia ECN programozó verseny fealdatait használtuk fel.
 Mivel ez egy programozó verseny, garantált, hogy nem triviálisak a fealdatok, és mivel a feladatokat a szervezők készítik, így a rátanuklásra is elenyésző az esély.
 
-Ezek a feladatok kerültek a modellek promptjába a saját promptunk mellé, melyet úgy alkottunk meg, hogy figyelembe vettünk több jó promptolási gyakorlatot, akárcsak a szerepkör definiálás vagy a few-shot-learning, mely példákat ad a modellnek a promptban.
+Ezek a feladatok kerültek a modellek promptjába a saját promptunk mellé, melyet úgy alkottunk meg, hogy figyelembe vettünk több jó promptolási gyakorlatot, a\-kár\-csak a szerepkör definiálás vagy a few-shot-learning, mely példákat ad a modellnek a promptban.
 A modelleket a saját modellfuttató rendszerünket felhasználva futtattuk.
 
 Az elkészült kimeneteket fordítással validáltuk.
@@ -72,12 +72,12 @@ Az eredményeket egy JSON fájlban gyűjtöttük össze, melyet közzé is tett�
 Ennek a JSON fájlnak a felhasználásával prezentáltuk, hogyan használható az adatunk.
 Ezt a temperature hiperparaméter vizsgálatával tettük meg, melyenek eredménye az, hogy nincsen jól elkülöníthatő optimális optimum kódgeneráláshoz, azonban ez a terület további kutatást igényel.
 
-\section*{Work III.}
+\section*{Tézis III.}
 
 Az \ref{chapter_3}. fejezetben a forráskód-szintézis alternatív formáját használtuk, hogy megjavítsuk a hibás kódokat, ezáltal automatikus kódjavítást elérve.
-A GPT-4 modell segítségével úgy generáltattuk a kódot, hogy az egy eredeti verzióból kiindulva megtartsa annak működését, de javítsa ki a benne rejlő sérülékenységet.
+A GPT-4 mo\-dell segítségével úgy generáltattuk a kódot, hogy az egy eredeti verzióból kiindulva megtartsa annak működését, de javítsa ki a benne rejlő sérülékenységet.
 
-Ezt a Vul4J teszthalmazon értékeltük ki, mely valós életbeli sérülékenységet gyűjteménye.
+Ezt a Vul4J teszthalmazon értékeltük ki, mely valós életbeli sérülékenységet gyűj\-te\-mé\-nye.
 Ez a teszthalmaz olyan tesztkódokat is tartalmaz, melyek a sérülékeny kódon elbuknak, de átmennek a javított változaton.
 Annak érdekében, hogy minimalizáljuk azt a lehetőséget, hogy a GPT-4 modell rátanult a példákra, olyan teszthalmazt is kerestünk, melyben a sérülékenységek csakis a GPT-4 modell tanítási ideje után kerültek javításra.
 Ennek a gyűjteménynek nem voltak automatikus tesztjei, így ezt csakis kézzel tudtuk kiértékelni.
@@ -88,82 +88,85 @@ Ez a kettősség lehetőséget adott arra, hogy megvizsgáljuk, a GPT-4 modell k
 Az eredmények azt mutatták, hogy a GPT-4 modell az esetek 33,33\%-ában sikeresen javítja ki a valós életbeli példákat és hasznos tanácsot az esetek közel felében képes adni.
 
 \newpage
-\section*{Future Work}
+\section*{További kutatási irányok}
 
-Overall, this thesis highlights an important segment of the broader topic of LLMs in software engineering, while also indicating directions for future research.
-In Chapter~\ref{chapter_2}, optional comparison criteria could be incorporated, and an automated system might be developed to perform functional and non-functional tests.
-While human evaluation cannot be fully automated, a substantial portion of the process could be streamlined.
+Összességében a dolgozat a nyelvi modellek a szoftverfejlesztésben átfogó té\-ma\-kö\-ré\-nek egy fontos részére világít rá, miközben iránymutatást nyúj a jövő kutatásainak.
+A \ref{chapter_2}. fejezetben opcionális összehasonlítási teszteket lehet bevenni és egy autiomatikus kiértékelő rendszert is lehet fejleszteni, mely a modelleket a funkcionális és nem funkcionális elvárások alapján automatikusan összehasonlítja.
+Habár az emberi té\-nye\-zőt nem lehet automatizálni, így is igen jelentős része a munkának meg\-kön\-nyít\-he\-tő.
 
-In Chapter~\ref{chapter_4}, the patterns associated with the temperature hyper parameter can be further explored at multiple levels.
-This includes not only understanding its effects on model behavior but also determining the optimal granularity for its application.
+A \ref{chapter_4}. fejezetben a temperature hiperparaméternek és a hozzákötődő mintáknak a vizsgálata elvégezhető több felbontásban.
+Ez nem csak az optimális érték meg\-ha\-tá\-ro\-zá\-sát rejti magában, hanem annak meg\-ha\-tá\-ro\-zá\-sát is, hogy milyen mértékkel érdemes léptetni a paramétert.
 
-Although Chapter~\ref{chapter_3} may appear complete, given that GPT-4 is now considered an older model, there remains room for further work.
-Newer models could be evaluated, and improved inference techniques could be developed to achieve higher success rates.
-While the one-third success rate observed is promising, real-world developers require even more reliable outcomes.
+Habár az \ref{chapter_3}. fejezet teljesnek tűnik, hiszen a GPT-4 modell már régebbi modellnek számít, így is van hely tovbbi kutatásnak.
+Újabb modelleket lehet kiértékelni, fejlettebb és hatékpnyabb futtató módszereket lehet fejleszteni annak érdekében, hogy minél sikeresebb legyen az automatikus kódjavítás.
+Habár az egyharmados javítási arány biztatónak tűnik, a valós fejlesztőknek ennél megbízhatóbb eszközre van szükségük.
 
 \vspace{5em}
-To conclude this thesis, Large Language Models have become an integral part of software engineering, but they still require extensive research across multiple areas and levels to fully meet the needs of the developer community and the developer community needs to understand and adapt to these new tools.
+A dolgozat összegzéseként az mondható el, hogy a nagy nyelvi modellek a szoftverfejlesztés szerves részévé váltak, azonban még mindig rengeteg kutatást igényelnek több területen is, annak érdekében, hogy a fejlesztő közösség igényeihez igazodjanak és a fejlesztők is megértsék az új eszközöket és megtanuljanak azokkal együttdolgozni.
 
 
 \vfill
 \pagebreak
 
-\section*{Contributions of the thesis}
+\section*{Tudományos hozzájárulások}
 
-In the \textbf{first thesis group}, the contributions are related to Large Language Model comparison in software synthesis. Detailed discussion can be found in Chapter~\ref{chapter_2}.
+\noindent
+Az első tézispontban a tudományos hozzájárulások a szoftverszintézishez használt nagy nyelvi modellek összehasonlításához kapcsolódnak.
+Részletesebb kifejtés a \ref{chapter_2}. fejezetben található. 
 
 \begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
 	
-	\item[I/1.] I collected relating methodologies and determined the gaps in those methodologies.
+	\item[I/1.] Összegyűjtöttem a kapcsolódó módszertanokat, és azonosítottam azok hi\-á\-nyos\-sá\-ga\-it.
 	
-	\item[I/2.] I created the comparison methodology.
+	\item[I/2.] Kidolgoztam az összehasonlítási módszertant.
 	
-	\item[I/3.] I searched for an evaluation benchmark.
+	\item[I/3.] Kiválasztottam egy értékelési teszthalmazt.
 	
-	\item[I/4.] I evaluated the Language Models on the benchmark.
+	\item[I/4.] Kiértékeltem a nyelvi modelleket a teszthalmaz segítségével.
 	
-	\item[I/5.] I performed the quality analysis of the synthetized programs.
+	\item[I/5.] Elvégeztem a szintetizált programok minőségi elemzését.
 	
-	\item[I/6.] I designed the human evaluation.
+	\item[I/6.] Megterveztem az emberi értékelési folyamatot.
 	
-	\item[I/7.] I created the Human Evaluation framework.
+	\item[I/7.] Létrehoztam az emberi értékelési keretrendszert.
+	
 	
 \end{enumerate}
 
 \vspace{1cm}
 
 \noindent
-In the \textbf{second thesis group}, the contributions are related to creation of a dataset and the hyper parameter investigation of Large Language Models in software synthesis. Detailed discussion can be found in Chapter~\ref{chapter_3}.
+A második tézispontban a tudományos hozzájárulások egy adathalmaz el\-ké\-szí\-té\-sé\-hez és a nagy nelvi modellek szoftverszintéziskor használatos hiperparaméter vizs\-gá\-la\-tá\-hoz köthetők.
+Részletesebb kifejtés a Chapter~\ref{chapter_4}. fejezetben található.
 
 \begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
 	
-	\item[II/1.] I designed the 488study.
+	\item[II/1.] Megterveztem a kutatás keretét.
 	
-	\item[II/2.] I created the model selection framework.
+	\item[II/2.] Elkészítettem a modellválasztó keretrendszert.
 	
-	\item[II/3.] I created the model evaluation framework.
+	\item[II/3.] Elkészítettem a modell kiértékelő keretrendszert.
 	
-	\item[II/4.] I evaluated the data according to the temperature variable effect.
+	\item[II/4.] Kiértékeltem az adatot a temperature hiperparaméterre fókuszálva.
 	
 \end{enumerate}
 
 \vspace{1cm}
 
 \noindent
-In the \textbf{third thesis group}, the contributions are related to the evaluation of GPT-4 in real-life vulnerability fixing. Detailed discussion can be found in Chapter~\ref{chapter_4}.
+A harmadik tézispontban a tudományos hozzájárulások a GPT-4 modell ké\-pes\-ség\-fel\-mé\-ré\-sé\-hez kapcsolódnak valós sérülékenységek automatikus javításakor.
+Részletesebb kifejtés az \ref{chapter_3}. fejezetben található.
 
 \begin{enumerate}[wide = 0pt, widest = {III/5.}, leftmargin =*]
 	
-	\item[III/1.] I searched for prompt engineering techniques.
+	\item[III/1.] Promptolási technikákat gyűjtöttem.
 	
-	\item[III/2.] I designed the evaluation of the prompts and also the models.
+	\item[III/2.] Megterveztem a promptok és modellek kiértékelését.
 	
-	\item[III/3.] I participated in the manual evaluation of the generated source code.
+	\item[III/3.] Résztvettem a generált kódok kézi kiértékelésében.
 	
-	\item[III/4.] I participated in the manual evaluation of the generated textual responses.
+	\item[III/4.] RÉsztvettem a generált szöveges válaszok kézi kiértékelésében.
 	
 \end{enumerate}
 
-The author states that while the thesis results are primarily his own work, the
-pronoun we is used instead of I to recognize the input of co-authors in the papers
-forming the basis of this thesis.
+A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját mun\-ká\-ján alapulnak, az ,,mi'' névmás használata az ,,én'' helyett a disszertáció alapjául szolgáló publikációk társszerzőinek hozzájárulását hivatott elismerni.

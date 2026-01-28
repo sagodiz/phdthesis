@@ -15,7 +15,7 @@ A dolgozat célja a fejlesztők és a nagy nyelvi modellek közötti kapcsolat f
 A disszertáció számos olyan aspektusát vizsgálja az LLM-eknek, amelyek a fejlesztők számára hasznosak lehetnek, különös tekintettel az összehasonlítási technikákra és a hiperparaméterek kiemelt szerepére.
 A munka nem csupán elméleti megközelítést ad, hanem egy aktuális állapotjelentést is nyújt arról, hogy mik a reális elvárások ezekkel a modellekkel szemben.
 
-\section*{Tézis I.}
+\section*{\thesispointonehu}
 
 A \ref{chapter_2}. fejezetben egy összehasonlításhoz használható metodólógiát alakítottunk ki azon fellelhető szakirodalom alapján, melyek valamilyen módon LLM-eket ha\-son\-lí\-tot\-tak össze.
 Ezeket a cikkeket elemezve, olyan rendszert alakítottunk ki, mely segítségével két LLM teljeskörűen összehasonlítható.
@@ -42,8 +42,31 @@ Habár ez a lépés költséges és bonyolultan kivitelezhető, nagyon fontos, h
 A metodológia felállítása után egy esettanulmányban megmutattuk, hogyan is használatos a módszertanunk.
 Megjegyezzük azt is, hogy extra kiértékelési szempontok is bevethetők, legyen az teljesítmény mérés vagy komplexitás vizsgálat, attól függően, a fejlesztőcsapatnak milyen igényei vannak.
 
+\vspace*{1cm}
+\noindent
+Az első tézispontban a tudományos hozzájárulások a szoftverszintézishez használt nagy nyelvi modellek összehasonlításához kapcsolódnak.
+Részletesebb kifejtés a \ref{chapter_2}. fejezetben található. 
 
-\section*{Tézis II.}
+\begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
+	
+	\item[I/1.] Összegyűjtöttem a kapcsolódó módszertanokat, és azonosítottam azok hi\-á\-nyos\-sá\-ga\-it.
+	
+	\item[I/2.] Kidolgoztam az összehasonlítási módszertant.
+	
+	\item[I/3.] Kiválasztottam egy értékelési teszthalmazt.
+	
+	\item[I/4.] Kiértékeltem a nyelvi modelleket a teszthalmaz segítségével.
+	
+	\item[I/5.] Elvégeztem a szintetizált programok minőségi elemzését.
+	
+	\item[I/6.] Megterveztem az emberi értékelési folyamatot.
+	
+	\item[I/7.] Létrehoztam az emberi értékelési keretrendszert.
+	
+	
+\end{enumerate}
+
+\section*{\thesispointtwohu}
 
 A \ref{chapter_4}. fejezetben egy adathalmazt állítottunk elő, mely 18.900 fel\-dol\-go\-zat\-lan és 18.896 feldolgozott LLM által generált C++ kódot tartalmaz.
 A nyelvi modellek futtatása, kifejezetten a nagyobbaké speciális hardvert igényel, mely nem mindenkinek áll rendelkezésre, aki ebben a témában tervez kutatni.
@@ -72,67 +95,6 @@ Az eredményeket egy JSON fájlban gyűjtöttük össze, melyet közzé is tett�
 Ennek a JSON fájlnak a felhasználásával prezentáltuk, hogyan használható az adatunk.
 Ezt a temperature hiperparaméter vizsgálatával tettük meg, melyenek eredménye az, hogy nincsen jól elkülöníthatő optimális optimum kódgeneráláshoz, azonban ez a terület további kutatást igényel.
 
-\section*{Tézis III.}
-
-Az \ref{chapter_3}. fejezetben a forráskód-szintézis alternatív formáját használtuk, hogy megjavítsuk a hibás kódokat, ezáltal automatikus kódjavítást elérve.
-A GPT-4 mo\-dell segítségével úgy generáltattuk a kódot, hogy az egy eredeti verzióból kiindulva megtartsa annak működését, de javítsa ki a benne rejlő sérülékenységet.
-
-Ezt a Vul4J teszthalmazon értékeltük ki, mely valós életbeli sérülékenységet gyűj\-te\-mé\-nye.
-Ez a teszthalmaz olyan tesztkódokat is tartalmaz, melyek a sérülékeny kódon elbuknak, de átmennek a javított változaton.
-Annak érdekében, hogy minimalizáljuk azt a lehetőséget, hogy a GPT-4 modell rátanult a példákra, olyan teszthalmazt is kerestünk, melyben a sérülékenységek csakis a GPT-4 modell tanítási ideje után kerültek javításra.
-Ennek a gyűjteménynek nem voltak automatikus tesztjei, így ezt csakis kézzel tudtuk kiértékelni.
-
-A promptunkat több promptolási technika mentén elkészített prompthalmazból választottuk ki úgy, hogy a Vul4J tesztek egy részhalmazán a legjobban teljesítő promptot használtuk.
-A végső prompt a modellt a kód javítására kérte meg, de emellett szöveges leírást is kért.
-Ez a kettősség lehetőséget adott arra, hogy megvizsgáljuk, a GPT-4 modell képes-e hasznos tanácsokat adni abban az esetben is, ha nem tudja a forráskódot kijavítani.
-Az eredmények azt mutatták, hogy a GPT-4 modell az esetek 33,33\%-ában sikeresen javítja ki a valós életbeli példákat és hasznos tanácsot az esetek közel felében képes adni.
-
-\newpage
-\section*{További kutatási irányok}
-
-Összességében a dolgozat a nyelvi modellek a szoftverfejlesztésben átfogó té\-ma\-kö\-ré\-nek egy fontos részére világít rá, miközben iránymutatást nyúj a jövő kutatásainak.
-A \ref{chapter_2}. fejezetben opcionális összehasonlítási teszteket lehet bevenni és egy autiomatikus kiértékelő rendszert is lehet fejleszteni, mely a modelleket a funkcionális és nem funkcionális elvárások alapján automatikusan összehasonlítja.
-Habár az emberi té\-nye\-zőt nem lehet automatizálni, így is igen jelentős része a munkának meg\-kön\-nyít\-he\-tő.
-
-A \ref{chapter_4}. fejezetben a temperature hiperparaméternek és a hozzákötődő mintáknak a vizsgálata elvégezhető több felbontásban.
-Ez nem csak az optimális érték meg\-ha\-tá\-ro\-zá\-sát rejti magában, hanem annak meg\-ha\-tá\-ro\-zá\-sát is, hogy milyen mértékkel érdemes léptetni a paramétert.
-
-Habár az \ref{chapter_3}. fejezet teljesnek tűnik, hiszen a GPT-4 modell már régebbi modellnek számít, így is van hely tovbbi kutatásnak.
-Újabb modelleket lehet kiértékelni, fejlettebb és hatékpnyabb futtató módszereket lehet fejleszteni annak érdekében, hogy minél sikeresebb legyen az automatikus kódjavítás.
-Habár az egyharmados javítási arány biztatónak tűnik, a valós fejlesztőknek ennél megbízhatóbb eszközre van szükségük.
-
-\vspace{5em}
-A dolgozat összegzéseként az mondható el, hogy a nagy nyelvi modellek a szoftverfejlesztés szerves részévé váltak, azonban még mindig rengeteg kutatást igényelnek több területen is, annak érdekében, hogy a fejlesztő közösség igényeihez igazodjanak és a fejlesztők is megértsék az új eszközöket és megtanuljanak azokkal együttdolgozni.
-
-
-\vfill
-\pagebreak
-
-\section*{Tudományos hozzájárulások}
-
-\noindent
-Az első tézispontban a tudományos hozzájárulások a szoftverszintézishez használt nagy nyelvi modellek összehasonlításához kapcsolódnak.
-Részletesebb kifejtés a \ref{chapter_2}. fejezetben található. 
-
-\begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
-	
-	\item[I/1.] Összegyűjtöttem a kapcsolódó módszertanokat, és azonosítottam azok hi\-á\-nyos\-sá\-ga\-it.
-	
-	\item[I/2.] Kidolgoztam az összehasonlítási módszertant.
-	
-	\item[I/3.] Kiválasztottam egy értékelési teszthalmazt.
-	
-	\item[I/4.] Kiértékeltem a nyelvi modelleket a teszthalmaz segítségével.
-	
-	\item[I/5.] Elvégeztem a szintetizált programok minőségi elemzését.
-	
-	\item[I/6.] Megterveztem az emberi értékelési folyamatot.
-	
-	\item[I/7.] Létrehoztam az emberi értékelési keretrendszert.
-	
-	
-\end{enumerate}
-
 \vspace{1cm}
 
 \noindent
@@ -150,6 +112,22 @@ Részletesebb kifejtés a Chapter~\ref{chapter_4}. fejezetben található.
 	\item[II/4.] Kiértékeltem az adatot a temperature hiperparaméterre fókuszálva.
 	
 \end{enumerate}
+
+
+\section*{\thesispointthreehu}
+
+Az \ref{chapter_3}. fejezetben a forráskód-szintézis alternatív formáját használtuk, hogy megjavítsuk a hibás kódokat, ezáltal automatikus kódjavítást elérve.
+A GPT-4 mo\-dell segítségével úgy generáltattuk a kódot, hogy az egy eredeti verzióból kiindulva megtartsa annak működését, de javítsa ki a benne rejlő sérülékenységet.
+
+Ezt a Vul4J teszthalmazon értékeltük ki, mely valós életbeli sérülékenységet gyűj\-te\-mé\-nye.
+Ez a teszthalmaz olyan tesztkódokat is tartalmaz, melyek a sérülékeny kódon elbuknak, de átmennek a javított változaton.
+Annak érdekében, hogy minimalizáljuk azt a lehetőséget, hogy a GPT-4 modell rátanult a példákra, olyan teszthalmazt is kerestünk, melyben a sérülékenységek csakis a GPT-4 modell tanítási ideje után kerültek javításra.
+Ennek a gyűjteménynek nem voltak automatikus tesztjei, így ezt csakis kézzel tudtuk kiértékelni.
+
+A promptunkat több promptolási technika mentén elkészített prompthalmazból választottuk ki úgy, hogy a Vul4J tesztek egy részhalmazán a legjobban teljesítő promptot használtuk.
+A végső prompt a modellt a kód javítására kérte meg, de emellett szöveges leírást is kért.
+Ez a kettősség lehetőséget adott arra, hogy megvizsgáljuk, a GPT-4 modell képes-e hasznos tanácsokat adni abban az esetben is, ha nem tudja a forráskódot kijavítani.
+Az eredmények azt mutatták, hogy a GPT-4 modell az esetek 33,33\%-ában sikeresen javítja ki a valós életbeli példákat és hasznos tanácsot az esetek közel felében képes adni.
 
 \vspace{1cm}
 
@@ -170,3 +148,24 @@ Részletesebb kifejtés az \ref{chapter_3}. fejezetben található.
 \end{enumerate}
 
 A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját mun\-ká\-ján alapulnak, az ,,mi'' névmás használata az ,,én'' helyett a disszertáció alapjául szolgáló publikációk társszerzőinek hozzájárulását hivatott elismerni.
+
+\newpage
+\section*{További kutatási irányok}
+
+Összességében a dolgozat a nyelvi modellek a szoftverfejlesztésben átfogó té\-ma\-kö\-ré\-nek egy fontos részére világít rá, miközben iránymutatást nyúj a jövő kutatásainak.
+A \ref{chapter_2}. fejezetben opcionális összehasonlítási teszteket lehet bevenni és egy autiomatikus kiértékelő rendszert is lehet fejleszteni, mely a modelleket a funkcionális és nem funkcionális elvárások alapján automatikusan összehasonlítja.
+Habár az emberi té\-nye\-zőt nem lehet automatizálni, így is igen jelentős része a munkának meg\-kön\-nyít\-he\-tő.
+
+A \ref{chapter_4}. fejezetben a temperature hiperparaméternek és a hozzákötődő mintáknak a vizsgálata elvégezhető több felbontásban.
+Ez nem csak az optimális érték meg\-ha\-tá\-ro\-zá\-sát rejti magában, hanem annak meg\-ha\-tá\-ro\-zá\-sát is, hogy milyen mértékkel érdemes léptetni a paramétert.
+
+Habár az \ref{chapter_3}. fejezet teljesnek tűnik, hiszen a GPT-4 modell már régebbi modellnek számít, így is van hely tovbbi kutatásnak.
+Újabb modelleket lehet kiértékelni, fejlettebb és hatékpnyabb futtató módszereket lehet fejleszteni annak érdekében, hogy minél sikeresebb legyen az automatikus kódjavítás.
+Habár az egyharmados javítási arány biztatónak tűnik, a valós fejlesztőknek ennél megbízhatóbb eszközre van szükségük.
+
+\vspace{5em}
+A dolgozat összegzéseként az mondható el, hogy a nagy nyelvi modellek a szoftverfejlesztés szerves részévé váltak, azonban még mindig rengeteg kutatást igényelnek több területen is, annak érdekében, hogy a fejlesztő közösség igényeihez igazodjanak és a fejlesztők is megértsék az új eszközöket és megtanuljanak azokkal együttdolgozni.
+
+
+%\vfill
+%\pagebreak

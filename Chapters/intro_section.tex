@@ -62,5 +62,19 @@ Although general information about many hyper-parameters is available at a broad
 While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
 Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
 Source code security is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.
+\newpage
+\section{Structure of the thesis}
+This dissertation addresses the three aforementioned challenges through three thesis points, see \autoref{tbl:thesispoints}. The \textit{first thesis point, \autoref{chapter_2}} focuses on the problem of LLM comparison, outlining the essential evaluation steps and the main pitfalls. The \textit{second thesis point, \autoref{chapter_4}} investigates hyper-parameter usage and overfitted benchmarks, introducing a dataset to show that temperature remains an underexplored factor in mastering LLM-based code generation. Finally, the \textit{third thesis point, \autoref{chapter_3}} evaluates GPT-4 on vulnerability fixing in a real-world context, providing a clearer view of current model capabilities.
 
-This dissertation addresses the three aforementioned challenges through three thesis points. The \textit{first thesis point~\ref{chapter_2}} focuses on the problem of LLM comparison, outlining the essential evaluation steps and the main pitfalls. The \textit{second thesis point~\ref{chapter_4}} investigates hyper-parameter usage and overfitted benchmarks, introducing a dataset to show that temperature remains an underexplored factor in mastering LLM-based code generation. Finally, the \textit{third thesis point~\ref{chapter_3}} evaluates GPT-4 on vulnerability fixing in a real-world context, providing a clearer view of current model capabilities.
+\begin{table}[!h]
+	\begin{tabular}{|l|p{0.8\linewidth}|c|}
+		\hline
+		\textbf{\#} & \textbf{Thesis}                                                                                &  \textbf{Chapter} \\ \hline
+		1           &  LLM comparison requires a detailed methodology.                                               &  3                \\ \hline
+		2           &  Unpopular datasets provide perfect material for LLM hyper-parameter investigation.            &  4                \\ \hline
+		3           &  LLMs cannot properly replace human developers in vulnerability fixing on real-world projects. &  5                \\
+		\hline
+	\end{tabular}
+	\caption{List of thesis points}
+	\label{tbl:thesispoints}
+\end{table}

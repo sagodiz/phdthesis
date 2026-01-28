@@ -228,25 +228,6 @@ Main results and significance of the work.
 
 \vspace*{1em}
 
-\section{Contributions of the thesis}
-
-%%%%% Lazyness and i want to keep the reference
-
-\renewcommand{\autoref}[1]{%
-	\ifnum\pdfstrcmp{#1}{chapter_2}=0
-	the Dissertation in Chapter~3%
-	\else\ifnum\pdfstrcmp{#1}{chapter_3}=0
-	the Dissertation in Chapter~5%
-	\else\ifnum\pdfstrcmp{#1}{chapter_4}=0
-	the Dissertation in Chapter~4%
-	\else
-	?% fallback
-	\fi\fi\fi
-}
-
-%%%%%%
-
-\input{Chapters/contributions}
 
 % INFO: Get the publication list to a new page. If there is too much empty space left on the page before, then comment it out
 \newpage
@@ -263,27 +244,6 @@ Main results and significance of the work.
 
 \bibliography{refs}
 
-
-\newpage
-
-%INFO Summary on other language, in case it is Hungarian, maximum 1 page, 2000-3000 characters.
-\section{Összefoglalás}
-
-Az értekezés ... ismertet, magába foglalva ... . A bemutatott megközelítések közös vonása a ... .
-
-A munka N fő témakörből áll. Az első fejezetben a(z) ... , a második fejezetben a(z) ... , míg a N. fejezetben a(z) ... olvasható.
-
-A fejezetcíme című fejezetben ... . Módszer leírása, eredmény összefoglalása, jelentőség.
-
-A fejezetcíme című fejezetben ... . Módszer leírása, eredmény összefoglalása, jelentőség.
-
-A fejezetcíme című fejezetben ... . Módszer leírása, eredmény összefoglalása, jelentőség.
-
-% Ha kilóg a magyar szöveg akkor fel\-le\-het\-bon\-ta\-ni ilyen módon, ekkor a fordító tudja, hogy hol lehet elválasztani a szót a nyelv helyesírási szabályainak megfelelően.
-
-\newpage
-
-%INFO include the declaration document on only one language (the example includes a hungarian and an english example. It is has to be signed by your supervisor. After all of the co-authors declared that you are the responsible for the results in those thesis points and articles the head of the doctoral school can sign it too. With all of the signs it can be included at the end of the thesis booklet.
 
 \newpage
 

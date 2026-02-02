@@ -57,7 +57,6 @@ headsep=1cm
 %%%%%%%%%%%%%%%%%%%%%% END OF THESIS3 PACKAGES %%%%%%%%%%%%%%%%%%%%
 
 
-
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
 % \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -105,6 +104,36 @@ headsep=1cm
 
 \renewcommand{\chapterautorefname}{Chapter}
 
+
+\newcommand{\selectedquote}{''The real problem is not whether machines think but whether men do.''}
+\newcommand{\theguy}{B. F. Skinner}
+
+%”If the facts don’t fit the theory, change the facts.”
+%- Albert Einstein
+
+%Careful. We don’t want to learn from this.
+%- Bill Watterson, ”Calvin and Hobbes”
+
+%The more original a discovery, the more obvious it seems afterwards.
+%- Arthur Koestler
+
+%Computer Science is no more about computers than astronomy is about telescopes.
+% EW Dijkstra
+
+%Ours is the age that is proud of machines that think and suspicious of men who try to.
+%- H. Mumford Jones
+
+%Prediction is very difficult, especially about the future.
+%- Niels Bohr
+
+%The real problem is not whether machines think but whether men do.
+%B. F. Skinner
+
+%“It has become appallingly obvious that our technology has exceeded our humanity.”
+%Albert Einstein
+
+
+
 \makeglossaries
 
 \begin{document}
@@ -122,17 +151,12 @@ headsep=1cm
 \thispagestyle{empty}
 \mbox{}
 
-% \newpage
-% \thispagestyle{empty}
-% \begin{flushright}
-% \parbox[t]{10cm}{\textit{"Scientists study the world as it is,}\\ \textit{\hphantom{"}engineers  create the world that never has been."}} \\
-% \vspace{1em}
-% \parbox[t]{5cm}{\small(Kármán Tódor)}
-% \end{flushright}
 
-% \newpage
-% \thispagestyle{empty}
-% \mbox{}
+\include{Chapters/foreword}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
 
 \frontmatter
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}

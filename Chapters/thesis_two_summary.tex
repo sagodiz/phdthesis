@@ -1,0 +1,25 @@
+We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+Inferencing LLMs especially larger ones requires special hardware which might not be avaliable for everyone who wants to research LLMs.
+To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families with various model sizes, including models with the size of 70 billion parameters.
+These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
+
+The creation of this dataset did not include randomly selected values.
+We meticulously researched available open-source models and selected the best ones according  to multiple benchmarks.
+As the models were selected with great attention, the tasks to be generated are also considered with great attention.
+
+We needed tasks that provide a meaningful task for the LLMs, meaning they are not trivial to understand and implement.
+These tasks also had to be hidden from the major benchmarks of LLMs, therefore, reducing the risk of overfitting.
+To achieve this goal, we used tasks from Sapientia ECN, a programming competition.
+This competition guarantees that the tasks are non-trivial and since the tasks are hand-made by the organizers the originality of the tasks is also guaranteed.
+
+These tasks were provided to the LLMs alongside our prompt which we created considering good prompting practices such as role specification or few-shot learning.
+The LLMs were inferred through our inference framework.
+
+We also validated the generated outputs by compiling them.
+Ones that compiled successfully were taken as successful generations, although ones that failed the compilations had to be checked.
+We manually checked a statistically significant amount of those examples, and found that there were no mistakes in our framework, only the LLMs failed to generate source code that compiles.
+
+The examples that could be compiled were also evaluated with the available testcases from the programming competition.
+We collected these results in a JSON file which we published.
+
+Using this JSON file We also presented, that the temperature hyper-parameter of LLMs does not hide a pattern for source code generation and this topic requires more research.

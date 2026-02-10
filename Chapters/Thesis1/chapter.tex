@@ -207,7 +207,7 @@ To note, C++ and Java are both compiled languages, which is an additional condit
 \subsection{Selecting the right prompt}
 
 The first step in our methodology is selecting the right prompts with right difficulty and level of detail.
-As this task is very complicated we decided to use a program synthesis benchmark\cite{codegen_benchmark}, which includes 25 programming tasks from various sources.
+As this task is very complicated we decided to use a program synthesis benchmark~\cite{codegen_benchmark}, which includes 25 programming tasks from various sources.
 We provided the task descriptions from this benchmark as the prompts with a fixed prefix e.g. ''Generate a <LANGUAGE> code to solve the problem!'', where LANGUAGE is C++ or Java.
 A C++ prompt example is shown in Listing~\ref{lst:prompt}, where the first sentence is the prefix with the selected language and the remaining part is the text extracted from the benchmark.
 \begin{lstlisting}[basicstyle=\small, label=lst:prompt, caption=Example prompt for a C++ solution for the basement problem]

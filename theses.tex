@@ -26,6 +26,9 @@ headsep=1.2cm
 \usepackage{framed}
 %\usepackage[euler]{textgreek}
 
+
+\input{thesis_point_definitions.tex}
+
 \pagestyle{plain}
 
 \captionsetup[figure]{labelfont={bf},textfont={it}}
@@ -48,185 +51,192 @@ headsep=1.2cm
 \newpage
 \section{Introduction}
 
-Brief introduction to the topic \cite{b:arrl}. 
+Software engineering is a continuously growing and evolving field.
+Not only do new subfields emerge constantly, but the underlying technologies are also changing at a rapid pace.
+From the early days of manually written software, we have progressed to a point where Integrated Development Environments (IDEs)—which provide substantial support through features such as syntax highlighting, code navigation, and automated formatting—have become standard tools in every developer’s arsenal.
+Although these tools were created for developer convenience, many have failed over time, and those that remain continue to evolve in response to the changing requirements of the developer community.
 
-Problem statement and motivation.
+IDEs rely on a variety of analysis techniques, with source code analysis being a central component.
+While some features may appear straightforward, such as navigating from a caller to a callee, they often depend on extensive research, such as the construction of call graphs.
+Building call graphs is a complex task, as demonstrated in several of our studies~\cite{cg1, cg2, cg3}.
 
-The PhD thesis presents ... .
+Just as a small subset of IDE features is underpinned by a substantial research foundation, newly developed tools also require a solid research base to ensure their effectiveness and reliability.
+Such tools are the recently introduced Large Language Models (LLMs), which are currently reshaping the daily work of software engineers.
+As with earlier tools, these models must adapt to developer needs, and developers, in turn, must explore their capabilities to determine which tasks can be performed at higher quality—or at the same quality more efficiently—through their use.
 
-The dissertation consists of N major parts. The first chapter presents ..., the N. chapter presents ... .
+Developers today face numerous challenges, including the need to change established coding habits and adapt to a workflow in which creative work is increasingly transformed into review-oriented work through the use of AI models.
+This work also highlights additional challenges that are primarily technical in nature.
+With new LLMs appearing almost daily, developers struggle to select the most suitable model for their tasks.
+Experimenting with the most popular models is time-consuming and may lead them to overlook potentially optimal alternatives.
+A further issue is that newly introduced tools and models lack a common, standardized framework for quality measurement and comparison; as a result, developers cannot confidently prefer one model over another.
+Although various benchmarks are available, those mostly measure the functionality of the generated code.
+Even with versatile benchmarks, developers have to find those benchmarks and often evaluate the models on them as most of the models are not evaluated from the perspectives of source code quality, security, or other non-functional criteria.
 
-% INFO: The number of thesis groups can vary based on the major parts of the dissertation.
-\section{Title of first thesis group}
+As benchmarks are mentioned, another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
+These benchmarks often rely on small, non–real-world scenarios.
+Such benchmarks do not provide actual information about how models would perform when applied in actual development.
+It is also a problem that these benchmarks are prone to overfitting, as models may be optimized specifically for better benchmark performance.
+As model trainers know, which benchmarks are checked for quality measures, those benchmarks could be placed multiple times in the training set in order to seemingly increase the performance.
+Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
 
-Brief introduction to the thesis group \cite{b:duckworth99}.
+An additional problem is that these models are controlled by numerous hyper-parameters.
+While these offer extensive customization once a well-performing model has been selected, developers often lack guidance on how to configure the model effectively for their specific tasks or whether consistent configuration patterns exist across different models.
+Although general information about many hyper-parameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
 
-Problem statement, challenges and motivation.
+While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
+Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
+Source code security is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.
 
-In Chapter X. of the PhD thesis, a(n) ... is presented.
 
-% INFO: The number of subsections can vary based on how many parts of that particular thesis group has. The details and results have to be brief and straightforward. Use only as much information as the reader needs to understand the problem and the significance of the results.
-\subsection{Subsection of the thesis group}
+\section{\thesispointone}
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usage.
+A methodology must be applied to get reliable and uniform comparison.
+We created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
+This way We came-up with a methodology, that takes multiple aspects into consideration not only a few.
+The methodology details how every step should be performed what must be taken into consideration.
+The methodology is also showcased in a case study to provide a working example on how to use it.
 
-Brief introduction to the topic 1-2 sentence.
+The methodology starts with the right prompt selections.
+In contrast to methods We are all got used to, LLMs cannot be used without proper prompting.
+Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
+The first thing We must do, is to select the right prompt for the model, for the task We are going to use the model for.
+Selecting the right prompt is not easy, however, there are guide lines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advices on GIthub~\cite{github_prompt_engineering}.
 
-Details of the work.
+After selecting the right prompt, we must evaluate the functional validity of the models.
+Functional validity simply said, measures if the model can provide such code that does what it should do.
+The hardest task at this point is to find a way, how can We measure ,,it does what it should do''.
+It is most likely be performed via automatized tests, although it is important to note, that these tests might not take the generated code as is, so a framework might be needed.
+Using a framework or not completely depends on the requirements, as the requirements might contain that the code must be testable by the existing tests.
 
-Main results and significance of the work.
+Getting the tests is not an easy task either, as either it is up to the team to create the tests or use existing benchmarks, although at that case overfitting must be taken into consideration.
+Either way, tests are not easy to get in good quality.
+In our case study, to get tests which are optimal for this evaluation We used PSB2~\cite{codegen_benchmark}, that include 25 programming tasks.
 
-\subsection{Subsection of the thesis group}
+At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
+This step provides that the introduced LLM maintains the source code quality or rather increases it.
+It can be measured for example by SonarQube, which We used in the case study.
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+As our last step, We included the human evaluation, in order to see if developers are willing to accept source code generated by LLMs.
+This step, although difficult and expensive to perform, provides a better overview if an LLM should be introduced to the developer team or not.
+In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
 
-Brief introduction to the topic 1-2 sentence.
+\subsection*{Contributions of the author}
 
-Details of the work.
+\input{Chapters/thesis_one_contrib_list.tex}
 
-Main results and significance of the work.
 
-\subsection{Subsection of the thesis group}
+\section{\thesispointtwo}
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+Investigating hyper-parameters like temperature of LLMs is crucial, although it requires a tremendous amount of model inferences.
+Reusing model inferences provides a solution, although papers that inference models often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+Inferencing LLMs especially larger ones requires special hardware which might not be avaliable for everyone who wants to research LLMs.
+To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -namely Llama, DeepSeek, and Qwen- with various model sizes, including models with the size of 70 billion parameters.
+These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
 
-Brief introduction to the topic 1-2 sentence.
+The creation of this dataset did not include randomly selected values.
+We meticulously researched available open-source models and selected the best ones according to the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
+To consider both benchmarks' results, We used a multi-condition method to select the best models.
+As the models were selected with great attention, the tasks to be generated are also considered with great attention.
 
-Details of the work.
+We needed tasks that provide a meaningful task for the LLMs, meaning they are not trivial to understand and implement.
+Firstly, using sources such as LeetCode seemed a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
+Therefore these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
+To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}, a programming competition.
+This competition guarantees that the tasks are non-trivial and since the tasks are hand-made by the organizers the originality of the tasks is also guaranteed.
 
-Main results and significance of the work.
+These tasks were provided to the LLMs alongside our prompt which we created considering good prompting practices such as role specification or few-shot learning.
+The prompting techniques used in this prompt were: role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
 
-\section{Title of the second thesis group}
+We also validated the generated outputs by compiling the source code in them.
+Examples that compiled successfully were taken as successful source code generations, although ones that failed the compilation had to be checked.
+A compilation failure could be the result of a real programming mistake done by the model, although it could be our fault by not extracting the correct or whole code part from the model-generated output.
+We manually checked a statistically significant amount of the 3,959 examples, and found that there were no mistakes in our framework, only the LLMs failed to generate source code that compiles.
 
-Brief introduction to the thesis group \cite{b:mays01}.
+The examples that could be compiled were also evaluated with the available testcases from the programming competition.
+The evaluations resulted in multiple outcomes.
+Considering the whole task set over all the models, there were 29,882 testcases.
+The results are summarized in \autoref{th4:table:outcomes}.
 
-Problem statement, challenges and motivation.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline
+		\textbf{Outcome} & \textbf{Number}  \\ \hline
+		Passed           & 6.900            \\ \hline
+		Failed           & 18.755           \\ \hline
+		Runtime Error    & 2.306            \\ \hline
+		Timeout          & 1.921            \\ \hline
+		\textbf{Sum}     & \textbf{29.882}  \\ \hline
+	\end{tabular}
+	\caption{Number of different outcomes during program executions on test cases.}
+	\label{th4:table:outcomes}
+\end{table}
 
-In Chapter X. of the PhD thesis, a(n) ... is presented.
+As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
+These results, in conjunction with the detailed metadata preserved in the JSON file, enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
 
-\subsection{Subsection of the thesis group}
+\subsection*{Contributions of the author}
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+\input{Chapters/thesis_two_contrib_list.tex}
 
-Brief introduction to the topic 1-2 sentence \cite{b:isis-floodrouting}.
 
-Details of the work.
 
-Main results and significance of the work.
+\section{\thesispointthree}
 
-\subsection{Subsection of the thesis group}
+We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
+We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
+This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QUixBugs constains synthetic examples.
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+In our work this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
+This benchmarks contains real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
+To prevent our results to be influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could check correctness only by hand.
+This benchmark has vulnerabilities only after the training period of that particular GPT-4 version.
 
-Brief introduction to the topic 1-2 sentence.
+We created our prompt by considering multiple prompting strategies and we selected the best performing on a sub-set of Vul4J.
+With our prompt, we prompted GPT-4 to fix the source code and also provide a textual answer.
+This two sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+Textual answers can be used as automatic pull request reviews or patching aids for the developers.
 
-Details of the work.
+In contrast to many, in our evaluation We used Top-1 evaluation, meaning We considered the first solution the model provided.
+This allows us to be closer to real life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
+We ran the evaluation three times averaging the results, but all the distinct runs are considered as Top-1 evaluations.
 
-Main results and significance of the work.
+Our findings show that in real-world scenario the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases from which in 16.67\% only the text output was useful.
+We also investigated whether the results are consistent or not.
+Across the three individual runs 27.03\% of the tests passed in every run.
+This consistency, however, is not related to the vulnerability type, rather the good coding practices.
 
-\subsection{Subsection of the thesis group}
+\subsection*{Contributions of the author}
 
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
+\input{Chapters/thesis_three_contrib_list.tex}
 
-Brief introduction to the topic 1-2 sentence.
 
-Details of the work.
+\section{Summary}
 
-Main results and significance of the work.
+Software engineering is a rapidly evolving field.
+Developers have demonstrated, and will continue to demonstrate, a persistent need for source code analysis, both in direct and indirect forms.
+Direct forms include tools that assess code quality or detect vulnerabilities, while indirect forms encompass applications that leverage such analyses internally, such as IDEs or automated program repair (APR) tools.
+Although some features of these tools seem straightforward and easy to implement, they often rely on heavy research behind the scenes.
+These analysis are not just considered analysis, they can be split into two major categories: static and dynamic analysis.
+In this work We take static analysis, which uses solely the source code and usually does not need a compiled version of the code.
 
-\section{Title of the third thesis group}
+Large Language Models can be considered a type of static analysis tool, as they can operate directly on source code without requiring compilation.
+LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
+Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
 
-Brief introduction to the thesis group \cite{b:isis-tracking-techreport}.
+The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid.
+This thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques.
+Among the many aspects this thesis highlights the importance of hyper-parameters, more precisely the temperature parameter, which is yet to be investigated thoroughly.
+To help such investigations, the thesis provides a dataset for researchers with multiple LLM-families and LLM-sizes. 
+This thesis also provides an actual status report not just an abstract idea on what the realistic expectations are.
 
-Problem statement, challenges and motivation.
+\vspace*{3em}
 
-In Chapter X. of the PhD thesis, a(n) ... is presented.
-
-\subsection{Subsection of the thesis group}
-
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
-
-Brief introduction to the topic 1-2 sentence.
-
-Details of the work.
-
-Main results and significance of the work.
-
-\subsection{Subsection of the thesis group}
-
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
-
-Brief introduction to the topic 1-2 sentence.
-
-Details of the work.
-
-Main results and significance of the work.
-
-\subsection{Subsection of the thesis group}
-
-%  If a figure is needed:
-% \begin{figure}[b]
-%     \centering
-%     \includegraphics[width=4in]{Figures/figure_name.png}
-%     \caption{Figure caption}
-%     \label{figure_label}
-% \end{figure}
-
-Brief introduction to the topic 1-2 sentence.
-
-Details of the work.
-
-Main results and significance of the work.
-
-\vspace*{1em}
+The author states that while the thesis results are primarily his own work, the
+pronoun We is used instead of I to recognize the input of co-authors in the papers
+forming the basis of this thesis.
 
 
 % INFO: Get the publication list to a new page. If there is too much empty space left on the page before, then comment it out
@@ -237,107 +247,13 @@ Main results and significance of the work.
 \newcommand{\chapter}{\section}
 \input{Chapters/my_publications}
 
-% Make the numbering start from the end of the manual publication list 
-\makeatletter
-\apptocmd{\thebibliography}{\global\c@NAT@ctr 10\relax}{}{}
-\makeatother
-
+% Make the numbering start from the end of the manual publication list
+%\makeatletter
+%\apptocmd{\thebibliography}{\global\c@NAT@ctr 10\relax}{}{}
+%\makeatother
+\newpage
+\bibliographystyle{plain}
 \bibliography{refs}
-
-
-\newpage
-
-This page contains the declaration of the co-authors about the results listed in the declaration document.
-The document has to be signed by the supervisor and by the head of the Doctoral School.
-
-\begin{framed}
-\noindent\textbf{Declaration}
-\vspace*{0.5cm}
-
-In the PhD dissertation of Zoltán Ságodi entitled ,,\dolgozatcim'', Zoltán Ságodi's contribution was decisive in the following results:
-
-\begin{enumerate}[label=Chapter~\arabic*:,
-	leftmargin=!,
-	labelwidth=!,
-	align=left]
-	\setcounter{enumi}{2}
-	
-	\item \textbf{Zoltán Ságodi}, István Siket, and Rudolf Ferenc\\
-	\newblock {Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}.
-	\newblock \emph{IEEE Access}, VOL(12), 72303-72316, 2024.
-	\begin{itemize}
-		\item I collected relating methodologies and determined the gaps in those methodologies.
-		
-		\item I created the comparison methodology.
-		
-		\item I searched for an evaluation benchmark.
-		
-		\item I evaluated the Language Models on the benchmark.
-		
-		\item I performed the quality analysis of the synthetized programs.
-		
-		\item I designed the human evaluation.
-		
-		\item I created the Human Evaluation framework.
-	\end{itemize}
-	
-	\item \textbf{Zoltán Ságodi}, István Kolláth, Péter Heged\H{u}s and Rudolf Ferenc
-	\newblock {A Program Synthesis Dataset for LLM Temperature Analysis}.
-	\newblock \emph{IEEE Access}, VOL(13), 184022-184029, 2025.
-	\begin{itemize}
-		\item I designed the study.
-		
-		\item I created the model selection framework.
-		
-		\item I created the model evaluation framework.
-		
-		\item I evaluated the data according to the temperature variable effect.
-		
-	\end{itemize}
-	
-	\item \textbf{Zoltán Ságodi}, Gábor Antal, Bence Bogenfürst, Martin Isztin, Péter Heged\H{u}s and Rudolf Ferenc
-	\newblock {Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}.
-	\newblock In \emph{Proceedings of the 28th International Conference on Evaluation and Assessment in Software Engineering (EASE '24)}, Association for Computing Machinery, 252–261, 2024.
-	\begin{itemize}
-		\item I searched for prompt engineering techniques.
-		
-		\item I designed the evaluation of the prompts and also the models.
-		
-		\item I participated in the manual evaluation of the generated source code.
-		
-		\item I participated in the manual evaluation of the generated textual responses.
-	\end{itemize}
-\end{enumerate}
-
-These results cannot be used to obtain an academic research degree, other than the submitted PhD thesis of Zoltán Ságodi.
-
-\begin{center}
-	\vspace*{1.5cm}
-	\rule{0.85\textwidth}{.45pt}
-	
-	\vspace*{0.25cm}
-	date, signature of candidate, signature of supervisors
-\end{center}
-
-\vspace*{2.5cm}
-\noindent The head of the Doctoral School of Computer Science declares that the declaration above was sent to all of the coauthors and none of them raised any objections against it.
-
-
-\begin{center}
-	\vspace*{1.5cm}
-	\rule{0.5\textwidth}{.45pt}
-	
-	\vspace*{0.25cm}
-	date, signature of head of Doctoral School
-\end{center}
-\end{framed}
-
-% This page is intentionally empty
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\newpage
-
 
 
 \end{document}

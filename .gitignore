@@ -17,6 +17,6 @@ main.ist
 main.lof
 main.log
 main.lot
-main.out
-main.pdf
+*.out
 main.toc
+*.pdf

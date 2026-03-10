@@ -24,6 +24,7 @@ headsep=1.2cm
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{framed}
+\usepackage{titlesec} % package to reformat section titles
 %\usepackage[euler]{textgreek}
 
 
@@ -49,8 +50,16 @@ headsep=1.2cm
 
 \setcounter{page}{1}
  
+\titleformat{\section}[block]
+{\normalfont\Large\bfseries}
+{Thesis \thesection: }
+{0pt}
+{}
+
+\renewcommand{\thesection}{\arabic{section}}
+
 \newpage
-\section{Introduction}
+\section*{Introduction}
 
 Software engineering is a continuously growing and evolving field.
 Not only do new subfields emerge constantly, but the underlying technologies are also changing at a rapid pace.
@@ -214,7 +223,7 @@ This consistency, however, is not related to the vulnerability type, rather the 
 \input{Chapters/thesis_three_contrib_list.tex}
 
 
-\section{Summary}
+\section*{Summary}
 
 Software engineering is a rapidly evolving field.
 Developers have demonstrated, and will continue to demonstrate, a persistent need for source code analysis, both in direct and indirect forms.

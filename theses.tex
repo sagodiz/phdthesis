@@ -104,13 +104,15 @@ In the following three sections, the thesis points are presented, each addressin
 
 Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usage.
 A methodology must be applied to get reliable and uniform comparison.
-We created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
+We\footnote{The author states that while the thesis results are primarily his own work, the
+	pronoun We is used instead of I to recognize the input of co-authors in the papers
+	forming the basis of this thesis.} created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
 This way We came-up with a methodology, that takes multiple aspects into consideration not only a few.
 The methodology details how every step should be performed what must be taken into consideration.
 The methodology is also showcased in a case study to provide a working example on how to use it.
 
 The methodology starts with the right prompt selections.
-In contrast to methods We are all got used to, LLMs cannot be used without proper prompting.
+In contrast to methods, everyone got used to, LLMs cannot be used without proper prompting.
 Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
 The first thing We must do, is to select the right prompt for the model, for the task We are going to use the model for.
 Selecting the right prompt is not easy, however, there are guide lines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advices on GIthub~\cite{github_prompt_engineering}.
@@ -133,6 +135,14 @@ As our last step, We included the human evaluation, in order to see if developer
 This step, although difficult and expensive to perform, provides a better overview if an LLM should be introduced to the developer team or not.
 In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
 
+\vspace{2em}
+The publications relevant to the first thesis point are:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, István Siket, and Rudolf Ferenc
+	\newblock {Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}.
+	\newblock \emph{IEEE Access}, VOL(12), 72303-72316, 2024.
+\end{itemize}
+
 \subsection*{Contributions of the author}
 
 \input{Chapters/thesis_one_contrib_list.tex}
@@ -143,8 +153,8 @@ In our case study, We found that, although developers typically accept the gener
 Investigating hyper-parameters like temperature of LLMs is crucial, although it requires a tremendous amount of model inferences.
 Reusing model inferences provides a solution, although papers that inference models often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
 We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
-Inferencing LLMs especially larger ones requires special hardware which might not be avaliable for everyone who wants to research LLMs.
-To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -namely Llama, DeepSeek, and Qwen- with various model sizes, including models with the size of 70 billion parameters.
+Infering LLMs especially larger ones requires special hardware which might not be available for everyone who wants to research LLMs.
+To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -- namely Llama, DeepSeek, and Qwen -- with various model sizes, including models with the size of 70 billion parameters.
 These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
 
 The creation of this dataset did not include randomly selected values.
@@ -159,14 +169,14 @@ To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn
 This competition guarantees that the tasks are non-trivial and since the tasks are hand-made by the organizers the originality of the tasks is also guaranteed.
 
 These tasks were provided to the LLMs alongside our prompt which we created considering good prompting practices such as role specification or few-shot learning.
-The prompting techniques used in this prompt were: role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
+The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
 
-We also validated the generated outputs by compiling the source code in them.
+We also validated the generated outputs by compiling the contained source code.
 Examples that compiled successfully were taken as successful source code generations, although ones that failed the compilation had to be checked.
 A compilation failure could be the result of a real programming mistake done by the model, although it could be our fault by not extracting the correct or whole code part from the model-generated output.
 We manually checked a statistically significant amount of the 3,959 examples, and found that there were no mistakes in our framework, only the LLMs failed to generate source code that compiles.
 
-The examples that could be compiled were also evaluated with the available testcases from the programming competition.
+Examples that could be compiled were also evaluated with the available testcases from the programming competition.
 The evaluations resulted in multiple outcomes.
 Considering the whole task set over all the models, there were 29,882 testcases.
 The results are summarized in \autoref{th4:table:outcomes}.
@@ -187,7 +197,15 @@ The results are summarized in \autoref{th4:table:outcomes}.
 \end{table}
 
 As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
-These results, in conjunction with the detailed metadata preserved in the JSON file, enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+These results enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+
+\vspace{2em}
+The publications relevant to the second thesis point are:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, István Kolláth, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {A Program Synthesis Dataset for LLM Temperature Analysis}.
+	\newblock \emph{IEEE Access}, VOL(13), 184022-184029, 2025.
+\end{itemize}
 
 \subsection*{Contributions of the author}
 
@@ -199,7 +217,7 @@ These results, in conjunction with the detailed metadata preserved in the JSON f
 
 We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
 We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
-This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QUixBugs constains synthetic examples.
+This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs constains synthetic examples.
 
 In our work this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
 This benchmarks contains real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
@@ -220,6 +238,15 @@ We also investigated whether the results are consistent or not.
 Across the three individual runs 27.03\% of the tests passed in every run.
 This consistency, however, is not related to the vulnerability type, rather the good coding practices.
 
+\vspace{2em}
+
+The publications relevant to the second thesis point are:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, Gábor Antal, Bence Bogenfürst, Martin Isztin, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}.
+	\newblock In \emph{Proceedings of the 28th International Conference on Evaluation and Assessment in Software Engineering (EASE '24)}, Association for Computing Machinery, 252–261, 2024.
+\end{itemize}
+
 \subsection*{Contributions of the author}
 
 \input{Chapters/thesis_three_contrib_list.tex}
@@ -238,8 +265,7 @@ Large Language Models can be considered a type of static analysis tool, as they 
 LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
 Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
 
-The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid.
-This thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques.
+The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid, therefore, this thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques.
 Among the many aspects this thesis highlights the importance of hyper-parameters, more precisely the temperature parameter, which is yet to be investigated thoroughly.
 To help such investigations, the thesis provides a dataset for researchers with multiple LLM-families and LLM-sizes. 
 This thesis also provides an actual status report not just an abstract idea on what the realistic expectations are.

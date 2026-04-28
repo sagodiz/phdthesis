@@ -12,37 +12,38 @@ Most of the LLMs are based on the transformer architecture~\cite{attention} that
 %%% possible CUT
 An encoder-based model is BERT~\cite{bert} or CodeBERT~\cite{codebert}, which is designed specifically to work on code.
 BERT models work with masked tokens.
-Masked tokens can be imagined like text on paper which paper is stained by coffee, rendering some of the words invisible.
-The models task is to figure out what those invisible words could be.
-This prediction is based on the previous and following text, therefore, the generation task is not natural for such models as generation takes only the previous text since there is no following.
+Masked tokens can be imagined like text on paper, where the paper is stained by coffee, rendering some of the words invisible.
+The model's task is to figure out what those invisible words could be.
+This prediction is based on the previous and following text; therefore, the generation task is not natural for such models, as they only consider the previous text since there is no subsequent text.
 
 The other part of the transformer architecture is decoders, which are used in the Generative Pre-trained Transformer (GPT) architecture.
 One such model, specifically trained on source code, is Codex~\cite{codex}, which is based on the GPT-3 architecture.
-The latest model publicly available in this lineage is GPT-4.
+The latest publicly available model in this lineage is GPT-5.
 As their name suggests, generation is natural for these models, as they take into consideration the existing texts before the next possible word.
-The generation process is generating the next possible word one-by-one, therefore generating 4 words requires 4 cycles of the generation process and in every iteration the previously generated token is appended to the old text.
+The generation process is generating the next possible word one-by-one.
+Generating 4 words requires 4 cycles of the generation process, and in every iteration, the previously generated token is appended to the old text.
 
-Some of the most promising areas within software engineering that could leverage these models is program synthesis also known as program generation, and automatic program repair, as it involves generating new ``text'', the source code.
+Some of the most promising areas within software engineering that could leverage these models is program synthesis, also known as program generation, and automatic program repair, as it involves generating new ``text'': the source code.
 Source code generation is the process of automatically producing code based on high-level abstractions defined in domain-specific languages (DSLs)~\cite{codegen_dsl} or other declarative languages.
 The objective of source code generation is to reduce the amount of low-level, repetitive coding work that developers need to do, enabling them to focus on higher-level tasks and reducing the likelihood of errors and bugs.
 While source code generation has a long history, from the 70's~\cite{old_code_gen} even to the 2010s~\cite{dsl_recent}, recent advances in LLMs~\cite{codex} allow developers to express required program code using natural language definitions.
 
-Automatic program repair aims to ease the developer tasks by assisting in the correction of faulty code.
-Fixing a program is more challenging than creating new ones, as the developer has to understand the mindset of the original developer and devise an alternative approach as the original one was faulty.
-Leveraging automated systems, e.g. Language Models, to fix these problems~\cite{conversational_bug_fix_1, same_as_us_but_too_much_hint}, developers get more time to do in the creative field.
-This automatic fixing is especially critical in the field of vulnerabilities, where a fix might cannot wait for a developer to understand the error and fix it, it needs immediate fixing.
+Automatic program repair aims to ease the developers' tasks by assisting in the correction of faulty code.
+Fixing a program is more challenging than creating new ones, as the developer has to understand the mindset of the original developer and devise an alternative approach, as the original one was faulty.
+Leveraging automated systems, e.g., Language Models, to fix these problems~\cite{conversational_bug_fix_1, same_as_us_but_too_much_hint}, developers get more time to do tasks in the creative field.
+This automatic fixing is especially critical in the field of vulnerabilities, where a fix might need immediate attention and cannot wait for a developer to understand the error.
 
-The term software vulnerability is defined as a ''security flaw, glitch, or weakness found in software code that could be exploited by an attacker''~\cite{vuln_def}, therefore, risking the safety of sensitive data, the integrity of the software or even financial loss.
+The term software vulnerability is defined as a ''security flaw, glitch, or weakness found in software code that could be exploited by an attacker''~\cite{vuln_def}, therefore, risking the safety of sensitive data, the integrity of the software, or even financial loss.
 Vulnerabilities are key targets for source code analyzers, yet identifying them often requires detailed knowledge of the software and its underlying architecture.
 Although vulnerability detection is inherently challenging~\cite{vuln_det_challenges}, overall software quality frequently offers useful indicators of where such issues may emerge~\cite{metrics_for_vuln_det}.
 Further demonstrating that metrics are suitable for this purpose, several machine learning solutions~\cite{ml_vuln_det,mv_vuln_det_2} have been built on metric-based approaches.
-The reason for applying metrics in such wide range is that assessing software quality is comparatively easier than other methods and can therefore support easier vulnerability discovery.
+The reason for applying metrics in such a wide range is that assessing software quality is comparatively easier than other methods and can therefore support easier vulnerability discovery.
 
 Software quality can be evaluated through static analysis, which examines the source code directly, typically without requiring compilation.
-These tools often calculate a metric on the source code, such as how many statements or lines a file has or more complicated ones, which define semantical connections between source code elements.
-Besides these metrics rules can be created that check if the code contains elements that should be warned or completely removed from the code, for example misusing cryptographic algorithm~\cite{detect_misused_crypto} or incorrect visibility usage~\cite{implement_security_check_visibility} in security relevant context.
+These tools often calculate a metric on the source code, such as how many statements or lines a file has, or more complicated ones, which define semantical connections between source code elements.
+Besides these metrics, rules can be created that check if the code contains elements that should be marked with a warning or completely removed from the code, for example, misusing a cryptographic algorithm~\cite{detect_misused_crypto} or incorrect visibility usage~\cite{implement_security_check_visibility} in security relevant context.
 Creating these metrics and rules requires the developers of the analyzer tool to create often complex algorithmic solutions and be prepared for every possible scenario.
-Maintaining such complex code which has to be configured for every new language version is a long and expensive job.
+Maintaining such complex code, which has to be configured for every new language version, is a long and expensive job.
 
 If LLMs are to be categorized, because static analysis operates solely on the source code, the use of large language models (LLMs) also qualifies as a form of static analysis: LLMs can process uncompiled code and perform a variety of tasks, including automated program repair and refactoring.
 %With stable LLM-based solutions creating new metrics or rules or even adapting to a newer languages or language versions could be expressed in natural language, therefore, reducing maintenance costs.

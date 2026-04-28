@@ -216,28 +216,28 @@ The publications relevant to the second thesis point are:
 
 \section{\thesispointthreeuf}
 
-We took an alternative form of source code generation and used to generate fixed source code to perform so called automatic program repair.
+We took an alternative form of source code generation and used it to generate fixed source code to perform so-called automatic program repair.
 We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
-This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs constains synthetic examples.
+This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs contains synthetic examples.
 
-In our work this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
-This benchmarks contains real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
-To prevent our results to be influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could check correctness only by hand.
+In our work, this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
+This benchmark contains a real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
+To prevent our results from being influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could only check correctness by hand.
 This benchmark has vulnerabilities only after the training period of that particular GPT-4 version.
 
-We created our prompt by considering multiple prompting strategies and we selected the best performing on a sub-set of Vul4J.
-With our prompt, we prompted GPT-4 to fix the source code and also provide a textual answer.
-This two sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+We created our prompt by considering multiple prompting strategies and selected the best-performing on a subset of Vul4J.
+With our prompt, we instructed GPT-4 to fix the source code and also provide a textual answer.
+This two-sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
 Textual answers can be used as automatic pull request reviews or patching aids for the developers.
 
-In contrast to many, in our evaluation We used Top-1 evaluation, meaning We considered the first solution the model provided.
-This allows us to be closer to real life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
-We ran the evaluation three times averaging the results, but all the distinct runs are considered as Top-1 evaluations.
+In contrast to many, in our evaluation, we used Top-1 evaluation, meaning we considered the first solution the model provided.
+This allows us to be closer to real-life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
+We ran the evaluation three times, averaging the results, but all the distinct runs are considered as Top-1 evaluations.
 
-Our findings show that in real-world scenario the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases from which in 16.67\% only the text output was useful.
+Our findings show that in real-world scenarios the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases, of which, in 16.67\%, only the text output was useful.
 We also investigated whether the results are consistent or not.
-Across the three individual runs 27.03\% of the tests passed in every run.
-This consistency, however, is not related to the vulnerability type, rather the good coding practices.
+Across the three individual runs, 27.03\% of the tests passed in every run.
+This consistency, however, is not related to the vulnerability type, but rather to good coding practices.
 
 \vspace{2em}
 

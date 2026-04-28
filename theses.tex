@@ -79,14 +79,14 @@ This work also highlights additional challenges that are primarily technical in 
 With new LLMs appearing almost daily, developers struggle to select the most suitable model for their tasks.
 Experimenting with the most popular models is time-consuming and may lead them to overlook potentially optimal alternatives.
 A further issue is that newly introduced tools and models lack a common, standardized framework for quality measurement and comparison; as a result, developers cannot confidently prefer one model over another.
-Although various benchmarks are available, those mostly measure the functionality of the generated code.
-Even with versatile benchmarks, developers have to find those benchmarks and often evaluate the models on them as most of the models are not evaluated from the perspectives of source code quality, security, or other non-functional criteria.
+Although various benchmarks are available, they mostly measure the functionality of the generated code.
+Even with versatile benchmarks, developers have to find those benchmarks and often evaluate the models on them, as most of the models are not evaluated from the perspectives of source code quality, security, or other non-functional criteria.
 
 As benchmarks are mentioned, another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
 These benchmarks often rely on small, non–real-world scenarios.
 Such benchmarks do not provide actual information about how models would perform when applied in actual development.
 It is also a problem that these benchmarks are prone to overfitting, as models may be optimized specifically for better benchmark performance.
-As model trainers know, which benchmarks are checked for quality measures, those benchmarks could be placed multiple times in the training set in order to seemingly increase the performance.
+As model trainers know which benchmarks are checked for quality measures, they might place those benchmarks in the training set multiple times in order to seemingly increase the performance.
 Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
 
 An additional problem is that these models are controlled by numerous hyperparameters.
@@ -102,37 +102,38 @@ In the following three sections, the thesis points are presented, each addressin
 
 \section{\thesispointone}
 
-Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usage.
-A methodology must be applied to get reliable and uniform comparison.
+Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usecase.
+A methodology must be applied to get a reliable and uniform comparison.
 We\footnote{The author states that while the thesis results are primarily his own work, the
 	pronoun We is used instead of I to recognize the input of co-authors in the papers
 	forming the basis of this thesis.} created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
-This way We came-up with a methodology, that takes multiple aspects into consideration not only a few.
+This way, we came-up with a methodology that takes multiple aspects into consideration not only a few.
 The methodology details how every step should be performed what must be taken into consideration.
 The methodology is also showcased in a case study to provide a working example on how to use it.
 
 The methodology starts with the right prompt selections.
-In contrast to methods, everyone got used to, LLMs cannot be used without proper prompting.
+In contrast to methods everyone is used to, LLMs cannot be used without proper prompting.
 Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
-The first thing We must do, is to select the right prompt for the model, for the task We are going to use the model for.
-Selecting the right prompt is not easy, however, there are guide lines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advices on GIthub~\cite{github_prompt_engineering}.
+The first thing we must do is to select the right prompt for the model, for the task We are going to use the model for.
+Selecting the right prompt is not easy.
+There are guidelines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advice on GitHub~\cite{github_prompt_engineering}.
 
 After selecting the right prompt, we must evaluate the functional validity of the models.
-Functional validity simply said, measures if the model can provide such code that does what it should do.
-The hardest task at this point is to find a way, how can We measure ,,it does what it should do''.
-It is most likely be performed via automatized tests, although it is important to note, that these tests might not take the generated code as is, so a framework might be needed.
-Using a framework or not completely depends on the requirements, as the requirements might contain that the code must be testable by the existing tests.
+Functional validity, simply said, measures whether the model can provide code that does what it should.
+The hardest task at this point is to find a way to measure that it does ,,what it should do''.
+It is most likely to be performed via automatized tests, although it is important to note that these tests might not take the generated code as is, so a framework might be needed.
+The use of frameworks depends entirely on the requirements because they may require that the code be testable in existing tests.
 
-Getting the tests is not an easy task either, as either it is up to the team to create the tests or use existing benchmarks, although at that case overfitting must be taken into consideration.
-Either way, tests are not easy to get in good quality.
-In our case study, to get tests which are optimal for this evaluation We used PSB2~\cite{codegen_benchmark}, that include 25 programming tasks.
+Getting the tests is not an easy task either, as it is either up to the team to create the tests or they must use existing benchmarks; although in that case, overfitting must be taken into consideration.
+Either way, tests are not easy to obtain in good quality.
+In our case study, to get tests that are optimal for this evaluation, we used PSB2~\cite{codegen_benchmark}, which includes 25 programming tasks.
 
 At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
-This step provides that the introduced LLM maintains the source code quality or rather increases it.
-It can be measured for example by SonarQube, which We used in the case study.
+This step ensures that the introduced LLM maintains, or rather increases, the quality of the source code.
+It can be measured, for example, by SonarQube, which we used in the case study.
 
-As our last step, We included the human evaluation, in order to see if developers are willing to accept source code generated by LLMs.
-This step, although difficult and expensive to perform, provides a better overview if an LLM should be introduced to the developer team or not.
+As our last step, we included the human evaluation in order to see if developers are willing to accept source code generated by LLMs.
+This step, although difficult and expensive to perform, provides a better overview of whether an LLM should be introduced to the development team or not.
 In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
 
 \vspace{2em}

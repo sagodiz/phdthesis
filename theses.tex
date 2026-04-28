@@ -89,9 +89,9 @@ It is also a problem that these benchmarks are prone to overfitting, as models m
 As model trainers know, which benchmarks are checked for quality measures, those benchmarks could be placed multiple times in the training set in order to seemingly increase the performance.
 Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
 
-An additional problem is that these models are controlled by numerous hyper-parameters.
+An additional problem is that these models are controlled by numerous hyperparameters.
 While these offer extensive customization once a well-performing model has been selected, developers often lack guidance on how to configure the model effectively for their specific tasks or whether consistent configuration patterns exist across different models.
-Although general information about many hyper-parameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
+Although general information about many hyperparameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
 
 While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
 Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
@@ -150,7 +150,7 @@ The publications relevant to the first thesis point are:
 
 \section{\thesispointtwo}
 
-Investigating hyper-parameters like temperature of LLMs is crucial, although it requires a tremendous amount of model inferences.
+Investigating hyperparameters like temperature of LLMs is crucial, although it requires a tremendous amount of model inferences.
 Reusing model inferences provides a solution, although papers that inference models often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
 We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
 Infering LLMs especially larger ones requires special hardware which might not be available for everyone who wants to research LLMs.
@@ -266,7 +266,7 @@ LLMs are increasingly integrated into key software engineering processes, includ
 Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
 
 The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid, therefore, this thesis is designed to discover many aspects of LLMs which could be useful for a developer, regarding possible comparison techniques.
-Among the many aspects this thesis highlights the importance of hyper-parameters, more precisely the temperature parameter, which is yet to be investigated thoroughly.
+Among the many aspects this thesis highlights the importance of hyperparameters, more precisely the temperature parameter, which is yet to be investigated thoroughly.
 To help such investigations, the thesis provides a dataset for researchers with multiple LLM-families and LLM-sizes. 
 This thesis also provides an actual status report not just an abstract idea on what the realistic expectations are.
 

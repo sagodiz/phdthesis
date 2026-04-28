@@ -151,31 +151,31 @@ The publications relevant to the first thesis point are:
 
 \section{\thesispointtwo}
 
-Investigating hyperparameters like temperature of LLMs is crucial, although it requires a tremendous amount of model inferences.
-Reusing model inferences provides a solution, although papers that inference models often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
-We created a dataset, that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
-Infering LLMs especially larger ones requires special hardware which might not be available for everyone who wants to research LLMs.
+Investigating hyperparameters, like the temperature of LLMs, is crucial, although it requires tremendous amounts of model inferences.
+Reusing model inferences provides a solution, although papers that perform model inference, often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+We created a dataset that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+Infering LLMs, especially larger ones, requires special hardware which might not be available to everyone who wants to research LLMs.
 To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -- namely Llama, DeepSeek, and Qwen -- with various model sizes, including models with the size of 70 billion parameters.
 These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
 
 The creation of this dataset did not include randomly selected values.
 We meticulously researched available open-source models and selected the best ones according to the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
-To consider both benchmarks' results, We used a multi-condition method to select the best models.
+To consider both benchmarks' results, we used a multi-condition method to select the best models.
 As the models were selected with great attention, the tasks to be generated are also considered with great attention.
 
-We needed tasks that provide a meaningful task for the LLMs, meaning they are not trivial to understand and implement.
-Firstly, using sources such as LeetCode seemed a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
-Therefore these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
+We needed tasks that are  meaningful for the LLMs, meaning they are not trivial to understand and implement.
+At first, using sources such as LeetCode seemed like a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
+Therefore, these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
 To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}, a programming competition.
-This competition guarantees that the tasks are non-trivial and since the tasks are hand-made by the organizers the originality of the tasks is also guaranteed.
+This competition guarantees that the tasks are non-trivial, and since the tasks are hand-made by the organizers, the originality of the tasks is also guaranteed.
 
-These tasks were provided to the LLMs alongside our prompt which we created considering good prompting practices such as role specification or few-shot learning.
+These tasks were provided to the LLMs alongside our prompt, which we created considering good prompting practices such as role specification or few-shot learning.
 The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
 
 We also validated the generated outputs by compiling the contained source code.
-Examples that compiled successfully were taken as successful source code generations, although ones that failed the compilation had to be checked.
-A compilation failure could be the result of a real programming mistake done by the model, although it could be our fault by not extracting the correct or whole code part from the model-generated output.
-We manually checked a statistically significant amount of the 3,959 examples, and found that there were no mistakes in our framework, only the LLMs failed to generate source code that compiles.
+Examples that compiled successfully were taken as successful source code generations, although those that failed the compilation had to be checked.
+A compilation failure could be the result of a real programming mistake made by the model, or it could be our fault by not extracting the correct or whole code part from the model-generated output.
+We manually checked a statistically significant number of the 3,959 examples and found that there were no mistakes in our framework; only the LLMs failed to generate source code that compiles.
 
 Examples that could be compiled were also evaluated with the available testcases from the programming competition.
 The evaluations resulted in multiple outcomes.

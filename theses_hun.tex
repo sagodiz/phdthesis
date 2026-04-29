@@ -1,0 +1,465 @@
+\documentclass[12pt,a4paper]{extarticle}
+\usepackage{pdfpages}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol,multirow}
+ \usepackage{charter}
+\usepackage[
+a4paper,
+twoside,
+bindingoffset=0.5cm,
+inner=2cm,
+outer=2cm,
+top=3cm,
+bottom=3cm,
+headsep=1.2cm
+]{geometry}
+\usepackage[sort,numbers]{natbib}
+\usepackage{etoolbox}
+\usepackage{bibentry}
+% \usepackage{nyul_thesis}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{titlesec} % package to reformat section titles
+%\usepackage[euler]{textgreek}
+
+
+\input{thesis_point_definitions.tex}
+
+\pagestyle{plain}
+
+\captionsetup[figure]{labelfont={bf},textfont={it}}
+\captionsetup[table]{labelfont={bf},textfont={it}}
+
+\begin{document}
+
+\nobibliography*
+
+\newcommand{\doctype}{PhD disszertáció összefoglaló}
+%\include{titlepage}
+
+%%%%%%% title page
+
+
+\thispagestyle{empty}
+
+\newcommand{\dolgozatcim}{Nagy Nyelvi Modellek Képességeinek Vizsgálata a Szoftverfejlesztésben}
+
+\begin{center}
+	%	\vfill
+	\vspace*{0.25cm}
+	
+	\begin{spacing}{2}
+		{\Huge \textbf{\dolgozatcim}}
+	\end{spacing}
+	
+	\vspace*{2cm}
+	
+	{\Large \doctype}
+	
+	%	\vspace{2.5cm}
+	\vfill
+	
+	{\Large Zoltán Ságodi}
+	
+	\vspace{0.7cm}
+	
+	{\Large Témavezetők: \\ \vspace{0.5em} Siket István, PhD\\ \vspace*{1em} Ferenc Rudolf, PhD}
+	
+	%	\vspace{2cm}
+	\vfill
+	
+	{\large Informatika Doktori Iskola}
+	
+	\vspace{0.25cm}
+	
+	{\large Szoftverfejlesztés Tanszék}
+	
+	\vspace{0.25cm}
+	
+	{\large Természettudományi és Informatikai Kar}
+	
+	\vspace{0.25cm}
+	
+	{\large Szegedi Tudományegyetem}
+	
+	%	\vspace{4cm}
+	\vfill
+	
+	\includegraphics[width=0.3\linewidth]{Figures/szte_logo}
+	
+	\vfill
+	
+	{\large Szeged
+		
+		\today}
+	
+\end{center}
+
+
+
+
+
+%%%%%%%% title page end
+ 
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\newpage
+
+\setcounter{page}{1}
+ 
+\titleformat{\section}[block]
+{\normalfont\Large\bfseries}
+{Tézis \thesection: }
+{0pt}
+{}
+
+\renewcommand{\thesection}{\arabic{section}}
+
+\newpage
+\section*{Bevezetés}
+
+%Software engineering is a continuously growing and evolving field.
+%Not only do new subfields emerge constantly, but the underlying technologies are also changing at a rapid pace.
+%From the early days of manually written software, we have progressed to a point where Integrated Development Environments (IDEs)—which provide substantial support through features such as syntax highlighting, code navigation, and automated formatting—have become standard tools in every developer’s arsenal.
+%Although these tools were created for developer convenience, many have failed over time, and those that remain continue to evolve in response to the changing requirements of the developer community.
+A szoftverfejlesztés folyamatosan növekvő és gyorsan változó terület.
+Nemcsak új rész\-te\-rü\-le\-tek jelennek meg egyre gyakrabban, hanem az alapul szolgáló technológiák is rendkívül gyors ütemben fejlődnek.
+A kezdeti, kézzel írt programoktól eljutottunk oda, hogy az integrált fejlesztőkörnyezetek (IDE-k) – amelyek olyan funkciókkal segítik a munkát, mint a szintaxiskiemelés, a kódnavigáció vagy az automatikus formázás – mára minden fejlesztő alapvető eszközeivé váltak.
+Bár ezeket az eszközöket a fejlesztők mun\-ká\-já\-nak megkönnyítésére hozták létre, sok közülük idővel eltűnt, a fennmaradók pedig folyamatosan alkalmazkodnak a fejlesztői igények változásaihoz.
+
+
+%IDEs rely on a variety of analysis techniques, with source code analysis being a central component.
+%While some features may appear straightforward, such as navigating from a caller to a callee, they often depend on extensive research, such as the construction of call graphs.
+%Building call graphs is a complex task, as demonstrated in several of our studies~\cite{cg1, cg2, cg3}.
+Az IDE-k működése számos elemzési technikára épül, amelyek közül a for\-rás\-kód-elem\-zés kiemelt szerepet játszik.
+Egyes funkciók első ránézésre egyszerűnek tűnhetnek – például a hívó és a hívott függvény közötti navigáció –, valójában azonban komoly kutatási e\-red\-mé\-nyek állnak mögöttük, például a hívási gráfok előállítása.
+A hívási gráfok felépítése összetett feladat, amint azt több korábbi munkánk is bemutatja~\cite{cg1, cg2, cg3}.
+
+
+%Just as a small subset of IDE features is underpinned by a substantial research foundation, newly developed tools also require a solid research base to ensure their effectiveness and reliability.
+%Such tools are the recently introduced Large Language Models (LLMs), which are currently reshaping the daily work of software engineers.
+%As with earlier tools, these models must adapt to developer needs, and developers, in turn, must explore their capabilities to determine which tasks can be performed at higher quality—or at the same quality more efficiently—through their use.
+Ahogyan az IDE-k egyes funkciói mögött jelentős kutatási háttér áll, úgy az új eszközök esetében is elengedhetetlen a megfelelő tudományos megalapozottság a hatékony és meg\-bíz\-ha\-tó működéshez.
+Ilyen új eszközök a nagy nyelvi modellek (LLM-ek), amelyek napjainkban alapvetően alakítják át a szoftverfejlesztők mindennapi munkáját.
+Ezeknek a modelleknek is alkalmazkodniuk kell a fejlesztői igényekhez, miközben a fejlesztőknek fel kell fedezniük a bennük rejlő lehetőségeket annak érdekében, hogy meghatározzák, mely feladatok végezhetők el jobb minőségben – vagy azonos minőség mellett hatékonyabban – a segítségükkel.
+
+
+
+%Developers today face numerous challenges, including the need to change established coding habits and adapt to a workflow in which creative work is increasingly transformed into review-oriented work through the use of AI models.
+%This work also highlights additional challenges that are primarily technical in nature.
+%With new LLMs appearing almost daily, developers struggle to select the most suitable model for their tasks.
+%Experimenting with the most popular models is time-consuming and may lead them to overlook potentially optimal alternatives.
+%A further issue is that newly introduced tools and models lack a common, standardized framework for quality measurement and comparison; as a result, developers cannot confidently prefer one model over another.
+%Although various benchmarks are available, they mostly measure the functionality of the generated code.
+%Even with versatile benchmarks, developers have to find those benchmarks and often evaluate the models on them, as most of the models are not evaluated from the perspectives of source code quality, security, or other non-functional criteria.
+A fejlesztők ma számos kihívással szembesülnek.
+Egyrészt szükségessé válik a meg\-szo\-kott programozási gyakorlatok átalakítása, másrészt egy olyan munkafolyamathoz kell alkalmazkodniuk, amelyben az alkotó jellegű munka egyre inkább ellenőrzésközpontú te\-vé\-keny\-ség\-gé alakul az AI-alapú eszközök használata miatt.
+A dolgozat több, elsősorban technikai jellegű, problémára is rámutat.
+Az egyik ilyen kihívás, hogy a szinte naponta megjelenő új LLM-ek közül nehéz kiválasztani az adott feladathoz legmegfelelőbbet.
+A legnépszerűbb modellek kipróbálása időigényes, és könnyen előfordulhat, hogy így a ke\-vés\-bé ismert, de potenciálisan jobb modellek kimaradnak.
+További probléma, hogy hiányzik egy egységes, szabványosított keretrendszer a modellek minőségének mérésére és össze\-ha\-son\-lí\-tá\-sá\-ra, így a fejlesztők nem tudnak megalapozott döntést hozni egyik vagy másik modell mellett.
+Bár léteznek különböző benchmarkok, ezek többnyire a generált kód funkcionalitását mérik.
+Még a komplexebb benchmarkok esetében is, a fejlesztőknek kell azokat felkutatniuk, és gyakran saját maguknak kell lefuttatniuk a kiértékeléseket, mivel a modelleket ritkán vizsgálják a forráskód minősége, biztonsága vagy más nem-funkcionális szempontok alapján.
+
+
+%As benchmarks are mentioned, another technical challenge is that, although some benchmarks are available, developers cannot fully trust them.
+%These benchmarks often rely on small, non–real-world scenarios.
+%Such benchmarks do not provide actual information about how models would perform when applied in actual development.
+%It is also a problem that these benchmarks are prone to overfitting, as models may be optimized specifically for better benchmark performance.
+%As model trainers know which benchmarks are checked for quality measures, they might place those benchmarks in the training set multiple times in order to seemingly increase the performance.
+%Consequently, developers need reliable insight into the true real-world capabilities of LLMs.
+A benchmarkokkal kapcsolatban további problémák is felmerülnek.
+Bár rendelkezésre állnak, a fejlesztők nem bízhatnak meg bennük teljes mértékben.
+Gyakran kis méretű, nem valós környezetből származó példákra épülnek, így nem adnak hiteles képet arról, hogyan teljesítenének a modellek valós fejlesztési helyzetekben.
+Emellett ezek a benchmarkok hajlamosak a túlillesztésre: a modellek kifejezetten a jobb benchmark-eredmények elérésére optimalizálhatók.
+Mivel a modellfejlesztők tisztában vannak azzal, hogy mely benchmarkokat használják kiértékelésre, előfordulhat, hogy ezeket többször is beépítik a tanítóadatokba, ezzel mesterségesen javítva az eredményeket.
+Ennek következtében a fejlesztőknek megbízhatóbb képre van szükségük az LLM-ek valós, gyakorlati teljesítményéről.
+
+%An additional problem is that these models are controlled by numerous hyperparameters.
+%While these offer extensive customization once a well-performing model has been selected, developers often lack guidance on how to configure the model effectively for their specific tasks or whether consistent configuration patterns exist across different models.
+%Although general information about many hyperparameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
+További nehézséget jelent, hogy ezek a modellek számos hiperparaméterrel rendelkeznek.
+Bár ezek lehetővé teszik a finomhangolást egy jól működő modell esetén, a fejlesztők gyakran nem kapnak egyértelmű útmutatást arra, hogyan érdemes ezeket beállítani konkrét feladatokhoz, illetve hogy léteznek-e általános, modellek között is érvényes beállítási minták.
+Habár általános leírások sok esetben állnak rendelkezésre, a mindennapi használat során ezek hatása gyakran nem egyértelmű vagy nehezen érzékelhető.
+
+%While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
+%Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
+%Source code security is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.
+Bár ezek a kihívások a szoftverfejlesztés több területéről is megközelíthetők, jelen dolgozat elsősorban a forráskód-generálásra, a forráskód minőségére és a forráskód biztonságára fókuszál.
+A forráskód-generálás és a minőség alapvető szerepet játszik minden fejlesztési folyamatban, hiszen szoftver nem létezhet kód nélkül, és a minőségbiztosítás nagy rendszerek esetében mindennapos, elengedhetetlen tevékenység.
+A forráskód biztonsága pedig régóta kutatott terület, amelynek jelentősége folyamatosan növekszik a biztonsági incidensek számának és hatásának emelkedésével.
+
+%In the following three sections, the thesis points are presented, each addressing one of the challenges outlined above.
+A következő három fejezetben a tézisek bemutatása következik, amelyek mindegyike a fent ismertetett kihívások egy-egy aspektusára ad választ.
+
+
+\section{\thesispointonehu}
+
+Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usecase.
+A methodology must be applied to get a reliable and uniform comparison.
+We\footnote{The author states that while the thesis results are primarily his own work, the
+	pronoun We is used instead of I to recognize the input of co-authors in the papers
+	forming the basis of this thesis.} created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
+This way, we came-up with a methodology that takes multiple aspects into consideration not only a few.
+The methodology details how every step should be performed what must be taken into consideration.
+The methodology is also showcased in a case study to provide a working example on how to use it.
+
+The methodology starts with the right prompt selections.
+In contrast to methods everyone is used to, LLMs cannot be used without proper prompting.
+Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
+The first thing we must do is to select the right prompt for the model, for the task We are going to use the model for.
+Selecting the right prompt is not easy.
+There are guidelines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advice on GitHub~\cite{github_prompt_engineering}.
+
+After selecting the right prompt, we must evaluate the functional validity of the models.
+Functional validity, simply said, measures whether the model can provide code that does what it should.
+The hardest task at this point is to find a way to measure that it does ,,what it should do''.
+It is most likely to be performed via automatized tests, although it is important to note that these tests might not take the generated code as is, so a framework might be needed.
+The use of frameworks depends entirely on the requirements because they may require that the code be testable in existing tests.
+
+Getting the tests is not an easy task either, as it is either up to the team to create the tests or they must use existing benchmarks; although in that case, overfitting must be taken into consideration.
+Either way, tests are not easy to obtain in good quality.
+In our case study, to get tests that are optimal for this evaluation, we used PSB2~\cite{codegen_benchmark}, which includes 25 programming tasks.
+
+At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
+This step ensures that the introduced LLM maintains, or rather increases, the quality of the source code.
+It can be measured, for example, by SonarQube, which we used in the case study.
+
+As our last step, we included the human evaluation in order to see if developers are willing to accept source code generated by LLMs.
+This step, although difficult and expensive to perform, provides a better overview of whether an LLM should be introduced to the development team or not.
+In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
+
+\vspace{2em}
+Az első tézispont szempontjából releváns publikációk:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, István Siket, and Rudolf Ferenc
+	\newblock {Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}.
+	\newblock \emph{IEEE Access}, VOL(12), 72303-72316, 2024.
+\end{itemize}
+
+\subsection*{A szerző hozzájárulásai}
+
+\input{Chapters/thesis_one_contrib_list.tex}
+
+
+\section{\thesispointtwo}
+
+Investigating hyperparameters, like the temperature of LLMs, is crucial, although it requires tremendous amounts of model inferences.
+Reusing model inferences provides a solution, although papers that perform model inference, often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+We created a dataset that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+Infering LLMs, especially larger ones, requires special hardware which might not be available to everyone who wants to research LLMs.
+To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -- namely Llama, DeepSeek, and Qwen -- with various model sizes, including models with the size of 70 billion parameters.
+These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
+
+The creation of this dataset did not include randomly selected values.
+We meticulously researched available open-source models and selected the best ones according to the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
+To consider both benchmarks' results, we used a multi-condition method to select the best models.
+As the models were selected with great attention, the tasks to be generated are also considered with great attention.
+
+We needed tasks that are  meaningful for the LLMs, meaning they are not trivial to understand and implement.
+At first, using sources such as LeetCode seemed like a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
+Therefore, these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
+To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}, a programming competition.
+This competition guarantees that the tasks are non-trivial, and since the tasks are hand-made by the organizers, the originality of the tasks is also guaranteed.
+
+These tasks were provided to the LLMs alongside our prompt, which we created considering good prompting practices such as role specification or few-shot learning.
+The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
+
+We also validated the generated outputs by compiling the contained source code.
+Examples that compiled successfully were taken as successful source code generations, although those that failed the compilation had to be checked.
+A compilation failure could be the result of a real programming mistake made by the model, or it could be our fault by not extracting the correct or whole code part from the model-generated output.
+We manually checked a statistically significant number of the 3,959 examples and found that there were no mistakes in our framework; only the LLMs failed to generate source code that compiles.
+
+Examples that could be compiled were also evaluated with the available testcases from the programming competition.
+The evaluations resulted in multiple outcomes.
+Considering the whole task set over all the models, there were 29,882 testcases.
+The results are summarized in \autoref{th4:table:outcomes}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|}
+		\hline
+		\textbf{Outcome} & \textbf{Number}  \\ \hline
+		Passed           & 6.900            \\ \hline
+		Failed           & 18.755           \\ \hline
+		Runtime Error    & 2.306            \\ \hline
+		Timeout          & 1.921            \\ \hline
+		\textbf{Sum}     & \textbf{29.882}  \\ \hline
+	\end{tabular}
+	\caption{Number of different outcomes during program executions on test cases.}
+	\label{th4:table:outcomes}
+\end{table}
+
+As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
+These results enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+
+\vspace{2em}
+The publications relevant to the second thesis point are:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, István Kolláth, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {A Program Synthesis Dataset for LLM Temperature Analysis}.
+	\newblock \emph{IEEE Access}, VOL(13), 184022-184029, 2025.
+\end{itemize}
+
+\subsection*{Contributions of the author}
+
+\input{Chapters/thesis_two_contrib_list.tex}
+
+
+
+\section{\thesispointthreeuf}
+
+We took an alternative form of source code generation and used it to generate fixed source code to perform so-called automatic program repair.
+We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
+This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs contains synthetic examples.
+
+In our work, this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
+This benchmark contains a real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
+To prevent our results from being influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could only check correctness by hand.
+This benchmark has vulnerabilities only after the training period of that particular GPT-4 version.
+
+We created our prompt by considering multiple prompting strategies and selected the best-performing on a subset of Vul4J.
+With our prompt, we instructed GPT-4 to fix the source code and also provide a textual answer.
+This two-sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+Textual answers can be used as automatic pull request reviews or patching aids for the developers.
+
+In contrast to many, in our evaluation, we used Top-1 evaluation, meaning we considered the first solution the model provided.
+This allows us to be closer to real-life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
+We ran the evaluation three times, averaging the results, but all the distinct runs are considered as Top-1 evaluations.
+
+Our findings show that in real-world scenarios the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases, of which, in 16.67\%, only the text output was useful.
+We also investigated whether the results are consistent or not.
+Across the three individual runs, 27.03\% of the tests passed in every run.
+This consistency, however, is not related to the vulnerability type, but rather to good coding practices.
+
+\vspace{2em}
+
+The publications relevant to the second thesis point are:
+\begin{itemize}
+	\item \textbf{Zoltán Ságodi}, Gábor Antal, Bence Bogenfürst, Martin Isztin, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}.
+	\newblock In \emph{Proceedings of the 28th International Conference on Evaluation and Assessment in Software Engineering (EASE '24)}, Association for Computing Machinery, 252–261, 2024.
+\end{itemize}
+
+\subsection*{Contributions of the author}
+
+\input{Chapters/thesis_three_contrib_list.tex}
+
+
+\section*{Összefoglalás}
+
+%Software engineering is a rapidly evolving field.
+%Developers have demonstrated, and will continue to demonstrate, a persistent need for source code analysis, both in direct and indirect forms.
+%Direct forms include tools that assess code quality or detect vulnerabilities, while indirect forms encompass applications that leverage such analyses internally, such as IDEs or automated program repair (APR) tools.
+%Although some features of these tools seem straightforward and easy to implement, they often rely on heavy research behind the scenes.
+%These analyses are not just considered analysis; they can be split into two major categories: static and dynamic analysis.
+%In this work we take static analysis, which uses the source code solely and usually does not need a compiled version of the code.
+A szoftverfejlesztés egy gyorsan fejlődő szakterület.
+A fejlesztők részéről folyamatos igény mutatkozik a forráskód-elemzésre, mind közvetlen, mind közvetett formában.
+A közvetlen formák közé tartoznak azok az eszközök, amelyek a kód minőségét értékelik vagy sé\-rü\-lé\-keny\-sé\-ge\-ket azonosítanak, míg a közvetett formák olyan alkalmazásokat foglalnak magukban, amelyek belső működésük során támaszkodnak ezekre az elemzésekre, például az IDE-k vagy az automatikus programjavító (APR) eszközök.
+Bár ezen eszközök egyes funkciói első ránézésre egyszerűnek tűnnek, a háttérben gyakran jelentős kutatási e\-red\-mé\-nyek állnak.
+Ezek az elemzések két fő kategóriába sorolhatók: statikus és dinamikus elemzés.
+Jelen dolgozat a statikus elemzésre fókuszál, amely kizárólag a forráskódot használja, és általában nem igényli annak lefordított változatát.
+
+%Large Language Models can be considered a type of static analysis tool, as they can operate directly on source code without requiring compilation.
+%LLMs are increasingly integrated into key software engineering processes, including design, documentation, and task management.
+%Although these models are applied in diverse areas, this thesis focuses specifically on a form of source code synthesis.
+A nagy nyelvi modellek (LLM-ek) a statikus elemzés egy speciális formájának te\-kint\-he\-tők, mivel képesek közvetlenül a forráskódon működni, nem igényelnek fordítást.
+Az LLM-ek egyre inkább beépülnek a szoftverfejlesztés kulcsfolyamataiba, beleértve a tervezést, a dokumentációkészítést és a feladatkezelést.
+Bár ezek a modellek számos területen alkalmazhatók, a jelen értekezés kifejezetten a forráskód-szintézis egy meghatározott formájára összpontosít.
+
+%The aim of this thesis is to discover and deepen the connection between developers and LLMs as an ultimate development aid; therefore, this thesis is designed to discover many aspects of LLMs that could be useful for a developer, regarding possible comparison techniques.
+%Among the many aspects, this thesis highlights the importance of hyperparameters, more precisely the temperature parameter, which is yet to be investigated thoroughly.
+%To help such investigations, the thesis provides a dataset for researchers with multiple LLM-families and LLM-sizes. 
+%This thesis also provides an actual status report, not just an abstract idea on what the realistic expectations are.
+
+A dolgozat célja, hogy feltárja és elmélyítse a fejlesztők és az LLM-ek közötti kapcsolatot mint fejlesztést támogató eszköz.
+Ennek érdekében a dolgozat több olyan szempontot vizsgál, amelyek hasznosak lehetnek a fejlesztők számára, különös tekintettel az összehasonlítási módszerekre.
+A vizsgált tényezők közül kiemelt figyelmet kapnak a hiperparaméterek, ezen belül is különösen a temperature paraméter, amelynek hatása eddig még nem került kellő mélységben feltárásra.
+Az ilyen jellegű vizsgálatok támogatására a dolgozat egy több LLM-családot és különböző modellméreteket tartalmazó adatkészletet is bemutat.
+Emellett a dolgozat egy aktuális helyzetjelentést is nyújt, nem csupán elméleti megközelítést adva arról, hogy milyen reális elvárások fogalmazhatók meg ezekkel a modellekkel szemben.
+
+\vspace*{3em}
+
+%The author states that while the thesis results are primarily his own work, the pronoun We is used instead of I to recognize the input of co-authors in the papers forming the basis of this thesis.
+
+A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját munkáján alapulnak, az egyes szám első személy helyett többes szám első személyt használ (''mi''), ezzel is elismerve a dolgozat alapját képező publikációk társszerzőinek hozzájárulását.
+
+
+% INFO: Get the publication list to a new page. If there is too much empty space left on the page before, then comment it out
+\newpage
+
+% Publication list
+\undef{\chapter}
+\newcommand{\chapter}{\section}
+%\input{Chapters/my_publications}
+%%%%%%% my publications
+
+\chapter*{Publikációk}
+\markboth{Publikációk}{Publikációk}
+\addcontentsline{toc}{chapter}{Publikációk}
+
+\vspace*{2em}
+
+\subsection*{Folyóirat publikációk}
+
+\vspace*{1em}
+
+\begin{itemize}[wide = 0pt, widest = {[4]}, leftmargin =*]
+	
+	
+	\item  \textbf{Zoltán Ságodi}, István Kolláth, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {A Program Synthesis Dataset for LLM Temperature Analysis}.
+	\newblock \emph{IEEE Access}, VOL(13), 184022-184029, 2025.
+	
+	\item  \textbf{Zoltán Ságodi}, István Siket, and Rudolf Ferenc
+	\newblock {Methodology for Code Synthesis Evaluation of LLMs Presented by a Case Study of ChatGPT and Copilot}.
+	\newblock \emph{IEEE Access}, VOL(12), 72303-72316, 2024.
+	
+	\item  \textbf{Zoltán Ságodi}, Edit Pengő, Judit Juhász, István Siket and Rudolf Ferenc
+	\newblock {Static Call Graph Combination to Simulate Dynamic Call Graph Behavior}.
+	\newblock \emph{IEEE Access}, VOL(10), 131829-131840, 2022.
+	
+	\item  Edit Pengő, \textbf{Zoltán Ságodi}
+	\newblock {A Preparation Guide for Java Call Graph Comparison}.
+	\newblock \emph{Acta Cybernetica}, VOL(24), 131–155, 2019.
+	
+\end{itemize}
+
+\subsection*{Konferencia publikációk}
+\vspace*{1em}
+
+\begin{itemize}[wide = 0pt, widest = {[4]}, leftmargin =*]
+	
+	\item  \textbf{Zoltán Ságodi}, Gábor Antal, Bence Bogenfürst, Martin Isztin, Péter Heged\H{u}s and Rudolf Ferenc
+	\newblock {Reality Check: Assessing GPT-4 in Fixing Real-World Software Vulnerabilities}.
+	\newblock In \emph{Proceedings of the 28th International Conference on Evaluation and Assessment in Software Engineering (EASE '24)}, Association for Computing Machinery, 252–261, 2024.
+	
+	\item  Judit Jász, István Siket, Edit Pengő, \textbf{Zoltán Ságodi}, Rudolf Ferenc
+	\newblock {Systematic Comparison of Six Open-source Java Call Graph Construction Tools}.
+	\newblock In \emph{Proceedings of the 14th International Conference on Software Technologies - ICSOFT}, SciTePress, pages 117-128, 2019.
+	
+\end{itemize}
+
+
+
+%%%%%%%%%%%%% my publications end
+
+% Make the numbering start from the end of the manual publication list
+%\makeatletter
+%\apptocmd{\thebibliography}{\global\c@NAT@ctr 10\relax}{}{}
+%\makeatother
+\newpage
+\bibliographystyle{plain}
+\bibliography{refs}
+
+
+\end{document}
+

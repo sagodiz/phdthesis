@@ -139,7 +139,7 @@ Bár ezeket az eszközöket a fejlesztők mun\-ká\-já\-nak megkönnyítésére
 %While some features may appear straightforward, such as navigating from a caller to a callee, they often depend on extensive research, such as the construction of call graphs.
 %Building call graphs is a complex task, as demonstrated in several of our studies~\cite{cg1, cg2, cg3}.
 Az IDE-k működése számos elemzési technikára épül, amelyek közül a for\-rás\-kód-elem\-zés kiemelt szerepet játszik.
-Egyes funkciók első ránézésre egyszerűnek tűnhetnek – például a hívó és a hívott függvény közötti navigáció –, valójában azonban komoly kutatási e\-red\-mé\-nyek állnak mögöttük, például a hívási gráfok előállítása.
+Egyes funkciók első ránézésre egyszerűnek tűnhetnek – pél\-dá\-ul a hívó és a hívott függvény közötti navigáció –, valójában azonban komoly kutatási e\-red\-mé\-nyek állnak mögöttük, például a hívási gráfok előállítása.
 A hívási gráfok felépítése összetett feladat, amint azt több korábbi munkánk is bemutatja~\cite{cg1, cg2, cg3}.
 
 
@@ -164,7 +164,7 @@ Egyrészt szükségessé válik a meg\-szo\-kott programozási gyakorlatok átal
 A dolgozat több, elsősorban technikai jellegű, problémára is rámutat.
 Az egyik ilyen kihívás, hogy a szinte naponta megjelenő új LLM-ek közül nehéz kiválasztani az adott feladathoz legmegfelelőbbet.
 A legnépszerűbb modellek kipróbálása időigényes, és könnyen előfordulhat, hogy így a ke\-vés\-bé ismert, de potenciálisan jobb modellek kimaradnak.
-További probléma, hogy hiányzik egy egységes, szabványosított keretrendszer a modellek minőségének mérésére és össze\-ha\-son\-lí\-tá\-sá\-ra, így a fejlesztők nem tudnak megalapozott döntést hozni egyik vagy másik modell mellett.
+További probléma, hogy hi\-ány\-zik egy egységes, szabványosított keretrendszer a modellek minőségének mérésére és össze\-ha\-son\-lí\-tá\-sá\-ra, így a fejlesztők nem tudnak megalapozott döntést hozni egyik vagy másik modell mellett.
 Bár léteznek különböző benchmarkok, ezek többnyire a generált kód funkcionalitását mérik.
 Még a komplexebb benchmarkok esetében is, a fejlesztőknek kell azokat felkutatniuk, és gyakran saját maguknak kell lefuttatniuk a kiértékeléseket, mivel a modelleket ritkán vizsgálják a forráskód minősége, biztonsága vagy más nem-funkcionális szempontok alapján.
 
@@ -180,13 +180,13 @@ Bár rendelkezésre állnak, a fejlesztők nem bízhatnak meg bennük teljes mé
 Gyakran kis méretű, nem valós környezetből származó példákra épülnek, így nem adnak hiteles képet arról, hogyan teljesítenének a modellek valós fejlesztési helyzetekben.
 Emellett ezek a benchmarkok hajlamosak a túlillesztésre: a modellek kifejezetten a jobb benchmark-eredmények elérésére optimalizálhatók.
 Mivel a modellfejlesztők tisztában vannak azzal, hogy mely benchmarkokat használják kiértékelésre, előfordulhat, hogy ezeket többször is beépítik a tanítóadatokba, ezzel mesterségesen javítva az eredményeket.
-Ennek következtében a fejlesztőknek megbízhatóbb képre van szükségük az LLM-ek valós, gyakorlati teljesítményéről.
+Ennek következtében a fejlesztőknek megbízhatóbb képre van szükségük az LLM-ek valós, gyakorlati tel\-je\-sít\-mé\-nyé\-ről.
 
 %An additional problem is that these models are controlled by numerous hyperparameters.
 %While these offer extensive customization once a well-performing model has been selected, developers often lack guidance on how to configure the model effectively for their specific tasks or whether consistent configuration patterns exist across different models.
 %Although general information about many hyperparameters is available at a broader level, everyday users frequently cannot benefit from, or may not even notice, their impact in practice.
-További nehézséget jelent, hogy ezek a modellek számos hiperparaméterrel rendelkeznek.
-Bár ezek lehetővé teszik a finomhangolást egy jól működő modell esetén, a fejlesztők gyakran nem kapnak egyértelmű útmutatást arra, hogyan érdemes ezeket beállítani konkrét feladatokhoz, illetve hogy léteznek-e általános, modellek között is érvényes beállítási minták.
+További nehézséget jelent, hogy ezek a modellek számos hiperparaméterrel ren\-del\-kez\-nek.
+Bár ezek lehetővé teszik a finomhangolást egy jól működő modell esetén, a fejlesztők gyakran nem kapnak egyértelmű útmutatást arra, hogyan érdemes ezeket beállítani konk\-rét feladatokhoz, illetve hogy léteznek-e általános, modellek között is érvényes beállítási min\-ták.
 Habár általános leírások sok esetben állnak rendelkezésre, a mindennapi használat során ezek hatása gyakran nem egyértelmű vagy nehezen érzékelhető.
 
 %While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
@@ -202,39 +202,71 @@ A következő három fejezetben a tézisek bemutatása következik, amelyek mind
 
 \section{\thesispointonehu}
 
-Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usecase.
-A methodology must be applied to get a reliable and uniform comparison.
-We\footnote{The author states that while the thesis results are primarily his own work, the
-	pronoun We is used instead of I to recognize the input of co-authors in the papers
-	forming the basis of this thesis.} created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
-This way, we came-up with a methodology that takes multiple aspects into consideration not only a few.
-The methodology details how every step should be performed what must be taken into consideration.
-The methodology is also showcased in a case study to provide a working example on how to use it.
+%Large Language Models are deployed on a daily basis, therefore, developers cannot test every model in order to find the best for their usecase.
+%A methodology must be applied to get a reliable and uniform comparison.
+%We\footnote{The author states that while the thesis results are primarily his own work, the
+%	pronoun We is used instead of I to recognize the input of co-authors in the papers
+%	forming the basis of this thesis.} created a comparison methodology based on various papers that compare LLMs~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}.
+%This way, we came-up with a methodology that takes multiple aspects into consideration not only a few.
+%The methodology details how every step should be performed what must be taken into consideration.
+%The methodology is also showcased in a case study to provide a working example on how to use it.
+Naponta jelenik meg egy újabb nagy nyelvi modell (LLM), ezért a fejlesztők nem tudják az összes modellt egyenként kipróbálni annak érdekében, hogy megtalálják a számukra legmegfelelőbbet.
+Egy megbízható és egységes összehasonlítás érdekében szükség van egy megfelelő módszertan alkalmazására.
+Különböző LLM-ek összehasonlításával foglalkozó tanulmányok alapján~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}, egy összehasonlítási módszertant dolgoztunk\footnote{A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját munkáján alapulnak, az egyes szám első személy helyett többes szám első személyt használ (''mi''), ezzel is elismerve a dolgozat alapját képező publikációk társszerzőinek hozzájárulását.} ki.
+Ennek eredményeként egy olyan megközelítést hoztunk létre, amely nem csupán néhány szempontot, hanem több különböző aspektust is figyelembe vesz.
+A módszertan részletesen meghatározza az egyes lépések végrehajtását, valamint azt is, hogy milyen tényezőket kell figyelembe venni.
+A módszertant egy esettanulmányon keresztül is bemutatjuk, szem\-lél\-tet\-ve annak gyakorlati alkalmazását.
 
-The methodology starts with the right prompt selections.
-In contrast to methods everyone is used to, LLMs cannot be used without proper prompting.
-Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
-The first thing we must do is to select the right prompt for the model, for the task We are going to use the model for.
-Selecting the right prompt is not easy.
-There are guidelines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advice on GitHub~\cite{github_prompt_engineering}.
 
-After selecting the right prompt, we must evaluate the functional validity of the models.
-Functional validity, simply said, measures whether the model can provide code that does what it should.
-The hardest task at this point is to find a way to measure that it does ,,what it should do''.
-It is most likely to be performed via automatized tests, although it is important to note that these tests might not take the generated code as is, so a framework might be needed.
-The use of frameworks depends entirely on the requirements because they may require that the code be testable in existing tests.
+%The methodology starts with the right prompt selections.
+%In contrast to methods everyone is used to, LLMs cannot be used without proper prompting.
+%Denny et al.~\cite{codex_prompting} showed that Natural Language prompting has the effect to change the generated source code.
+%The first thing we must do is to select the right prompt for the model, for the task We are going to use the model for.
+%Selecting the right prompt is not easy.
+%There are guidelines that should be followed, such as the work of White et al.~\cite{chatgpt_prompt_design} or the advice on GitHub~\cite{github_prompt_engineering}.
+A módszertan első lépése a megfelelő prompt kiválasztása.
+A hagyományos mód\-sze\-rek\-kel ellentétben az LLM-ek nem használhatók hatékonyan megfelelő prompt nélkül.
+Denny és társai~\cite{codex_prompting} kimutatták, hogy a természetes nyelvű promptok jelentősen befolyásolják a generált forráskódot.
+Ezért első lépésként ki kell választani a megfelelő promptot az adott modellhez és az adott feladathoz.
+A megfelelő prompt kiválasztása nem triviális feladat.
+Ehhez különböző irányelvek állnak rendelkezésre, például White és társai munkája~\cite{chatgpt_prompt_design}, illetve a GitHub által közzétett ajánlások~\cite{github_prompt_engineering}.
 
-Getting the tests is not an easy task either, as it is either up to the team to create the tests or they must use existing benchmarks; although in that case, overfitting must be taken into consideration.
-Either way, tests are not easy to obtain in good quality.
-In our case study, to get tests that are optimal for this evaluation, we used PSB2~\cite{codegen_benchmark}, which includes 25 programming tasks.
 
-At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
-This step ensures that the introduced LLM maintains, or rather increases, the quality of the source code.
-It can be measured, for example, by SonarQube, which we used in the case study.
+%After selecting the right prompt, we must evaluate the functional validity of the models.
+%Functional validity, simply said, measures whether the model can provide code that does what it should.
+%The hardest task at this point is to find a way to measure that it does ,,what it should do''.
+%It is most likely to be performed via automatized tests, although it is important to note that these tests might not take the generated code as is, so a framework might be needed.
+%The use of frameworks depends entirely on the requirements because they may require that the code be testable in existing tests.
+A megfelelő prompt kiválasztását követően a modellek funkcionális helyességét kell értékelni.
+A funkcionális helyesség azt méri, hogy a modell képes-e olyan kódot előállítani, amely valóban a kívánt módon működik.
+Ennek mérése azonban nem egyszerű, mivel meg kell határozni, mit jelent pontosan az, hogy a kód ''azt csinálja, amit kell''.
+Ez általában automatizált tesztek segítségével történik, ugyanakkor fontos megjegyezni, hogy ezek a tesztek nem mindig képesek közvetlenül kezelni a generált kódot, ezért adott esetben szükség lehet egy köztes keretrendszerre.
+A keretrendszer alkalmazása a konkrét követelményektől függ, például attól, hogy a kódnak illeszkednie kell-e meglévő teszt\-kör\-nye\-ze\-tek\-hez.
 
-As our last step, we included the human evaluation in order to see if developers are willing to accept source code generated by LLMs.
-This step, although difficult and expensive to perform, provides a better overview of whether an LLM should be introduced to the development team or not.
-In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
+
+%Getting the tests is not an easy task either, as it is either up to the team to create the tests or they must use existing benchmarks; although in that case, overfitting must be taken into consideration.
+%Either way, tests are not easy to obtain in good quality.
+%In our case study, to get tests that are optimal for this evaluation, we used PSB2~\cite{codegen_benchmark}, which includes 25 programming tasks.
+A tesztek előállítása önmagában is kihívást jelent.
+Ez történhet saját tesztek készítésével, vagy meglévő benchmarkok felhasználásával, utóbbi esetben azonban figyelembe kell venni a túlillesztés (overfitting) lehetőségét.
+Mindkét megközelítés esetén nehéz jó minőségű teszteket biztosítani.
+Az esettanulmányunkban a PSB2 benchmarkot használtuk~\cite{codegen_benchmark}, amely 25 programozási feladatot tartalmaz, és alkalmas a modellek értékelésére.
+
+
+%At the third step of the methodology, we must evaluate the non-functional validity or technical quality.
+%This step ensures that the introduced LLM maintains, or rather increases, the quality of the source code.
+%It can be measured, for example, by SonarQube, which we used in the case study.
+A módszertan harmadik lépése a nem-funkcionális megfelelőség, azaz a technikai mi\-nő\-ség értékelése.
+Ez a lépés biztosítja, hogy az alkalmazott LLM fenntartsa, vagy lehetőség szerint javítsa a forráskód minőségét.
+A minőség mérhető például statikus kódelemző eszközökkel; esettanulmányunkban a SonarQube rendszert alkalmaztuk.
+
+%As our last step, we included the human evaluation in order to see if developers are willing to accept source code generated by LLMs.
+%This step, although difficult and expensive to perform, provides a better overview of whether an LLM should be introduced to the development team or not.
+%In our case study, We found that, although developers typically accept the generated code, it often requires additional refinement before final use.
+A módszertan utolsó lépéseként a humán értékelést is bevontuk annak érdekében, hogy felmérjük, a fejlesztők mennyire fogadják el az LLM-ek által generált kódot.
+Ez a lépés ugyan költséges és nehezen kivitelezhető, ugyanakkor átfogóbb képet ad arról, hogy érdemes-e egy adott modellt bevezetni a fejlesztési folyamatba.
+Eredményeink alapján a fejlesztők általában elfogadják a generált kódot, azonban az gyakran további fi\-nom\-han\-go\-lást igényel a végleges felhasználás előtt.
+
 
 \vspace{2em}
 Az első tézispont szempontjából releváns publikációk:
@@ -246,7 +278,31 @@ Az első tézispont szempontjából releváns publikációk:
 
 \subsection*{A szerző hozzájárulásai}
 
-\input{Chapters/thesis_one_contrib_list.tex}
+%\input{Chapters/thesis_one_contrib_list.tex}
+%%%%%%%% thesis_one_contrib_list
+
+
+\begin{enumerate}[wide = 0pt, widest = {I/4.}, leftmargin =*]
+	
+	\item[I/1.] Összegyűjtöttem a kapcsolódó módszertanokat, és azonosítottam azok hiányosságait.
+	
+	\item[I/2.] Kidolgoztam az összehasonlítási módszertant.
+	
+	\item[I/3.] Megfelelő értékelési benchmarkot kerestem.
+	
+	\item[I/4.] Kiértékeltem a nyelvi modelleket a kiválasztott benchmarkon.
+	
+	\item[I/5.] Elvégeztem a szintetizált programok minőségi elemzését.
+	
+	\item[I/6.] Megterveztem a humán értékelést.
+	
+	\item[I/7.] Kidolgoztam a humán értékelési keretrendszert.
+	
+\end{enumerate}
+
+
+
+%%%%%% theis one contrib list end
 
 
 \section{\thesispointtwohu}

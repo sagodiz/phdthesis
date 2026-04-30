@@ -307,36 +307,66 @@ Az első tézispont szempontjából releváns publikációk:
 
 \section{\thesispointtwohu}
 
-Investigating hyperparameters, like the temperature of LLMs, is crucial, although it requires tremendous amounts of model inferences.
-Reusing model inferences provides a solution, although papers that perform model inference, often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
-We created a dataset that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
-Infering LLMs, especially larger ones, requires special hardware which might not be available to everyone who wants to research LLMs.
-To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -- namely Llama, DeepSeek, and Qwen -- with various model sizes, including models with the size of 70 billion parameters.
-These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
+%Investigating hyperparameters, like the temperature of LLMs, is crucial, although it requires tremendous amounts of model inferences.
+%Reusing model inferences provides a solution, although papers that perform model inference, often do not share the generated outputs~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+%We created a dataset that contains 18,900 raw and 18,896 processed LLM outputs in C++ source code generation.
+%Infering LLMs, especially larger ones, requires special hardware which might not be available to everyone who wants to research LLMs.
+%To broaden the possibilities of the research community, we evaluated 9 LLMs from 3 different LLM-families -- namely Llama, DeepSeek, and Qwen -- with various model sizes, including models with the size of 70 billion parameters.
+%These models were inferred with variadic temperature settings ranging from 0.01 to 1.00.
+A hiperparaméterek, például az LLM-ek hőmérsékletének, vizsgálata kulcsfontosságú, u\-gyan\-ak\-kor rendkívül nagy számú modell futtatást igényel.
+A generált eredmények új\-ra\-fel\-hasz\-ná\-lá\-sa megoldást jelenthet, azonban az ilyen feladatokat végző publikációk gyakran nem osztják meg a generált kimeneteket~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
+Ennek kezelésére lét\-re\-hoz\-tunk egy adathalmazt, amely 18.900 nyers és 18.896 feldolgozott LLM-kimenetet tartalmaz C++ forráskód-generálás területén.
+Az LLM-ek futtatása avagy inferenciája, különösen a nagyobb modellek esetében, speciális hardvert igényel, amely nem minden kutató számára elérhető.
+A kutatói közösség lehetőségeit bővítve 9 különböző LLM-et vizsgáltunk három modellcsaládból,- Llama, DeepSeek és Qwen-, eltérő modellméretekkel, beleértve a 70 milliárd paraméteres modelleket is.
+A modellek inferenciáját különböző hőmérsékleti beállításokkal végeztük, 0,01 és 1,00 közötti tartományban.
 
-The creation of this dataset did not include randomly selected values.
-We meticulously researched available open-source models and selected the best ones according to the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
-To consider both benchmarks' results, we used a multi-condition method to select the best models.
-As the models were selected with great attention, the tasks to be generated are also considered with great attention.
+%The creation of this dataset did not include randomly selected values.
+%We meticulously researched available open-source models and selected the best ones according to the HumanEval~\cite{codex} and MBPP~\cite{mbpp} benchmarks.
+%To consider both benchmarks' results, we used a multi-condition method to select the best models.
+%As the models were selected with great attention, the tasks to be generated are also considered with great attention.
+Az adatkészlet összeállítása során nem véletlenszerűen választottunk modelleket.
+Rész\-le\-te\-sen feltérképeztük az elérhető nyílt forráskódú modelleket, és a HumanEval~\cite{codex} és MBPP~\cite{mbpp} benchmarkok alapján kiválasztottuk a legjobban teljesítőket.
+A két benchmark eredményeinek együttes figyelembevételéhez egy többfeltételes kiválasztási módszert alkalmaztunk.
+Ahogyan a modellek kiválasztása, úgy a generálandó feladatok kiválasztása is nagy körültekintéssel történt.
 
-We needed tasks that are  meaningful for the LLMs, meaning they are not trivial to understand and implement.
-At first, using sources such as LeetCode seemed like a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
-Therefore, these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
-To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}, a programming competition.
-This competition guarantees that the tasks are non-trivial, and since the tasks are hand-made by the organizers, the originality of the tasks is also guaranteed.
+%We needed tasks that are  meaningful for the LLMs, meaning they are not trivial to understand and implement.
+%At first, using sources such as LeetCode seemed like a great solution, although such popular collections of tasks are most probably included in the training sets of LLMs.
+%Therefore, these tasks also had to be hidden from the major benchmarks of LLMs to reduce the risk of overfitting.
+%To achieve this goal, we used tasks from Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}}, a programming competition.
+%This competition guarantees that the tasks are non-trivial, and since the tasks are hand-made by the organizers, the originality of the tasks is also guaranteed.
+Olyan feladatokra volt szükségünk, amelyek érdemben kihívást jelentenek az LLM-ek számára, vagyis nem triviálisak sem megértés, sem implementáció szempontjából.
+Elsőre olyan források, mint a LeetCode, megfelelőnek tűntek, azonban ezek a népszerű feladatgyűjtemények nagy valószínűséggel szerepelnek az LLM-ek tanítóadataiban.
+Ezért olyan feladatokra volt szükség, amelyek a főbb benchmarkokból is hiányoznak, ezzel csökkentve a túlillesztés kockázatát.
+Ennek érdekében a Sapientia ECN\footnote{\url{https://ecn.ms.sapientia.ro/}} programozási verseny feladatait használtuk.
+Ez a verseny garantálja, hogy a feladatok nem triviálisak, és mivel azokat a szervezők egyedileg készítik, az eredetiségük is biztosított.
 
-These tasks were provided to the LLMs alongside our prompt, which we created considering good prompting practices such as role specification or few-shot learning.
-The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
+%These tasks were provided to the LLMs alongside our prompt, which we created considering good prompting practices such as role specification or few-shot learning.
+%The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
 
-We also validated the generated outputs by compiling the contained source code.
-Examples that compiled successfully were taken as successful source code generations, although those that failed the compilation had to be checked.
-A compilation failure could be the result of a real programming mistake made by the model, or it could be our fault by not extracting the correct or whole code part from the model-generated output.
-We manually checked a statistically significant number of the 3,959 examples and found that there were no mistakes in our framework; only the LLMs failed to generate source code that compiles.
+Ezeket a feladatokat a saját promptunkkal együtt adtuk a modelleknek.
+A promptot bevált promptolási gyakorlatok figyelembevételével alakítottunk ki, például szerepmegadás és few-shot tanulás alkalmazásával.
+A promptban alkalmazott technikák közé tartozott a szerepmegadás a kontextus szűkítésére, a strukturált kimenet kérése a könnyebb feldolgozhatóság érdekében, a magyarázat kikényszerítése a szemantikailag koherensebb válaszok eléréséhez, valamint a few-shot tanulás, amely példákon keresztül mutatja meg a kívánt bemenet-kimenet párokat.
 
-Examples that could be compiled were also evaluated with the available testcases from the programming competition.
-The evaluations resulted in multiple outcomes.
-Considering the whole task set over all the models, there were 29,882 testcases.
-The results are summarized in \autoref{th4:table:outcomes}.
+%We also validated the generated outputs by compiling the contained source code.
+%Examples that compiled successfully were taken as successful source code generations, although those that failed the compilation had to be checked.
+%A compilation failure could be the result of a real programming mistake made by the model, or it could be our fault by not extracting the correct or whole code part from the model-generated output.
+%We manually checked a statistically significant number of the 3,959 examples and found that there were no mistakes in our framework; only the LLMs failed to generate source code that compiles.
+A generált kimeneteket a bennük található forráskód lefordításával is validáltuk.
+Azok az esetek, amelyek sikeresen lefordultak, sikeres kódgenerálásnak minősültek, míg a for\-dí\-tá\-si hibával végződő eseteket külön meg kellett vizsgálni.
+A fordítási hiba eredhetett a modell által elkövetett programozási hibából, de akár abból is, hogy a generált kimenetből nem a megfelelő vagy nem a teljes kódrészletet emeltük ki.
+A 3.959 példa egy statisztikailag szignifikáns részét manuálisan ellenőriztük, és megállapítottuk, hogy a keretrendszerünk nem tartalmaz hibát; a fordítási problémák kizárólag az LLM-ek hibájából adódtak.
+
+%Examples that could be compiled were also evaluated with the available testcases from the programming competition.
+%The evaluations resulted in multiple outcomes.
+%Considering the whole task set over all the models, there were 29,882 testcases.
+%The results are summarized in \autoref{th4:table:outcomes}.
+
+A sikeresen lefordított programokat a versenyhez tartozó tesztesetekkel is kiértékeltük.
+Az értékelések többféle kimenetet eredményeztek.
+A teljes feladathalmazt és az összes modellt figyelembe véve összesen 29.882 teszteset állt rendelkezésre.
+Az eredményeket a \ref{th4:table:outcomes} táblázat foglalja össze.
+
+
 
 \begin{table}[h]
 	\centering
@@ -353,8 +383,11 @@ The results are summarized in \autoref{th4:table:outcomes}.
 	\label{th4:table:outcomes}
 \end{table}
 
-As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
-These results enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+%As evident from the distribution in Table~\ref{th4:table:outcomes}, a significant portion of executions resulted in failures, with a smaller yet non-negligible number of runtime errors and timeouts.
+%These results enable robust downstream analysis and interpretation tailored to diverse research or evaluation objectives.
+
+Ahogyan az a \ref{th4:table:outcomes} táblázat eloszlásából is látható, a futtatások jelentős része hibával végződött, emellett kisebb, de nem elhanyagolható arányban fordultak elő futásidejű hibák és időtúllépések is.
+Ezek az eredmények lehetővé teszik a megbízható további elemzést és értelmezést, különböző kutatási vagy értékelési célokhoz igazítva.
 
 \vspace{2em}
 A második tézispont szempontjából releváns publikációk:
@@ -366,8 +399,25 @@ A második tézispont szempontjából releváns publikációk:
 
 \subsection*{A szerző hozzájárulásai}
 
-\input{Chapters/thesis_two_contrib_list.tex}
+%\input{Chapters/thesis_two_contrib_list.tex}
 
+%%%%%% thesis two contrib list
+
+\begin{enumerate}[wide = 0pt, widest = {II/5.}, leftmargin =*]
+	
+	\item[II/1.] Megterveztem a tanulmányt.
+	
+	\item[II/2.] Kidolgoztam a modellkiválasztási keretrendszert.
+	
+	\item[II/3.] Kidolgoztam a modellértékelési keretrendszert.
+	
+	\item[II/4.] Kiértékeltem az adatokat a hőmérséklet paraméter hatásának figyelembevételével.
+	
+\end{enumerate}
+
+
+
+%%%%% tzheiss two contrib list end
 
 
 \section{\thesispointthreehu}

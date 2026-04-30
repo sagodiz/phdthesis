@@ -33,6 +33,12 @@ thesespdf:
 	pdflatex theses
 	pdflatex theses
 
+
+	pdflatex theses_hun
+	bibtex theses_hun
+	pdflatex theses_hun
+	pdflatex theses_hun
+
 coverpage:
 	pdflatex coverpage
 

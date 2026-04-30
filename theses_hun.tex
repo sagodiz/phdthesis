@@ -422,28 +422,50 @@ A második tézispont szempontjából releváns publikációk:
 
 \section{\thesispointthreehu}
 
-We took an alternative form of source code generation and used it to generate fixed source code to perform so-called automatic program repair.
-We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
-This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs contains synthetic examples.
+%We took an alternative form of source code generation and used it to generate fixed source code to perform so-called automatic program repair.
+%We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
+%This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs contains synthetic examples.
+A forráskód-generálás alternatív módon alkalmaztuk, így javított forráskódot állítottunk elő úgynevezett automatikus programjavítás (automatic program repair) céljából.
+A GPT-4 modellt arra használtuk, hogy olyan módon generáljon kódot, amely megőrzi az eredeti funkcionalitást, ugyanakkor megszünteti a rejtett sérülékenységet.
+Ezt a feladatot korábban Prenner és társai~\cite{codex_bug_fix}, valamint Sobania és társai~\cite{quix_bugs_abuser_2} is vizsgálták, azonban a használt benchmark, QuixBugs, szintetikus példákat tartalmaz.
 
-In our work, this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
-This benchmark contains a real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
-To prevent our results from being influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could only check correctness by hand.
-This benchmark has vulnerabilities only after the training period of that particular GPT-4 version.
+%In our work, this task is evaluated on a real-life vulnerability benchmark, Vul4J~\cite{vul4j}.
+%This benchmark contains a real-life vulnerability collection alongside tests that validate whether the plausible fix correctly removes the vulnerability or not.
+%To prevent our results from being influenced by GPT-4 being familiar with the vulnerabilities collected in the benchmark, We also used the CVEFixes~\cite{bhandari2021cvefixes} benchmark, which had no validation tests, thus We could only check correctness by hand.
+%This benchmark has vulnerabilities only after the training period of that particular GPT-4 version.
 
-We created our prompt by considering multiple prompting strategies and selected the best-performing on a subset of Vul4J.
-With our prompt, we instructed GPT-4 to fix the source code and also provide a textual answer.
-This two-sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
-Textual answers can be used as automatic pull request reviews or patching aids for the developers.
+Munkánkban egy valós sérülékenységeket tartalmazó benchmarkot, a Vul4J-t~\cite{vul4j}, hasz\-nál\-tuk kiértékelésre.
+Ez a benchmark valós sérülékenységeket tartalmaz, valamint olyan teszteket, amelyek ellenőrzik, hogy az adott javítás valóban megszünteti-e a sé\-rü\-lé\-keny\-sé\-get.
+Annak érdekében, hogy az eredményeket ne torzítsa az, hogy a GPT-4 esetleg ismeri a benchmarkban szereplő példákat, a CVEFixes~\cite{bhandari2021cvefixes} adatbázist is felhasználtuk.
+Ez a benchmark nem tartalmaz validációs teszteket, így a helyességet csak manuálisan tudtuk ellenőrizni.
+Ez az adatbázis olyan sérülékenységeket tartalmaz, amelyek az adott GPT-4 verzió tanítási időszaka után keletkeztek.
 
-In contrast to many, in our evaluation, we used Top-1 evaluation, meaning we considered the first solution the model provided.
-This allows us to be closer to real-life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
-We ran the evaluation three times, averaging the results, but all the distinct runs are considered as Top-1 evaluations.
+%We created our prompt by considering multiple prompting strategies and selected the best-performing on a subset of Vul4J.
+%With our prompt, we instructed GPT-4 to fix the source code and also provide a textual answer.
+%This two-sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
+%Textual answers can be used as automatic pull request reviews or patching aids for the developers.
+A promptoláskor több különféle stratégia szerint alakítottunk ki promptokat, és a benchmark egy részhalmazán kiértékeltük azokat.
+A legjobban teljesítő prompt-ot alkalmaztuk a teljes adathalmazra.
+A prompt segítségével a GPT-4-et arra utasítottuk, hogy javítsa ki a forráskódot, és egyben adjon szöveges magyarázatot is.
+Ez a kétoldalú megközelítés lehetővé tette annak vizsgálatát, hogy a modell akkor is hasznos lehet-e iránymutatásként, ha helyes javítást nem is képes előállítani.
+A szöveges válaszok felhasználhatók például automatikus pull request értékelésként vagy javítási segédletként a fejlesztők számára.
 
-Our findings show that in real-world scenarios the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases, of which, in 16.67\%, only the text output was useful.
-We also investigated whether the results are consistent or not.
-Across the three individual runs, 27.03\% of the tests passed in every run.
-This consistency, however, is not related to the vulnerability type, but rather to good coding practices.
+%In contrast to many, in our evaluation, we used Top-1 evaluation, meaning we considered the first solution the model provided.
+%This allows us to be closer to real-life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
+%We ran the evaluation three times, averaging the results, but all the distinct runs are considered as Top-1 evaluations.
+Sok más megközelítéssel ellentétben az értékelés során Top-1 módszert alkalmaztunk, vagyis minden esetben a modell elsőként adott válaszát vettük figyelembe.
+Ez közelebb áll a valós fejlesztési helyzetekhez, ahol a fejlesztőknek általában nincs idejük több (például 5-10) lehetséges javítás közül választani.
+Az értékelést háromszor futtattuk le, és az eredményeket átlagoltuk, ugyanakkor minden egyes futtatást külön-külön is Top-1 ér\-té\-ke\-lés\-ként kezeltünk.
+
+%Our findings show that in real-world scenarios the GPT-4 model can fix on average 33.33\% of the vulnerabilities and can provide useful answers in around 50\% of the cases, of which, in 16.67\%, only the text output was useful.
+%We also investigated whether the results are consistent or not.
+%Across the three individual runs, 27.03\% of the tests passed in every run.
+%This consistency, however, is not related to the vulnerability type, but rather to good coding practices.
+Az eredmények azt mutatják, hogy valós környezetben a GPT-4 modell átlagosan az esetek 33,33\%-ában képes a sérülékenységek javítására, és az esetek körülbelül 50\%-ában ad hasznos választ; ezek közül 16,67\%-ban kizárólag a szöveges válasz bizonyult hasznosnak.
+Vizsgáltuk az eredmények konzisztenciáját is.
+A három futtatás során az esetek 27,03\%-ában minden alkalommal sikeres volt a javítás.
+Ez a konzisztencia azonban nem a sérülékenység típusával, hanem inkább a jó programozási gyakorlatok jelenlétével mutat összefüggést.
+
 
 \vspace{2em}
 

@@ -130,8 +130,8 @@ headsep=1.2cm
 %From the early days of manually written software, we have progressed to a point where Integrated Development Environments (IDEs)—which provide substantial support through features such as syntax highlighting, code navigation, and automated formatting—have become standard tools in every developer’s arsenal.
 %Although these tools were created for developer convenience, many have failed over time, and those that remain continue to evolve in response to the changing requirements of the developer community.
 A szoftverfejlesztés folyamatosan növekvő és gyorsan változó terület.
-Nemcsak új rész\-te\-rü\-le\-tek jelennek meg egyre gyakrabban, hanem az alapul szolgáló technológiák is rendkívül gyors ütemben fejlődnek.
-A kezdeti, kézzel írt programoktól eljutottunk oda, hogy az integrált fejlesztőkörnyezetek (IDE-k) – amelyek olyan funkciókkal segítik a munkát, mint a szintaxiskiemelés, a kódnavigáció vagy az automatikus formázás – mára minden fejlesztő alapvető eszközeivé váltak.
+Nemcsak új rész\-te\-rü\-le\-tek jelennek meg egyre gyakrabban, hanem az alapjául szolgáló technológiák is rendkívül gyors ütemben fejlődnek.
+A kezdeti, szövegszerkesztőkben írt programoktól, eljutottunk oda, hogy az integrált fejlesztőkörnyezetek (IDE-k) – amelyek olyan funkciókkal segítik a munkát, mint a szintaxiskiemelés, a kódnavigáció vagy az automatikus formázás – mára minden fejlesztő alapvető eszközeivé váltak.
 Bár ezeket az eszközöket a fejlesztők mun\-ká\-já\-nak megkönnyítésére hozták létre, sok közülük idővel eltűnt, a fennmaradók pedig folyamatosan alkalmazkodnak a fejlesztői igények változásaihoz.
 
 
@@ -192,9 +192,9 @@ Habár általános leírások sok esetben állnak rendelkezésre, a mindennapi h
 %While these challenges may be approached from multiple subfields of software engineering, the primary focus of this work is on source code generation, source code quality, and source code security.
 %Source code generation and quality form the foundation of all software development workflows, as software cannot exist without code, and quality assurance is a routinely performed and essential activity in large-scale projects.
 %Source code security is a well-established research area; however, its importance continues to increase as the frequency and impact of security incidents grow steadily over time.
-Bár ezek a kihívások a szoftverfejlesztés több területéről is megközelíthetők, jelen dolgozat elsősorban a forráskód-generálásra, a forráskód minőségére és a forráskód biztonságára fókuszál.
-A forráskód-generálás és a minőség alapvető szerepet játszik minden fejlesztési folyamatban, hiszen szoftver nem létezhet kód nélkül, és a minőségbiztosítás nagy rendszerek esetében mindennapos, elengedhetetlen tevékenység.
-A forráskód biztonsága pedig régóta kutatott terület, amelynek jelentősége folyamatosan növekszik a biztonsági incidensek számának és hatásának emelkedésével.
+Ezek a kihívások a szoftverfejlesztés több területéről is megközelíthetők, jelen dolgozat elsősorban a forráskód-generálásra, a forráskód minőségére és a forráskód biztonságára fókuszál.
+A forráskód-generálás és a minőség alapvető szerepet játszik minden fejlesztési folyamatban, hiszen szoftver nem létezhet kód nélkül, és a minőségbiztosítás nagy rend\-sze\-rek esetében mindennapos, elengedhetetlen tevékenység.
+A forráskód biztonsága pedig régóta kutatott terület, amelynek jelentősége folyamatosan növekszik a biztonsági incidensek számának és súlyosságának emelkedésével.
 
 %In the following three sections, the thesis points are presented, each addressing one of the challenges outlined above.
 A következő három fejezetben a tézisek bemutatása következik, amelyek mindegyike a fent ismertetett kihívások egy-egy aspektusára ad választ.
@@ -210,9 +210,9 @@ A következő három fejezetben a tézisek bemutatása következik, amelyek mind
 %This way, we came-up with a methodology that takes multiple aspects into consideration not only a few.
 %The methodology details how every step should be performed what must be taken into consideration.
 %The methodology is also showcased in a case study to provide a working example on how to use it.
-Naponta jelenik meg egy újabb nagy nyelvi modell (LLM), ezért a fejlesztők nem tudják az összes modellt egyenként kipróbálni annak érdekében, hogy megtalálják a számukra legmegfelelőbbet.
-Egy megbízható és egységes összehasonlítás érdekében szükség van egy megfelelő módszertan alkalmazására.
-Különböző LLM-ek összehasonlításával foglalkozó tanulmányok alapján~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}, egy összehasonlítási módszertant dolgoztunk\footnote{A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját munkáján alapulnak, az egyes szám első személy helyett többes szám első személyt használ (''mi''), ezzel is elismerve a dolgozat alapját képező publikációk társszerzőinek hozzájárulását.} ki.
+Naponta jelennek meg az újabb nagy nyelvi modellek (LLM), ezért a fejlesztők nem tudják az összes modellt egyenként kipróbálni annak érdekében, hogy megtalálják a számukra legmegfelelőbbet, hiszen nincsen rá elegendő idő és erőforrás.
+Egy megbízható és egységes össze\-ha\-son\-lí\-tás érdekében szükség van egy megfelelő módszertan alkalmazására.
+Kü\-lön\-bö\-ző LLM-ek össze\-ha\-son\-lí\-tá\-sá\-val foglalkozó tanulmányok alapján~\cite{copilot_code_evaluation,copilot_code_evaluation2, copilot_code_evaluation_3}, egy össze\-ha\-son\-lí\-tá\-si módszertant dolgoztunk\footnote{A szerző kijelenti, hogy bár a dolgozat eredményei elsősorban saját munkáján alapulnak, az egyes szám első személy helyett többes szám első személyt használ (''mi''), ezzel is elismerve a dolgozat alapját képező publikációk társszerzőinek hozzájárulását.} ki.
 Ennek eredményeként egy olyan megközelítést hoztunk létre, amely nem csupán néhány szempontot, hanem több különböző aspektust is figyelembe vesz.
 A módszertan részletesen meghatározza az egyes lépések végrehajtását, valamint azt is, hogy milyen tényezőket kell figyelembe venni.
 A módszertant egy esettanulmányon keresztül is bemutatjuk, szem\-lél\-tet\-ve annak gyakorlati alkalmazását.
@@ -248,8 +248,9 @@ A keretrendszer alkalmazása a konkrét követelményektől függ, például att
 %Either way, tests are not easy to obtain in good quality.
 %In our case study, to get tests that are optimal for this evaluation, we used PSB2~\cite{codegen_benchmark}, which includes 25 programming tasks.
 A tesztek előállítása önmagában is kihívást jelent.
-Ez történhet saját tesztek készítésével, vagy meglévő benchmarkok felhasználásával, utóbbi esetben azonban figyelembe kell venni a túlillesztés (overfitting) lehetőségét.
-Mindkét megközelítés esetén nehéz jó minőségű teszteket biztosítani.
+Ez történhet saját tesztek írásával, vagy meglévő benchmarkok felhasználásával.
+Utóbbi esetben azonban figyelembe kell venni a túlillesztés (overfitting) lehetőségét.
+Mindkét megközelítés esetén nehéz jó mi\-nő\-sé\-gű teszteket biztosítani.
 Az esettanulmányunkban a PSB2 benchmarkot használtuk~\cite{codegen_benchmark}, amely 25 programozási feladatot tartalmaz, és alkalmas a modellek értékelésére.
 
 
@@ -316,8 +317,8 @@ Az első tézispont szempontjából releváns publikációk:
 A hiperparaméterek, például az LLM-ek hőmérsékletének, vizsgálata kulcsfontosságú, u\-gyan\-ak\-kor rendkívül nagy számú modell futtatást igényel.
 A generált eredmények új\-ra\-fel\-hasz\-ná\-lá\-sa megoldást jelenthet, azonban az ilyen feladatokat végző publikációk gyakran nem osztják meg a generált kimeneteket~\cite{data_no_share_1,data_no_share_2,data_no_share_3,data_no_share_4,data_no_share_5}.
 Ennek kezelésére lét\-re\-hoz\-tunk egy adathalmazt, amely 18.900 nyers és 18.896 feldolgozott LLM-kimenetet tartalmaz C++ forráskód-generálás területén.
-Az LLM-ek futtatása avagy inferenciája, különösen a nagyobb modellek esetében, speciális hardvert igényel, amely nem minden kutató számára elérhető.
-A kutatói közösség lehetőségeit bővítve 9 különböző LLM-et vizsgáltunk három modellcsaládból,- Llama, DeepSeek és Qwen-, eltérő modellméretekkel, beleértve a 70 milliárd paraméteres modelleket is.
+Az LLM-ek futtatása avagy másnéven inferenciája, különösen a nagyobb modellek esetében, speciális hardvert igényel, amely nem minden kutató számára elérhető.
+A kutatói közösség lehetőségeit bővítve, 9 különböző LLM-et vizsgáltunk három modellcsaládból,- Llama, DeepSeek és Qwen-, eltérő mo\-dell\-mé\-re\-tek\-kel, beleértve a 70 milliárd paraméteres modelleket is.
 A modellek inferenciáját különböző hőmérsékleti beállításokkal végeztük, 0,01 és 1,00 közötti tartományban.
 
 %The creation of this dataset did not include randomly selected values.
@@ -344,7 +345,7 @@ Ez a verseny garantálja, hogy a feladatok nem triviálisak, és mivel azokat a 
 %The prompting techniques used in this prompt were role specification to narrow down the context, structured output requests to make the output easier to process, explanation enforcement to achieve more semantically coherent output, and few-shot learning to show the model what input-output pairs should be achieved by the generated program.
 
 Ezeket a feladatokat a saját promptunkkal együtt adtuk a modelleknek.
-A promptot bevált promptolási gyakorlatok figyelembevételével alakítottunk ki, például szerepmegadás és few-shot tanulás alkalmazásával.
+A prompt\-ot bevált promptolási gyakorlatok figyelembevételével alakítottunk ki.
 A promptban alkalmazott technikák közé tartozott a szerepmegadás a kontextus szűkítésére, a strukturált kimenet kérése a könnyebb feldolgozhatóság érdekében, a magyarázat kikényszerítése a szemantikailag koherensebb válaszok eléréséhez, valamint a few-shot tanulás, amely példákon keresztül mutatja meg a kívánt bemenet-kimenet párokat.
 
 %We also validated the generated outputs by compiling the contained source code.
@@ -361,7 +362,7 @@ A 3.959 példa egy statisztikailag szignifikáns részét manuálisan ellenőriz
 %Considering the whole task set over all the models, there were 29,882 testcases.
 %The results are summarized in \autoref{th4:table:outcomes}.
 
-A sikeresen lefordított programokat a versenyhez tartozó tesztesetekkel is kiértékeltük.
+A sikeresen lefordított programokat a versenyhez tartozó tesztesetekkel ki is értékeltük.
 Az értékelések többféle kimenetet eredményeztek.
 A teljes feladathalmazt és az összes modellt figyelembe véve összesen 29.882 teszteset állt rendelkezésre.
 Az eredményeket a \ref{th4:table:outcomes} táblázat foglalja össze.
@@ -425,7 +426,7 @@ A második tézispont szempontjából releváns publikációk:
 %We took an alternative form of source code generation and used it to generate fixed source code to perform so-called automatic program repair.
 %We used GPT-4 to generate the source code in a way that maintains the original functionality without the hidden vulnerability inside.
 %This task was evaluated by Prenner et al.~\cite{codex_bug_fix} and Sobania et al.~\cite{quix_bugs_abuser_2}, although QuixBugs contains synthetic examples.
-A forráskód-generálás alternatív módon alkalmaztuk, így javított forráskódot állítottunk elő úgynevezett automatikus programjavítás (automatic program repair) céljából.
+A forráskód-generálást alternatív módon alkalmaztuk, így javított forráskódot állítottunk elő úgynevezett automatikus programjavítás (automatic program repair) céljából.
 A GPT-4 modellt arra használtuk, hogy olyan módon generáljon kódot, amely megőrzi az eredeti funkcionalitást, ugyanakkor megszünteti a rejtett sérülékenységet.
 Ezt a feladatot korábban Prenner és társai~\cite{codex_bug_fix}, valamint Sobania és társai~\cite{quix_bugs_abuser_2} is vizsgálták, azonban a használt benchmark, QuixBugs, szintetikus példákat tartalmaz.
 
@@ -438,17 +439,17 @@ Munkánkban egy valós sérülékenységeket tartalmazó benchmarkot, a Vul4J-t~
 Ez a benchmark valós sérülékenységeket tartalmaz, valamint olyan teszteket, amelyek ellenőrzik, hogy az adott javítás valóban megszünteti-e a sé\-rü\-lé\-keny\-sé\-get.
 Annak érdekében, hogy az eredményeket ne torzítsa az, hogy a GPT-4 esetleg ismeri a benchmarkban szereplő példákat, a CVEFixes~\cite{bhandari2021cvefixes} adatbázist is felhasználtuk.
 Ez a benchmark nem tartalmaz validációs teszteket, így a helyességet csak manuálisan tudtuk ellenőrizni.
-Ez az adatbázis olyan sérülékenységeket tartalmaz, amelyek az adott GPT-4 verzió tanítási időszaka után keletkeztek.
+Azonban, az adatbázis olyan sérülékenységeket tartalmaz, amelyek az adott GPT-4 verzió tanítási időszaka után keletkeztek.
 
 %We created our prompt by considering multiple prompting strategies and selected the best-performing on a subset of Vul4J.
 %With our prompt, we instructed GPT-4 to fix the source code and also provide a textual answer.
 %This two-sided request allowed us to discover if GPT can be a useful guide even if it cannot provide a valid vulnerability fix.
 %Textual answers can be used as automatic pull request reviews or patching aids for the developers.
-A promptoláskor több különféle stratégia szerint alakítottunk ki promptokat, és a benchmark egy részhalmazán kiértékeltük azokat.
+A promptoláskor több különféle stratégia szerint alakítottunk ki promptokat, és a Vul4J benchmark egy részhalmazán kiértékeltük azokat.
 A legjobban teljesítő prompt-ot alkalmaztuk a teljes adathalmazra.
 A prompt segítségével a GPT-4-et arra utasítottuk, hogy javítsa ki a forráskódot, és egyben adjon szöveges magyarázatot is.
-Ez a kétoldalú megközelítés lehetővé tette annak vizsgálatát, hogy a modell akkor is hasznos lehet-e iránymutatásként, ha helyes javítást nem is képes előállítani.
-A szöveges válaszok felhasználhatók például automatikus pull request értékelésként vagy javítási segédletként a fejlesztők számára.
+Ez a kétoldalú meg\-kö\-ze\-lí\-tés lehetővé tette annak vizsgálatát, hogy a modell akkor is hasznos lehet-e i\-rány\-mu\-ta\-tás\-ként, ha helyes javítást nem is képes előállítani.
+A szöveges válaszok felhasználhatók például automatikus pull request értékelésként vagy javítási segédletként a fejlesztők szá\-má\-ra.
 
 %In contrast to many, in our evaluation, we used Top-1 evaluation, meaning we considered the first solution the model provided.
 %This allows us to be closer to real-life scenarios, where developers do not have time to consider 5 or 10 plausible patches.
@@ -478,8 +479,22 @@ A harmadik tézispont szempontjából releváns publikációk:
 
 \subsection*{A szerző hozzájárulásai}
 
-\input{Chapters/thesis_three_contrib_list.tex}
+%\input{Chapters/thesis_three_contrib_list.tex}
+%%%% thesis_three_contrib_list
 
+\begin{enumerate}[wide = 0pt, widest = {III/5.}, leftmargin =*]
+	
+	\item[III/1.] Felkutattam a prompt-tervezési (prompt engineering) technikákat.
+	
+	\item[III/2.] Megterveztem a promptok és a modellek értékelési módszertanát.
+	
+	\item[III/3.] Részt vettem a generált forráskód manuális kiértékelésében.
+	
+	\item[III/4.] Részt vettem a generált szöveges válaszok manuális kiértékelésében.
+	
+\end{enumerate}
+
+%%%%%%%%%% thesis three contrib list end
 
 \section*{Összefoglalás}
 
@@ -510,7 +525,7 @@ Bár ezek a modellek számos területen alkalmazhatók, a jelen értekezés kife
 
 A dolgozat célja, hogy feltárja és elmélyítse a fejlesztők és az LLM-ek közötti kapcsolatot mint fejlesztést támogató eszköz.
 Ennek érdekében a dolgozat több olyan szempontot vizsgál, amelyek hasznosak lehetnek a fejlesztők számára, különös tekintettel az összehasonlítási módszerekre.
-A vizsgált tényezők közül kiemelt figyelmet kapnak a hiperparaméterek, ezen belül is különösen a temperature paraméter, amelynek hatása eddig még nem került kellő mélységben feltárásra.
+A vizsgált tényezők közül kiemelt figyelmet kapnak a hiperparaméterek, ezen belül is különösen a temperature (hőmérsékelt) paraméter, amelynek hatása eddig még nem került kellő mélységben feltárásra.
 Az ilyen jellegű vizsgálatok támogatására a dolgozat egy több LLM-családot és különböző modellméreteket tartalmazó adatkészletet is bemutat.
 Emellett a dolgozat egy aktuális helyzetjelentést is nyújt, nem csupán elméleti megközelítést adva arról, hogy milyen reális elvárások fogalmazhatók meg ezekkel a modellekkel szemben.
 
